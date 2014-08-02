@@ -14,27 +14,32 @@ files
     [Source/Controller]
     (source/Controller)
 
-    input.cpp
     input.h
-
-    audio.cpp
+    input.cpp
     audio.h
+    audio.cpp
 
     [Source/Model]
     (source/Model)
-    a
+
+    Block.h
+    Block.cpp
+    Row.h
+    Row.cpp
+    StackRow.h
+    StackRow.cpp
+    GameModel.h
+    GameModel.cpp
 
     [Source/View]
     (source/View)
 
-    resources.cpp
     resources.h
-
-    scene.cpp
+    resources.cpp
     scene.h
-
-    sceneManager.cpp
+    scene.cpp
     sceneManager.h
+    sceneManager.cpp
 
 }
 defines

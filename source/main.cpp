@@ -13,7 +13,7 @@
 #include "s3e.h"
 #include "Iw2D.h"
 #include <iostream>
-
+#include "Model/StackRow.h"
 
 /*Tweener
  #include "IwTween.h"
@@ -39,9 +39,6 @@ int main()
     IwGetResManager()->LoadGroup("./fonts/IwGxFontTTF.group");
 */
     srand(time(NULL));
-    
-    
-
     // Loop forever, until the user or the OS performs some action to quit the app
     while (!s3eDeviceCheckQuitRequest())
     {
