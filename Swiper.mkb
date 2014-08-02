@@ -16,11 +16,12 @@ files
     audio.cpp
     audio.h
 
-    [Model]
-    (Source/Model)
+    [Source/Model]
+    (source/Model)
+    a
 
-    [View]
-    (Source/View)
+    [Source/View]
+    (source/View)
 
     resources.cpp
     resources.h

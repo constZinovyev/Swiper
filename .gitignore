@@ -23,5 +23,3 @@
 project_*/*
 build_*/*
 run_*
-data/ident.free
-*.depend
