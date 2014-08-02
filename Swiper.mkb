@@ -7,8 +7,8 @@ files
 
     main.cpp
 
-    [Controller]
-    (Controller)
+    [Source/Controller]
+    (source/Controller)
 
     input.cpp
     input.h
@@ -17,10 +17,10 @@ files
     audio.h
 
     [Model]
-    (Model)
+    (Source/Model)
 
     [View]
-    (View)
+    (Source/View)
 
     resources.cpp
     resources.h
