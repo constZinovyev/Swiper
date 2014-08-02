@@ -7,8 +7,14 @@ files
 
     main.cpp
 
-    Input.cpp
-    Input.h
+    [Controller]
+    (Controller)
+
+    input.cpp
+    input.h
+
+    audio.cpp
+    audio.h
 
     [Model]
     (Model)
@@ -16,14 +22,14 @@ files
     [View]
     (View)
 
-    Resources.cpp
-    Resources.h
+    resources.cpp
+    resources.h
 
-    Scene.cpp
-    Scene.h
+    scene.cpp
+    scene.h
 
-    SceneManager.cpp
-    SceneManager.h
+    sceneManager.cpp
+    sceneManager.h
 
 }
 defines
