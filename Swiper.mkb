@@ -1,0 +1,50 @@
+#!/usr/bin/env mkb
+
+files
+{
+    [Source]
+    (source)
+
+    main.cpp
+
+    Input.cpp
+    Input.h
+
+    [Model]
+    (Model)
+
+    [View]
+    (View)
+
+    Resources.cpp
+    Resources.h
+
+    Scene.cpp
+    Scene.h
+
+    SceneManager.cpp
+    SceneManager.h
+
+}
+defines
+{
+    IW_GXFONT_TTF
+}
+subprojects
+{
+    iw2d
+    iw2dscenegraph
+    iw2dscenegraphcore
+    iwtween
+    iwgxfont
+}
+
+assets
+{
+    (data)
+    textures
+    fonts
+}
+deployment
+{
+}
