@@ -12,8 +12,7 @@
 
 #include "scene.h"
 #include "IwGx.h"
-#include "input.h"
-#include "main.h"
+//#include "input.h"
 
 SceneManager* g_pSceneManager = 0;
 
@@ -48,7 +47,7 @@ void Scene::Update(float deltaTime, float alphaMul)
         return;
 
     m_Tweener.Update(deltaTime);
-    m_Timers.Update(deltaTime);
+   // m_Timers.Update(deltaTime);
 
     CNode::Update(deltaTime, alphaMul);
 }
@@ -139,12 +138,12 @@ void SceneManager::SwitchTo(Scene* scene)
         m_Current->SetInputActive(false);
         m_Next->SetActive(true);
         m_Next->m_X = -(float)IwGxGetScreenWidth();
-        g_pTweener->Tween(0.5f,
+        /*g_pTweener->Tween(0.5f,
                         FLOAT, &m_Next->m_X, 0.0f,
                         FLOAT, &m_Current->m_X, (float)IwGxGetScreenWidth(),
                         EASING, Ease::sineIn,
                         ONCOMPLETE, OnSwitchComplete,
                         END);
-    }
+    */}
 }
 

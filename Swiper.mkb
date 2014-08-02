@@ -1,4 +1,8 @@
 #!/usr/bin/env mkb
+options
+{
+    module_path="modules"
+}
 
 files
 {
@@ -44,6 +48,7 @@ subprojects
     iw2dscenegraphcore
     iwtween
     iwgxfont
+    SoundEngine
 }
 
 assets
