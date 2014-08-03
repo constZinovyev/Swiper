@@ -6,6 +6,14 @@ Row::Row(){
     }
 }
 
+vector<int> Row::getRowToInt(){
+    vector<int> temp;
+    for(int i = 0; i < MAX_LEN_ROW;++i){
+        temp.push_back(rowBlocks[i].getColor());
+    }
+    return temp;
+}
+
 void Row::swapBlocks(int fst, int snd){
     Block temp = rowBlocks[fst];
     rowBlocks[fst] = rowBlocks[snd];

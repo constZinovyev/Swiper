@@ -2,24 +2,27 @@
 #include "Row.h"
 #include <list>
 #include <map>
+
 using std::list;
 using std::map;
 
-const short int MAX_SIZE_LIST = 7;
+//const short int MAX_SIZE_LIST = 7;
+#define MAX_SIZE_LIST 6
 class StackRow{
-    list<Row> modelRowStack;
+    vector<Row> modelRowStack;
     //Row genRow;
 public:
     StackRow();
-    Row& firstRow()         {return modelRowStack.front();}
+    Row& firstRow()         {return *modelRowStack.end();}
+    Row& takeRow(int i)     {return modelRowStack[i];}
     void destroyRow()       {modelRowStack.pop_back();}
-    void addRowUp(Row r)    {modelRowStack.push_front(r);}
-    void addRowDown(Row r)  {modelRowStack.push_back(r);}
+    void addRowDown(Row r); 
+    void addRowUp(Row r)  {modelRowStack.push_back(r);}
     int  size()             {return modelRowStack.size();}
     Row generateRow();
     Row generateTwoBlocks();
     Row generateRowByTwo(Row);
     //void destroyLastRow();
     void destroyStack();
-    
+    friend class FieldView;
 };

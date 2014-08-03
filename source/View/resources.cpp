@@ -16,7 +16,13 @@
 
 Resources::Resources()
 {
-    //MenuBG = Iw2DCreateImage("textures/menu_bkg.jpg");
+    Blocks[0] = Iw2DCreateImage("textures/Object0.png");
+    Blocks[1] = Iw2DCreateImage("textures/Object1.png");
+    Blocks[2] = Iw2DCreateImage("textures/Object2.png");
+    Blocks[3] = Iw2DCreateImage("textures/Object3.png");
+    MenuBG = Iw2DCreateImage("textures/Swiperbackground.png");
+    MenuBGtest = Iw2DCreateImage("textures/Swiperbackground1.png");
+    
     /*// Create atlases
     int frame_w = (int)(Gems[0]->GetWidth() / 5);
     int frame_h = (int)(Gems[0]->GetHeight() / 3);
@@ -30,6 +36,13 @@ Resources::Resources()
 
 Resources::~Resources()
 {
+    
+    delete Blocks[0];
+    delete Blocks[1];
+    delete Blocks[2];
+    delete Blocks[3];
+    delete MenuBG;
+    delete MenuBGtest;
     /*for (int t = 0; t < MAX_GEM_TYPES; t++)
     {
         delete Gems[t];

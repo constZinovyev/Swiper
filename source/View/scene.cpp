@@ -13,7 +13,7 @@
 #include "scene.h"
 #include "IwGx.h"
 //#include "input.h"
-
+//extern class PlayScene;
 SceneManager* g_pSceneManager = 0;
 
 
@@ -64,6 +64,7 @@ void Scene::Render()
 //
 SceneManager::SceneManager() : m_Current(0), m_Next(0)
 {
+
 }
 
 SceneManager::~SceneManager()

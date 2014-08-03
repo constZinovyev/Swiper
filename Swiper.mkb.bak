@@ -71,13 +71,3 @@ assets
 deployment
 {
 }
-#### AUTO GENERATED deployment settings from DeployTool.exe. Do not edit below this line ####
-deployments
-{
-	["Default"]
-	caption='Swiper'
-	iphone-enable-4inch-retina='1'
-	iphone-no-splash='1'
-	iphone-splash-full-orient='1'
-	name='Swiper'
-}

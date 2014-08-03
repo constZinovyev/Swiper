@@ -13,12 +13,13 @@
 #if !defined(__RESOURCES_H)
 #define __RESOURCES_H
 
-#define MAX_GEM_TYPES   5
+
 
 #include "Iw2D.h"
 #include "Iw2DSceneGraph.h"
 
 using namespace Iw2DSceneGraph;
+const short int MAX_BLOCK_TYPES = 3;
 
 /**
  * @class Resources
@@ -33,10 +34,16 @@ using namespace Iw2DSceneGraph;
 class Resources
 {
 protected:
-//    CIw2DImage*     MenuBG;
+    
+      CIw2DImage*     MenuBG;
+      CIw2DImage*     MenuBGtest;
+      CIw2DImage*     Blocks[MAX_BLOCK_TYPES+1];
+      CIw2DImage*     listScore;
 //    CAtlas*         GemAtlases[MAX_GEM_TYPES];
 public:
-//    CIw2DImage*     getMenuBG()                 { return MenuBG; }
+      CIw2DImage*     getMenuBG()                 { return MenuBG; }
+      CIw2DImage*     getMenuBGtest()             { return MenuBGtest; }
+      CIw2DImage*     getBlocks(int i)            {  return Blocks[i];}
 //    CAtlas*         getGemAtlas(int index)      { return GemAtlases[index]; }
 
 public:

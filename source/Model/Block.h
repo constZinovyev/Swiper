@@ -5,7 +5,8 @@
 //  Created by Сonstantin Zinovyev on 02.08.14.
 //
 //
-const short int COUNT_COLORS = 3;
+//const short int COUNT_COLORS = 3;
+#define COUNT_COLORS 3
 enum ColorBlock {Empty = 0, Light, Normal, Dark};
 
 class Block{
@@ -17,5 +18,7 @@ public:
     bool       operator==(Block& snd);
     bool       operator!=(Block& snd);
     Block():clr(Empty){};
+    Block(const Block& snd){clr = snd.clr;}
     Block(ColorBlock tmpClr):clr(tmpClr){};
+    friend class PlayScene;
 };

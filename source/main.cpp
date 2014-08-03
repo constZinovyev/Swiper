@@ -12,6 +12,7 @@
 
 #include "s3e.h"
 #include "Iw2D.h"
+#include <time.h>
 #include <iostream>
 #include "Model/StackRow.h"
 
@@ -22,15 +23,16 @@
  CTweenManager*  g_pTweener = 0;
 */
 // FRAME_TIME is the amount of time that a single frame should last in seconds
-#define FRAME_TIME  (60.0f / 1000.0f)
-
-
+#define FRAME_TIME  (30.0f / 1000.0f)
+#include "View/PlayScene.h"
 
 int main()
 {
-    // Initialise the 2D graphics system
+    srand(time(NULL));
+    GameModel gameModel;
+    // Initialise the 2D graphics syste
     Iw2DInit();
-/*  // FONTS
+    /*  // FONTS
     IwGxInit();
     IwGxSetColClear(0xff, 0xff, 0xff, 0xff);
     IwGxPrintSetColour(128, 128, 128);
@@ -38,7 +40,13 @@ int main()
     IwGxFontInit();
     IwGetResManager()->LoadGroup("./fonts/IwGxFontTTF.group");
 */
-    srand(time(NULL));
+    g_pSceneManager = new SceneManager();
+    g_pResources = new Resources();
+    PlayScene* play = new PlayScene(gameModel);
+    play->SetName("play");
+    play->Init();
+    g_pSceneManager->Add(play);
+    g_pSceneManager->SwitchTo(play);
     // Loop forever, until the user or the OS performs some action to quit the app
     while (!s3eDeviceCheckQuitRequest())
     {
@@ -52,7 +60,9 @@ int main()
         */
         
         Iw2DSurfaceClear(0xff000000);
+        g_pSceneManager->Update();
         //render image
+        g_pSceneManager->Render();
         Iw2DFinishDrawing();
         
         //Render Text
@@ -66,7 +76,8 @@ int main()
         // Yield to OS
         s3eDeviceYield(yield);
     }
-
+    delete g_pResources;
+    delete g_pSceneManager;
       Iw2DTerminate();
 
     return 0;
