@@ -25,7 +25,7 @@ bool Row::operator==(Row& snd){
     bool finishOp = true;
     bool isTrue;
     for (int i = 0; i < MAX_LEN_ROW; ++i){
-        if (isTrue = (rowBlocks[i] == snd.rowBlocks[i]))
+        if (rowBlocks[i] == snd.rowBlocks[i])
             finishOp = finishOp && true;
         else
         if ((rowBlocks[i].isEmpty()) || (snd.rowBlocks[i].isEmpty()))

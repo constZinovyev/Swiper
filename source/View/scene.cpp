@@ -57,6 +57,10 @@ void Scene::Render()
     CNode::Render();
 }
 
+void Scene::RenderText()
+{
+}
+
 //
 //
 // SceneManager class
@@ -106,6 +110,11 @@ void SceneManager::Render()
 {
     for (std::list<Scene*>::iterator it = m_Scenes.begin(); it != m_Scenes.end(); ++it)
         (*it)->Render();
+}
+void SceneManager::RenderText()
+{
+    for (std::list<Scene*>::iterator it = m_Scenes.begin(); it != m_Scenes.end(); ++it)
+        (*it)->RenderText();
 }
 
 void SceneManager::OnSwitchComplete(CTween* pTween)

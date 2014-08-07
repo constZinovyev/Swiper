@@ -9,12 +9,13 @@
  * Please do not use this program/source code before you have read the
  * EULA and have agreed to be bound by its terms.
  */
-
+#pragma once
 #include "s3e.h"
 #include "Iw2D.h"
 #include <time.h>
 #include <iostream>
 #include "Model/StackRow.h"
+#include "Controller/input.h"
 
 /*Tweener
  #include "IwTween.h"
@@ -29,20 +30,21 @@
 int main()
 {
     srand(time(NULL));
-    GameModel gameModel;
+    
     // Initialise the 2D graphics syste
     Iw2DInit();
-    /*  // FONTS
+      // FONTS
     IwGxInit();
     IwGxSetColClear(0xff, 0xff, 0xff, 0xff);
     IwGxPrintSetColour(128, 128, 128);
     IwResManagerInit();
     IwGxFontInit();
     IwGetResManager()->LoadGroup("./fonts/IwGxFontTTF.group");
-*/
+
     g_pSceneManager = new SceneManager();
     g_pResources = new Resources();
-    PlayScene* play = new PlayScene(gameModel);
+    g_pInput = new Input();
+    PlayScene* play = new PlayScene();
     play->SetName("play");
     play->Init();
     g_pSceneManager->Add(play);
@@ -54,19 +56,19 @@ int main()
         s3eKeyboardUpdate();
         s3ePointerUpdate();
         
-        /* Fonts
         IwGxClear(IW_GX_COLOUR_BUFFER_F | IW_GX_DEPTH_BUFFER_F);
         IwGxLightingOn();
-        */
         
-        Iw2DSurfaceClear(0xff000000);
+        
+        //Iw2DSurfaceClear(0xff000000);
         g_pSceneManager->Update();
         //render image
         g_pSceneManager->Render();
         Iw2DFinishDrawing();
         
         //Render Text
-        //IwGxFlush();
+        g_pSceneManager->RenderText();
+        IwGxFlush();
         Iw2DSurfaceShow();
 
         // Lock frame rate
@@ -77,8 +79,12 @@ int main()
         s3eDeviceYield(yield);
     }
     delete g_pResources;
+    delete g_pInput;
     delete g_pSceneManager;
-      Iw2DTerminate();
+    IwGxFontTerminate();
+    IwResManagerTerminate();
+    IwGxTerminate();
+    Iw2DTerminate();
 
     return 0;
 }

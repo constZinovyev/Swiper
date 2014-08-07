@@ -18,7 +18,7 @@ public:
     Block& operator[](int i);
     void changeCol(int,Block);
     vector<int> getRowToInt();
-    ~Row(){ rowBlocks.clear();}
+    ~Row(){}
     friend class PlayScene;
 };
 

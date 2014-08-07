@@ -7,7 +7,7 @@ void BlockView::setCoord(float xPos,float yPos){
 }
 
 void BlockView::setColor(int clrBlock){
-    std::cout<<clrBlock<<std::endl;
+    //std::cout<<clrBlock<<std::endl;
     block -> SetImage(g_pResources->getBlocks(clrBlock));
     block -> m_W = block -> GetImage() -> GetWidth();
     block -> m_H = block -> GetImage() -> GetHeight();

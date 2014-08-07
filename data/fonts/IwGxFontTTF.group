@@ -1,0 +1,20 @@
+CIwResGroup
+{
+	name FontTTF
+
+	CIwGxFont
+	{
+		name "SansusWI"
+
+		ttf "SansusWI.ttf"
+		ttfPointSize 12
+	}
+
+	CIwGxFont
+	{
+		name "SansusWR"
+
+		ttf "SansusWR.ttf"
+		ttfPointSize 12
+	}
+}

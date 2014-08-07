@@ -80,6 +80,7 @@ public:
      * @brief Render the scene.
      */
     virtual void    Render();
+    virtual void    RenderText();
 };
 
 /**
@@ -155,6 +156,7 @@ public:
      * @brief Renders all scenes managed by the manager
      */
     void    Render();
+    void    RenderText();
 
     /**
      * @fn    void SceneManager::Add(Scene* scene);

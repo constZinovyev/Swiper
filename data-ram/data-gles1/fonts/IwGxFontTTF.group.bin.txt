@@ -1,0 +1,19 @@
+ResGroupResources:
+	CIwGxFontTTFont (0xc084661d)
+		"SansusWI" (0xd11188a2)
+		Size: 93330
+	CIwGxFontTTFont (0xc084661d)
+		"SansusWR" (0xd11188ab)
+		Size: 112002
+	ResList 'CIwGxFontTTFont' pos:38 size:205342
+
+	CIwGxFont (0xa68776be)
+		"SansusWI" (0xd11188a2)
+		Size: 31
+	CIwGxFont (0xa68776be)
+		"SansusWR" (0xd11188ab)
+		Size: 31
+	ResList 'CIwGxFont' pos:205380 size:72
+
+ResGroupResources: Wrote 205418 bytes to CIwResGroup "FontTTF"
+

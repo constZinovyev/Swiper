@@ -17,7 +17,9 @@
 
 #include "Iw2D.h"
 #include "Iw2DSceneGraph.h"
-
+#include "IwGx.h"
+#include "IwGxFont.h"
+#include "IwResManager.h"
 using namespace Iw2DSceneGraph;
 const short int MAX_BLOCK_TYPES = 3;
 
@@ -39,12 +41,15 @@ protected:
       CIw2DImage*     MenuBGtest;
       CIw2DImage*     Blocks[MAX_BLOCK_TYPES+1];
       CIw2DImage*     listScore;
+      CIwGxFont*      Font;
 //    CAtlas*         GemAtlases[MAX_GEM_TYPES];
 public:
       CIw2DImage*     getMenuBG()                 { return MenuBG; }
       CIw2DImage*     getMenuBGtest()             { return MenuBGtest; }
-      CIw2DImage*     getBlocks(int i)            {  return Blocks[i];}
+      CIw2DImage*     getBlocks(int i)            { return Blocks[i];}
+      CIwGxFont*      getFont()                 { return Font;}
 //    CAtlas*         getGemAtlas(int index)      { return GemAtlases[index]; }
+    
 
 public:
     Resources();

@@ -22,7 +22,7 @@ Resources::Resources()
     Blocks[3] = Iw2DCreateImage("textures/Object3.png");
     MenuBG = Iw2DCreateImage("textures/Swiperbackground.png");
     MenuBGtest = Iw2DCreateImage("textures/Swiperbackground1.png");
-    
+    Font = (CIwGxFont*)IwGetResManager()->GetResNamed("SansusWR", "CIwGxFont");
     /*// Create atlases
     int frame_w = (int)(Gems[0]->GetWidth() / 5);
     int frame_h = (int)(Gems[0]->GetHeight() / 3);
@@ -43,6 +43,7 @@ Resources::~Resources()
     delete Blocks[3];
     delete MenuBG;
     delete MenuBGtest;
+     //IwGxFontDestroyTTFont(GxFont);
     /*for (int t = 0; t < MAX_GEM_TYPES; t++)
     {
         delete Gems[t];

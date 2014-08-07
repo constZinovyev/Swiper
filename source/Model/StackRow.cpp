@@ -1,18 +1,18 @@
 #include "StackRow.h"
 #include "Iw2D.h"
-#include <iostream>
+
 Row StackRow::generateRow(){
     
     Row tempRow;
     int numCol;
     for (int i = 1; i <= COUNT_COLORS;++i){
         do{
-            numCol = IwRandRange(MAX_LEN_ROW);//rand()%MAX_LEN_ROW;
+            numCol = IwRand()%MAX_LEN_ROW;//rand()%MAX_LEN_ROW;
         }while(!tempRow[numCol].isEmpty());
         tempRow[numCol].setColor(ColorBlock(i));
-        std::cout << numCol << " ";
+        //std::cout << numCol << " ";
     }
-    std :: cout << std :: endl;
+    //std :: cout << std :: endl;
     /*map <ColorBlock,bool> maskRow;
     
     for (int i = 1; i < COUNT_COLORS;++i)
@@ -40,17 +40,37 @@ void StackRow::addRowDown(Row r){
 //ПРИВЯЗКА К СРЕДНЕМУ ЭЛЕМЕНТУ
 Row StackRow::generateTwoBlocks(){
     bool flag = false;
-    Row genRow = modelRowStack.back();
+    Row genRow = firstRow();
     Row tempRow;
-    //do{
+    do{
         tempRow = generateRow();
-        tempRow.changeCol(IwRandRange(MAX_LEN_ROW), Empty);//(rand()%MAX_LEN_ROW, Empty);
-        /*flag = false;
-        if (tempRow[1].isEmpty())
+        tempRow.changeCol(IwRand()%MAX_LEN_ROW, Empty);//(rand()%MAX_LEN_ROW, Empty);
+        flag = false;
+        //std::cout << tempRow[0].getColor() << "+"<<tempRow[1].getColor()<<" " << tempRow[2].getColor() << " " << std::endl;
+        //std::cout << genRow[0].getColor() << "-"<<genRow[1].getColor()<<" " << genRow[2].getColor() << " " << std::endl;
+        if (tempRow[1].isEmpty()){
             if(genRow[0] == tempRow[2] && genRow[0] == tempRow[2]){
                 flag = true;
-            }*/
-   // }while(flag);
+                continue;
+            }}else
+        if (tempRow[0].isEmpty()){
+            //std::cout<<"FIRST EMPTY"<<std::endl;
+            if ((genRow[0] == tempRow[1] || genRow[0] == tempRow[2])&&(genRow[2] == tempRow[1] || genRow[2] == tempRow[2]))
+            {
+                flag = true;
+                continue;
+            }
+        }else
+        if (tempRow[2].isEmpty()){
+            //std::cout<<"THIRD EMPTY"<<std::endl;
+            if ((genRow[0] == tempRow[0] || genRow[0] == tempRow[1])&&(genRow[2] == tempRow[0] || genRow[2] == tempRow[1]))
+            {
+                flag = true;
+                continue;
+                }
+        }
+        
+    }while(flag);
     return  tempRow;
 }
 

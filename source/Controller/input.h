@@ -14,6 +14,7 @@
 #define _INPUT_H
 
 #include "s3ePointer.h"
+#include "IwGeom.h"
 
 #define MAX_TOUCHES     10
 
@@ -44,7 +45,12 @@ public:
     int             m_X, m_Y;           // Touched position
     bool            m_Touched;          // Touched status
     bool            m_PrevTouched;      // Previous touched status
-
+    bool            StartMotion;
+    bool            FinishMotion;
+    bool            Motion;
+    int             xStartSwipe, yStartSwipe;
+    bool            swipeLeft, swipeRight, swipeDown;
+    bool            didSwipe;
 public:
     Input();
 
@@ -60,6 +66,13 @@ public:
      * @brief Resets touch status, usually called after a touch event has been acknowledged
      */
     void            Reset();
+    bool isFinish() {return FinishMotion;};
+    bool isStart()  {return StartMotion;}
+    bool isMotion() {return Motion;}
+    bool isSwipeLeft() {return swipeLeft;}
+    bool isSwipeRight() {return swipeRight;}
+    bool isSwipeDown() {return swipeDown;}
+    
 
     // Callbacks
     static void     TouchButtonCB(s3ePointerEvent* event);
