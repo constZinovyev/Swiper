@@ -37,17 +37,23 @@ class Resources
 {
 protected:
     
-      CIw2DImage*     MenuBG;
-      CIw2DImage*     MenuBGtest;
-      CIw2DImage*     Blocks[MAX_BLOCK_TYPES+1];
-      CIw2DImage*     listScore;
-      CIwGxFont*      Font;
+    CIw2DImage*     MenuBG;
+    CIw2DImage*     backAfterDie;
+    CIw2DImage*     imgButtonStart;
+    CIw2DImage*     Info;
+    CIw2DImage*     Retry;
+    CIw2DImage*     Blocks[MAX_BLOCK_TYPES+1];
+    CIw2DImage*     listScore;
+    CIwGxFont*      Font;
 //    CAtlas*         GemAtlases[MAX_GEM_TYPES];
 public:
-      CIw2DImage*     getMenuBG()                 { return MenuBG; }
-      CIw2DImage*     getMenuBGtest()             { return MenuBGtest; }
-      CIw2DImage*     getBlocks(int i)            { return Blocks[i];}
-      CIwGxFont*      getFont()                 { return Font;}
+    CIw2DImage*     getMenuBG()                 { return MenuBG; }
+    CIw2DImage*     getRetry()                 { return Retry; }
+    CIw2DImage*     getInfo()                 { return Info; }
+    CIw2DImage*     getBackAfterDie()             { return backAfterDie; }
+    CIw2DImage*     getBlocks(int i)            { return Blocks[i];}
+    CIw2DImage*     getButStart()               { return imgButtonStart;}
+    CIwGxFont*      getFont()                   { return Font;}
 //    CAtlas*         getGemAtlas(int index)      { return GemAtlases[index]; }
     
 

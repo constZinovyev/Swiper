@@ -11,7 +11,6 @@
  */
 
 #include "scene.h"
-#include "IwGx.h"
 //#include "input.h"
 //extern class PlayScene;
 SceneManager* g_pSceneManager = 0;
@@ -137,6 +136,39 @@ void SceneManager::SwitchTo(Scene* scene)
     m_Next = scene;
     if (m_Current == 0)
     {
+        // Activate and make visible the new scene
+        m_Current = m_Next;
+        m_Current->SetActive(true);
+        m_Current ->m_X = 0;
+        //m_Current->m_IsVisible = true;
+        m_Current->SetInputActive(true);
+        m_Next = 0;
+    }
+    else
+    {
+        // Activate and make visible the new scene
+        m_Current->SetInputActive(false);
+        m_Next->SetActive(true);
+        m_Next->SetInputActive(true);
+        //m_Next->m_IsVisible = true;
+        // Deactivate and hide the old scene
+        
+        
+        m_Current->Update(0);
+        m_Current->SetActive(false);
+        //m_Current->m_IsVisible = false;
+        m_Current->m_X = - (float)IwGxGetScreenWidth();
+        m_Current = m_Next;
+        m_Next->m_X = 0;
+        m_Next = 0;
+    }
+}
+/*
+void SceneManager::SwitchTo(Scene* scene)
+{
+    m_Next = scene;
+    if (m_Current == 0)
+    {
         m_Current = m_Next;
         m_Current ->m_X = 0;
         m_Current->SetActive(true);
@@ -147,13 +179,17 @@ void SceneManager::SwitchTo(Scene* scene)
     {
         m_Current->SetInputActive(false);
         m_Next->SetActive(true);
-        m_Next->m_X = -(float)IwGxGetScreenWidth();
-        /*g_pTweener->Tween(0.5f,
+        m_Next->m_X = 0;
+        m_Current->m_X = - (float)IwGxGetScreenWidth();
+        FinishSwitch();
+ */
+       /* g_pTweener->Tween(0.5f,
                         FLOAT, &m_Next->m_X, 0.0f,
                         FLOAT, &m_Current->m_X, (float)IwGxGetScreenWidth(),
                         EASING, Ease::sineIn,
                         ONCOMPLETE, OnSwitchComplete,
                         END);
-    */}
+    *//*}
 }
 
+*/

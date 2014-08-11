@@ -33,9 +33,10 @@ Row StackRow::generateRow(){
     return tempRow;
 }
 void StackRow::addRowDown(Row r){
+    if(modelRowStack.size()<MAX_SIZE_LIST){
     std::vector<Row>::iterator it;
     it = modelRowStack.begin();
-    it = modelRowStack.insert ( it , r );
+        it = modelRowStack.insert ( it , r );}
 }
 //ПРИВЯЗКА К СРЕДНЕМУ ЭЛЕМЕНТУ
 Row StackRow::generateTwoBlocks(){
@@ -101,6 +102,6 @@ StackRow::StackRow(){
 
 void StackRow::destroyStack(){
     modelRowStack.clear();
-    modelRowStack.push_back(generateRow());
+    //modelRowStack.push_back(generateRow());
    // playerRow = generateTwoBlocks();//(modelRowStack.front());
 }

@@ -40,10 +40,11 @@ void Input::TouchButtonCB(s3ePointerEvent* event)
         g_pInput->swipeRight = false;
         g_pInput->swipeDown = false;
         g_pInput->didSwipe = false;
+        g_pInput->ignoreSwipe = false;
         g_pInput->StartMotion = true;
         g_pInput->xStartSwipe = g_pInput->m_X;
         g_pInput->yStartSwipe = g_pInput->m_Y;
-        //g_pInput->Motion = true;
+        g_pInput->Motion = true;
     }
     
 }
@@ -66,7 +67,7 @@ void Input::TouchMotionCB(s3ePointerMotionEvent* event)
         g_pInput->m_X = event->m_x;
         g_pInput->m_Y = event->m_y;
     }
-    if (g_pInput->isMotion()){
+    if (g_pInput->isMotion() && !g_pInput->ignoreSwipe){
         CIwSVec2 dirGest;
         dirGest.x =  g_pInput->m_X - g_pInput->xStartSwipe;
         dirGest.y =  g_pInput->m_Y - g_pInput->yStartSwipe;
@@ -119,6 +120,7 @@ void Input::MultiTouchButtonCB(s3ePointerTouchEvent* event)
         g_pInput->swipeRight = false;
         g_pInput->swipeDown = false;
         g_pInput->didSwipe = false;
+        g_pInput->ignoreSwipe = false;
         
         g_pInput->xStartSwipe = g_pInput->m_X;
         g_pInput->yStartSwipe = g_pInput->m_Y;
@@ -145,7 +147,7 @@ void Input::MultiTouchMotionCB(s3ePointerTouchMotionEvent* event)
         g_pInput->m_X = event->m_x;
         g_pInput->m_Y = event->m_y;
     }
-    if (g_pInput->isMotion()){
+    if (g_pInput->isMotion() && !g_pInput->ignoreSwipe){
         CIwSVec2 dirGest;
         dirGest.x =  g_pInput->m_X - g_pInput->xStartSwipe;
         dirGest.y =  g_pInput->m_Y - g_pInput->yStartSwipe;
@@ -154,24 +156,33 @@ void Input::MultiTouchMotionCB(s3ePointerTouchMotionEvent* event)
             CIwSVec2 xDecart = CIwSVec2(1, 0);
             float cosDir = (xDecart.x * dirGest.x - xDecart.y * dirGest.y)/lenSwipe;
             if (cosDir >= sqrt(3)/2.0 && cosDir <= 1){
-                g_pInput-> swipeRight = true;
+                g_pInput->swipeRight = true;
                 g_pInput->didSwipe = true;
-            
-        } else  if (cosDir < 1/2.0 && cosDir >-1/2.0){
-            g_pInput->swipeDown = true;
-            g_pInput->didSwipe = true;
-            
-        }
-          else if (cosDir <= -sqrt(3)/2.0 && cosDir >= -1){
-            g_pInput->swipeLeft = true;
-            g_pInput->didSwipe = true;
-          }
+                //BUGS edit
+            } else  if (cosDir < 1/2.0 && cosDir >-1/2.0){// && g_pInput->yStartSwipe - dirGest.y > 0){
+                g_pInput->swipeDown = true;
+                g_pInput->didSwipe = true;
+            }
+            else if (cosDir <= -sqrt(3)/2.0 && cosDir >= -1){
+                g_pInput->swipeLeft = true;
+                g_pInput->didSwipe = true;
+            }
         }
     }
 }
 
-Input::Input() : m_X(0), m_Y(0), m_Touched(false), m_PrevTouched(false),StartMotion(false),FinishMotion(false),Motion(false), xStartSwipe(0),yStartSwipe(0),swipeLeft(false), swipeRight(false),swipeDown(false)
+Input::Input() : m_X(0), m_Y(0), m_Touched(false), m_PrevTouched(false)
 {
+    ignoreSwipe = false;
+    swipeLeft = false;
+    swipeDown = false;
+    swipeRight = false;
+    FinishMotion = false;
+    Motion = false;
+    StartMotion = false;
+    xStartSwipe = 0;
+    yStartSwipe = 0;
+    
     // Set touch event callback handlers, single and multi-touch devices have different callbacks assigned
     if (s3ePointerGetInt(S3E_POINTER_MULTI_TOUCH_AVAILABLE) != 0)
     {
@@ -192,8 +203,12 @@ void Input::Update()
 
 void Input::Reset()
 {
-    
+    FinishMotion = false;
     m_PrevTouched = false;
     m_Touched = false;
 }
+
+void Input::afterSwipeDown(){g_pInput->swipeDown = false;};
+void Input::afterSwipeLeft(){g_pInput->swipeLeft = false;};
+void Input::afterSwipeRight(){g_pInput->swipeRight = false;};
 

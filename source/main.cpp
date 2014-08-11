@@ -9,7 +9,6 @@
  * Please do not use this program/source code before you have read the
  * EULA and have agreed to be bound by its terms.
  */
-#pragma once
 #include "s3e.h"
 #include "Iw2D.h"
 #include <time.h>
@@ -26,7 +25,7 @@
 // FRAME_TIME is the amount of time that a single frame should last in seconds
 #define FRAME_TIME  (30.0f / 1000.0f)
 #include "View/PlayScene.h"
-
+#include "View/MainScene.h"
 int main()
 {
     srand(time(NULL));
@@ -44,14 +43,25 @@ int main()
     g_pSceneManager = new SceneManager();
     g_pResources = new Resources();
     g_pInput = new Input();
+    
+    MainScene* menu = new MainScene();
+    menu->SetName("main");
+    menu->Init();
+    g_pSceneManager->Add(menu);
+    
     PlayScene* play = new PlayScene();
     play->SetName("play");
     play->Init();
     g_pSceneManager->Add(play);
-    g_pSceneManager->SwitchTo(play);
+    //g_pSceneManager->SwitchTo(play);
+    
+    g_pSceneManager->SwitchTo(menu);
+    int i = 0;
     // Loop forever, until the user or the OS performs some action to quit the app
     while (!s3eDeviceCheckQuitRequest())
     {
+        ++i;
+        std::cout << i << std :: endl;
         uint64 new_time = s3eTimerGetMs();
         s3eKeyboardUpdate();
         s3ePointerUpdate();
@@ -60,7 +70,7 @@ int main()
         IwGxLightingOn();
         
         
-        //Iw2DSurfaceClear(0xff000000);
+        Iw2DSurfaceClear(0xff000000);
         g_pSceneManager->Update();
         //render image
         g_pSceneManager->Render();

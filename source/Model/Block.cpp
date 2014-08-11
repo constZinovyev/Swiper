@@ -1,13 +1,13 @@
 #include "Block.h"
 
-bool Block::operator==(Block& snd){
+bool Block::operator==(const Block& snd){
     return clr == snd.clr;
 }
 
-bool Block::operator!=(Block& snd){
+bool Block::operator!=(const Block& snd){
     return clr != snd.clr;
 }
 
-bool Block::isEmpty(){
+bool Block::isEmpty() const{
     return clr == Empty;
 }

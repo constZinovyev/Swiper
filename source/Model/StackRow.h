@@ -8,7 +8,6 @@
 using std::list;
 using std::map;
 
-//const short int MAX_SIZE_LIST = 7;
 #define MAX_SIZE_LIST 6
 class StackRow{
     vector<Row> modelRowStack;
@@ -16,10 +15,15 @@ class StackRow{
 public:
     StackRow();
     Row firstRow()         {return modelRowStack[modelRowStack.size()-1];}
-    Row& takeRow(int i)     {return modelRowStack[i];}
+    Row takeRow(int i)     {return modelRowStack[i];}
     void destroyRow()       {modelRowStack.pop_back();}
     void addRowDown(Row r); 
-    void addRowUp(Row r)  {modelRowStack.push_back(r);}
+    void addRowUp(Row r)  {
+        if(modelRowStack.size()<MAX_SIZE_LIST)
+            modelRowStack.push_back(r);
+        else
+            destroyStack();
+    }
     int  size()             {return modelRowStack.size();}
     Row generateRow();
     Row generateTwoBlocks();

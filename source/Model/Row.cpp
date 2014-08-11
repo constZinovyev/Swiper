@@ -21,7 +21,12 @@ void Row::swapBlocks(int fst, int snd){
     
 }
 
-bool Row::operator==(Row& snd){
+void Row::destroy(){
+    for (int i = 0; i < MAX_LEN_ROW; ++i){
+        rowBlocks[i].setColor(Empty);
+    }
+}
+bool Row::operator==(const Row& snd){
     bool finishOp = true;
     bool isTrue;
     for (int i = 0; i < MAX_LEN_ROW; ++i){

@@ -13,11 +13,11 @@ class Row{
 public:
     Row();
     void swapBlocks(int,int);
-    
-    bool operator==(Row&);
+    bool operator==(const Row&);
     Block& operator[](int i);
     void changeCol(int,Block);
     vector<int> getRowToInt();
+    void destroy();
     ~Row(){}
     friend class PlayScene;
 };

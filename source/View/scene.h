@@ -16,7 +16,7 @@
 #include <list>
 #include "Iw2DSceneGraph.h"
 #include "IwTween.h"
-
+#include "IwGx.h"
 using namespace Iw2DSceneGraphCore;
 using namespace Iw2DSceneGraph;
 using namespace IwTween;

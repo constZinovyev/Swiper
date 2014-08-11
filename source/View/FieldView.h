@@ -16,6 +16,7 @@ class FieldView{
     float xBetweenBLock;
     float yBetweenBLock;
     friend class PlayScene;
+    friend class MainScene;
     void clearField();
     
 public:
@@ -33,6 +34,6 @@ public:
     PlayerBlocks();
     void updateBlocks(vector<int> clr);
     void addToScene(Scene*);
-    
-    
+    friend class PlayScene;
+    friend class MainScene;
 };

@@ -14,9 +14,9 @@ class Block{
 public:
     void       setColor(ColorBlock c) { clr = c;}
     ColorBlock getColor()             { return clr;}
-    bool       isEmpty();
-    bool       operator==(Block& snd);
-    bool       operator!=(Block& snd);
+    bool       isEmpty() const;
+    bool       operator==(const Block& snd);
+    bool       operator!=(const Block& snd);
     Block():clr(Empty){};
     Block(const Block& snd){clr = snd.clr;}
     Block(ColorBlock tmpClr):clr(tmpClr){};

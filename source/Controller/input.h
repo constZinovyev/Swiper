@@ -51,7 +51,9 @@ public:
     int             xStartSwipe, yStartSwipe;
     bool            swipeLeft, swipeRight, swipeDown;
     bool            didSwipe;
+
 public:
+    bool            ignoreSwipe;
     Input();
 
     /**
@@ -72,7 +74,13 @@ public:
     bool isSwipeLeft() {return swipeLeft;}
     bool isSwipeRight() {return swipeRight;}
     bool isSwipeDown() {return swipeDown;}
-    
+    bool wasSwipe()    {return didSwipe;}
+    void afterSwipeDown();
+    void afterSwipeLeft();
+    void afterSwipeRight();
+    void setIgnoreSwipe() { ignoreSwipe = true;}
+    void notIgnoreSwipe() { ignoreSwipe = false;}
+   
 
     // Callbacks
     static void     TouchButtonCB(s3ePointerEvent* event);

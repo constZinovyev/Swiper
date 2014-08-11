@@ -36,6 +36,8 @@ files
     
     PlayScene.h
     PlayScene.cpp
+    MainScene.h
+    MainScene.cpp
     BlockView.h
     BlockView.cpp
     FieldView.h
@@ -44,8 +46,8 @@ files
     resources.cpp
     scene.h
     scene.cpp
-    sceneManager.h
-    sceneManager.cpp
+    Button.h
+    Button.cpp
 
 }
 defines
@@ -68,9 +70,7 @@ assets
     textures
     fonts
 }
-deployment
-{
-}
+
 #### AUTO GENERATED deployment settings from DeployTool.exe. Do not edit below this line ####
 deployments
 {
