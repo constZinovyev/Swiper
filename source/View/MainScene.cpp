@@ -17,14 +17,19 @@ MainScene::MainScene(){
     AddChild(background);
     
     blockStart = new CSprite();
-    blockStart->SetImage(g_pResources->getBlocks(3));
+    //blockStart->SetImage(g_pResources->getBlocks(3));
+    blockStart->SetAtlas(g_pResources->getTest());
     blockStart->m_X = Iw2DGetSurfaceWidth()*5/20.0;
     blockStart->m_Y = Iw2DGetSurfaceHeight()/10.0;
+    blockStart->m_W = (float)blockStart->GetAtlas()->GetFrameWidth();
+    blockStart->m_H = (float)blockStart->GetAtlas()->GetFrameHeight();
     if (Iw2DGetSurfaceHeight() == 568)
     {
         blockStart->m_ScaleX = 0.5f;
         blockStart->m_ScaleY = 0.5f;
     }
+    blockStart->SetAnimDuration(1);
+    //blockStart->SetAnimRepeat(100);
     AddChild(blockStart);
     
     float x = Iw2DGetSurfaceWidth()*5/20.0;

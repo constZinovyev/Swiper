@@ -53,7 +53,7 @@ void PlayScene::Update(float deltaTime, float alphaMul)
         return;
     Scene::Update(deltaTime, alphaMul);
     //UPDATE SCORE, PLR BLOCK, FIELD
-    scoreToString(modelForView.score, modelForView.bestScore);
+    scoreToString(modelForView.score, modelForView.highScore);
     field.updateField(modelForView.getStack());
     playerBlc.updateBlocks(modelForView.getPlayerRow());
     //IN GAME
@@ -117,17 +117,6 @@ void PlayScene::Update(float deltaTime, float alphaMul)
                     modelForView.newGame();
                 }
             }
-            /*if (!g_pInput->m_Touched && g_pInput->m_PrevTouched)
-            {
-                g_pInput->Reset();
-                int x = g_pInput->m_X;
-                int y = g_pInput->m_Y;
-                if (buttonRetry->isPressed(x,y))
-                {
-                    modelForView.newGame();
-                    buttonRetry->setPosition(-1*newX, -1*newY);
-                }
-            }*/
         }
     }
 }

@@ -44,7 +44,9 @@ protected:
     CIw2DImage*     Retry;
     CIw2DImage*     Blocks[MAX_BLOCK_TYPES+1];
     CIw2DImage*     listScore;
+    CIw2DImage*     img;
     CIwGxFont*      Font;
+    CAtlas*         testAtlas;
 //    CAtlas*         GemAtlases[MAX_GEM_TYPES];
 public:
     CIw2DImage*     getMenuBG()                 { return MenuBG; }
@@ -54,6 +56,7 @@ public:
     CIw2DImage*     getBlocks(int i)            { return Blocks[i];}
     CIw2DImage*     getButStart()               { return imgButtonStart;}
     CIwGxFont*      getFont()                   { return Font;}
+    CAtlas*         getTest() {return testAtlas;}
 //    CAtlas*         getGemAtlas(int index)      { return GemAtlases[index]; }
     
 

@@ -25,8 +25,12 @@ Resources::Resources()
     MenuBG = Iw2DCreateImage("textures/Swiperbackground.png");
     Retry = Iw2DCreateImage("textures/Retry.png");
     Info = Iw2DCreateImage("textures/Info.png");
+    img = Iw2DCreateImage("textures/img.png");
     backAfterDie = Iw2DCreateImage("textures/BackAfterDie.png");
     Font = (CIwGxFont*)IwGetResManager()->GetResNamed("SansusWR", "CIwGxFont");
+    int frame_w = (int)(img->GetWidth() / 6.0);
+    int frame_h = (int)(img->GetHeight()/1);
+    testAtlas = new CAtlas(frame_w, frame_h, 6, img);
     /*// Create atlases
     int frame_w = (int)(Gems[0]->GetWidth() / 5);
     int frame_h = (int)(Gems[0]->GetHeight() / 3);
@@ -46,10 +50,12 @@ Resources::~Resources()
     delete Blocks[2];
     delete Blocks[3];
     delete imgButtonStart;
+    delete  img;
     delete MenuBG;
     delete backAfterDie;
     delete Retry;
     delete Info;
+    delete testAtlas;
      //IwGxFontDestroyTTFont(GxFont);
     /*for (int t = 0; t < MAX_GEM_TYPES; t++)
     {

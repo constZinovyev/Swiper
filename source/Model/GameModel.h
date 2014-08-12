@@ -1,4 +1,6 @@
 #include "StackRow.h"
+#include "s3eSecureStorage.h"
+
 #define FRAME_RATE 30
 #define MAX_SPEED 60
 #define MIN_SPEED 24
@@ -7,12 +9,13 @@ protected:
     StackRow stack;
     Row playerRow;
     int score;
-    int bestScore;
+    int highScore;
     int timer;
     bool gameOver;
     int speedBlocks;
 public:
     GameModel();
+    ~GameModel();
     bool isConform();
     void effectAfterCorrectTurn();
     void effectAfterMistakeTurn();
@@ -29,4 +32,5 @@ public:
     vector<int> getPlayerRow();
     vector<vector<int> > getStack();
     friend class PlayScene;
+    void saveScoreToFile();
 };

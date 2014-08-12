@@ -60,8 +60,8 @@ int main()
     // Loop forever, until the user or the OS performs some action to quit the app
     while (!s3eDeviceCheckQuitRequest())
     {
-        ++i;
-        std::cout << i << std :: endl;
+        //++i;
+        //std::cout << i << std :: endl;
         uint64 new_time = s3eTimerGetMs();
         s3eKeyboardUpdate();
         s3ePointerUpdate();
@@ -71,7 +71,7 @@ int main()
         
         
         Iw2DSurfaceClear(0xff000000);
-        g_pSceneManager->Update();
+        g_pSceneManager->Update(FRAME_TIME);
         //render image
         g_pSceneManager->Render();
         Iw2DFinishDrawing();
