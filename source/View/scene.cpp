@@ -22,9 +22,10 @@ SceneManager* g_pSceneManager = 0;
 //
 //
 
-Scene::Scene() : m_NameHash(0), m_IsActive(true), m_IsInputActive(false)
+Scene::Scene() : m_NameHash(0), m_IsActive(false), m_IsInputActive(false)
 {
     m_X = -(float)IwGxGetScreenWidth();
+    m_IsVisible = false;
 }
 
 Scene::~Scene()
@@ -45,7 +46,7 @@ void Scene::Update(float deltaTime, float alphaMul)
     if (!m_IsActive)
         return;
 
-    m_Tweener.Update(deltaTime);
+    //m_Tweener.Update(deltaTime);
    // m_Timers.Update(deltaTime);
 
     CNode::Update(deltaTime, alphaMul);
@@ -140,7 +141,7 @@ void SceneManager::SwitchTo(Scene* scene)
         m_Current = m_Next;
         m_Current->SetActive(true);
         m_Current ->m_X = 0;
-        //m_Current->m_IsVisible = true;
+        m_Current->m_IsVisible = true;
         m_Current->SetInputActive(true);
         m_Next = 0;
     }
@@ -150,13 +151,13 @@ void SceneManager::SwitchTo(Scene* scene)
         m_Current->SetInputActive(false);
         m_Next->SetActive(true);
         m_Next->SetInputActive(true);
-        //m_Next->m_IsVisible = true;
+        m_Next->m_IsVisible = true;
         // Deactivate and hide the old scene
         
         
         m_Current->Update(0);
         m_Current->SetActive(false);
-        //m_Current->m_IsVisible = false;
+        m_Current->m_IsVisible = false;
         m_Current->m_X = - (float)IwGxGetScreenWidth();
         m_Current = m_Next;
         m_Next->m_X = 0;

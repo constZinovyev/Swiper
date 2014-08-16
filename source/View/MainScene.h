@@ -11,12 +11,19 @@ class MainScene:public Scene{
     Button*  buttonStart;
     Button*  buttonInfo;
     Button*  buttonApp;
+    CSprite* test;
     bool startTouchButton;
-    
+    float LeftPos;
+    float RightPos;
 public:
     MainScene();
     ~MainScene();
     void            Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
     void            Render();
     void            RenderText();
+    void            setupViewSimulator();
+    void            setupViewIphone5();
+    void            setupViewIphone4();
 };
+
+extern Device currentDevice;

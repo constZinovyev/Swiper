@@ -8,6 +8,7 @@ class GameModel{
 protected:
     StackRow stack;
     Row playerRow;
+    bool blockChanged;
     int score;
     int highScore;
     int timer;
@@ -24,8 +25,10 @@ public:
     void effectClearButton();
     void motionLeft();
     void motionRight();
+    void resetBlockChanged()          {blockChanged = false;}
+    bool getBlockChanged()            {return blockChanged;}
     int  getSpeed()                   { return speedBlocks;}
-    void  setSpeed(int x)               { speedBlocks = x;}
+    void  setSpeed(int x)             { speedBlocks = x;}
     void newGame();
     const GameModel& getModel()       { return *this;}
     bool isGameOver()                 { return gameOver;}

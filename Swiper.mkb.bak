@@ -36,6 +36,8 @@ files
     
     PlayScene.h
     PlayScene.cpp
+    MainScene.h
+    MainScene.cpp
     BlockView.h
     BlockView.cpp
     FieldView.h
@@ -44,8 +46,10 @@ files
     resources.cpp
     scene.h
     scene.cpp
-    sceneManager.h
-    sceneManager.cpp
+    Button.h
+    Button.cpp
+    device.h
+    device.cpp
 
 }
 defines
@@ -68,6 +72,4 @@ assets
     textures
     fonts
 }
-deployment
-{
-}
+

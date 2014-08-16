@@ -8,7 +8,7 @@
 using std::list;
 using std::map;
 
-#define MAX_SIZE_LIST 6
+#define MAX_SIZE_LIST 5
 class StackRow{
     vector<Row> modelRowStack;
     //Row genRow;

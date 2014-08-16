@@ -3,15 +3,16 @@
 GameModel::GameModel(){
     score = 0;
     highScore = 0;
+    blockChanged = false;
     s3eSecureStorageGet(&highScore,sizeof(highScore));
     s3eSecureStorageError errorSecureStorage = s3eSecureStorageError();
     if (errorSecureStorage == S3E_SECURESTORAGE_ERR_NONE)
     {
-        std::cout << "NO PROBLEM" << std::endl;
+        //std::cout << "NO PROBLEM" << std::endl;
         std::cout << highScore << std::endl;
     }else {
         highScore = 0;
-        std::cout << "ERROR" << std::endl;
+        std::cout << "ERROR OPEN FILE TO HIGHSCORE" << std::endl;
         s3eSecureStoragePut(&highScore, sizeof(highScore));
     }
     timer = 1;
@@ -55,8 +56,10 @@ void GameModel::motionLeft(){
     else if (playerRow[1].isEmpty()){
         playerRow.swapBlocks(1, 2);
         }
-    else
+    else{
         playerRow.swapBlocks(0, 1);
+        blockChanged = true;
+    }
 }
 
 void GameModel::motionRight(){
@@ -67,8 +70,10 @@ void GameModel::motionRight(){
     else if (playerRow[1].isEmpty()){
         playerRow.swapBlocks(0, 1);
     }
-    else
+    else{
         playerRow.swapBlocks(1, 2);
+        blockChanged = true;
+    }
 }
 
 void GameModel::effectClearButton(){
@@ -102,17 +107,12 @@ void GameModel::effectAfterCorrectTurn(){
     playerRow = stack.generateTwoBlocks();
 }
 void GameModel::effectAfterMistakeTurn(){
-    std::cout << "1" << std::endl;
     if (stack.size() < MAX_SIZE_LIST){
-        std::cout << "2" << std::endl;
         //stack.addRowDown(stack.generateRow());
         stack.addRowUp(stack.generateRowByTwo(playerRow));
-            std::cout << "3" << std::endl;
         playerRow = stack.generateTwoBlocks();
-            std::cout << "4" << std::endl;
     }
     else{
-        std::cout << "5" << std::endl;
         //playerRow.destroy();
         //stack.destroyStack();
         if (score > highScore){
@@ -120,9 +120,7 @@ void GameModel::effectAfterMistakeTurn(){
             saveScoreToFile();
         }
         gameOver = true;
-        std::cout << "6" << std::endl;
     }
-        std::cout << "7" << std::endl;
 }
 
 void GameModel::addScore(int i){

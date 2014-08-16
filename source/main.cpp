@@ -15,6 +15,8 @@
 #include <iostream>
 #include "Model/StackRow.h"
 #include "Controller/input.h"
+#include "View/PlayScene.h"
+#include "View/MainScene.h"
 
 /*Tweener
  #include "IwTween.h"
@@ -24,8 +26,6 @@
 */
 // FRAME_TIME is the amount of time that a single frame should last in seconds
 #define FRAME_TIME  (30.0f / 1000.0f)
-#include "View/PlayScene.h"
-#include "View/MainScene.h"
 int main()
 {
     srand(time(NULL));
@@ -39,24 +39,30 @@ int main()
     IwResManagerInit();
     IwGxFontInit();
     IwGetResManager()->LoadGroup("./fonts/IwGxFontTTF.group");
-
+    currentDevice.init();
     g_pSceneManager = new SceneManager();
     g_pResources = new Resources();
     g_pInput = new Input();
-    
-    MainScene* menu = new MainScene();
-    menu->SetName("main");
-    menu->Init();
-    g_pSceneManager->Add(menu);
     
     PlayScene* play = new PlayScene();
     play->SetName("play");
     play->Init();
     g_pSceneManager->Add(play);
+    
+    MainScene* menu = new MainScene();
+    menu->SetName("main");
+    menu->Init();
+    g_pSceneManager->Add(menu);
+    g_pSceneManager->Remove(play);
+    g_pSceneManager->Add(play);
+    
     //g_pSceneManager->SwitchTo(play);
     
+    
+
     g_pSceneManager->SwitchTo(menu);
-    int i = 0;
+                Iw2DSurfaceClear(0xff0000ff);
+    //int i = 0;
     // Loop forever, until the user or the OS performs some action to quit the app
     while (!s3eDeviceCheckQuitRequest())
     {
@@ -70,7 +76,7 @@ int main()
         IwGxLightingOn();
         
         
-        Iw2DSurfaceClear(0xff000000);
+        Iw2DSurfaceClear(0xff0000ff);
         g_pSceneManager->Update(FRAME_TIME);
         //render image
         g_pSceneManager->Render();

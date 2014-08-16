@@ -48,6 +48,8 @@ files
     scene.cpp
     Button.h
     Button.cpp
+    device.h
+    device.cpp
 
 }
 defines
@@ -75,9 +77,7 @@ assets
 deployments
 {
 	["Default"]
-	caption='Swiper'
 	iphone-enable-4inch-retina='1'
 	iphone-no-splash='1'
-	iphone-splash-full-orient='1'
-	name='Swiper'
+	iphone-splash-retina-generate='1'
 }
