@@ -16,11 +16,11 @@ BlockView::BlockView(){
     block = new CSprite();
     if (currentDevice.isIphone5){
         setupViewIphone5();
-    }else if(currentDevice.isIphone4){
-        setupViewIphone4();
     }else
         if (currentDevice.isSimulator){
             setupViewSimulator();
+        }else if(currentDevice.isIphone4){
+            setupViewIphone4();
         }
     setColor(0,0);
     block -> m_W = g_pResources->getFromFirstToSecond(1,1)->GetFrameWidth();
@@ -36,7 +36,7 @@ void BlockView::setupViewIphone5(){
     
 };
 void BlockView::setupViewIphone4(){
-    block->m_ScaleX = 0.87f;
-    block->m_ScaleY = 0.87f;
+    block->m_ScaleX = coefForIPhone4;
+    block->m_ScaleY = coefForIPhone4;
     
 };

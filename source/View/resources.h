@@ -38,6 +38,7 @@ class Resources
 protected:
     
     CIw2DImage*     MenuBG;
+    CIw2DImage*     BGiPhone4;
     CIw2DImage*     backAfterDie;
     CIw2DImage*     imgButtonStart;
     CIw2DImage*     Info;
@@ -53,6 +54,7 @@ protected:
     CAtlas*         emptyBlock;
 public:
     CIw2DImage*     getMenuBG()                 { return MenuBG; }
+    CIw2DImage*     getBGiPhone4()                 { return BGiPhone4; }
     CIw2DImage*     getRetry()                 { return Retry; }
     CIw2DImage*     getInfo()                 { return Info; }
     CIw2DImage*     getBackAfterDie()             { return backAfterDie; }

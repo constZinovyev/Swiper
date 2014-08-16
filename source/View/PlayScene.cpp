@@ -234,13 +234,17 @@ void PlayScene::setupViewIphone5(){
 }
 
 void PlayScene::setupViewIphone4(){
-    background->SetImage(g_pResources->getMenuBG());
+    background->SetImage(g_pResources->getBGiPhone4());
     
     backAfterDie->SetImage(g_pResources->getBackAfterDie());
+    backAfterDie->m_ScaleX = 0.6;
+    backAfterDie->m_ScaleY = 0.6;
     
     buttonInfo->setImage(g_pResources->getInfo());
+    buttonInfo->setScale(0.6,0.6);
     
     buttonRetry->setImage(g_pResources->getRetry());
+    buttonRetry->setScale(0.6,0.6);
 }
 
 void PlayScene::setupTextSimulator(){

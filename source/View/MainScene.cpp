@@ -186,33 +186,33 @@ void MainScene::setupViewIphone4(){
     CIw2DImage* img = g_pResources->getBlocks(1);
     float xOriginField = play->field.xOrigin;
     
-    float x = xOriginField;
-    float y = Iw2DGetSurfaceHeight()*8.5/10.0;
+    float x = play->field.xOrigin;
+    float y = play->field.yOrigin;
     
     background->SetImage(g_pResources->getMenuBG());
     
     LeftPos = x;
-    RightPos = x + img->GetWidth() + play->field.xBetweenBLock;
-    blockStart->m_X = xOriginField;
-    blockStart->m_Y = Iw2DGetSurfaceHeight()/10.0;
-    blockStart->m_ScaleX = 0.5;
-    blockStart->m_ScaleY = 0.5;
+    RightPos = x + img->GetWidth()*coefForIPhone4 + play->field.xBetweenBLock;
+    blockStart->m_X = play->playerBlc.xOrigin;
+    blockStart->m_Y = play->playerBlc.yOrigin;
+    blockStart->m_ScaleX = coefForIPhone4;
+    blockStart->m_ScaleY = coefForIPhone4;
     
     buttonStart->setImage(img);
     buttonStart->setPosition(x, y);
-    buttonStart->setScale(0.87,0.87);
+    buttonStart->setScale(coefForIPhone4,coefForIPhone4);
     
     img = g_pResources->getBlocks(3);
-    x += play->field.xBetweenBLock + img->GetWidth()*0.87;
+    x += play->field.xBetweenBLock + img->GetWidth()*coefForIPhone4;
     y = Iw2DGetSurfaceHeight()*8.5/10.0;
     buttonInfo->setImage(img);
     buttonInfo->setPosition(x, y);
-    buttonInfo->setScale(0.87,0.87);
+    buttonInfo->setScale(coefForIPhone4,coefForIPhone4);
     
     img = g_pResources->getBlocks(2);
     x = x*2 - xOriginField;
     y = Iw2DGetSurfaceHeight()*8.5/10.0;
     buttonApp->setImage(img);
     buttonApp->setPosition(x, y);
-    buttonApp->setScale(0.87,0.87);
+    buttonApp->setScale(coefForIPhone4,coefForIPhone4);
 };

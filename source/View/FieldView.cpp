@@ -115,9 +115,9 @@ void PlayerBlocks::startAnim(){
 }
 
 void PlayerBlocks::setupViewIphone4(){
-    xOrigin = Iw2DGetSurfaceWidth()*0.2875f;
-    yOrigin = Iw2DGetSurfaceHeight()*0.0625f;
-    xBetweenBLock = Iw2DGetSurfaceWidth()*0.01f;
+    xOrigin = 214;
+    yOrigin = 108;
+    xBetweenBLock = 6;
     
 }
 
@@ -136,10 +136,10 @@ void PlayerBlocks::setupViewSimulator(){
 }
 
 void FieldView::setupViewIphone4(){
-    xOrigin = Iw2DGetSurfaceWidth()*0.2875f;
-    yOrigin = Iw2DGetSurfaceHeight()*0.84375f;
-    xBetweenBLock = Iw2DGetSurfaceWidth()*0.01;
-    yBetweenBLock = xBetweenBLock;
+    xOrigin = 214;
+    yOrigin = 818;
+    xBetweenBLock = 6;
+    yBetweenBLock = 6;
     
 }
 

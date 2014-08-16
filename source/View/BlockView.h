@@ -2,6 +2,8 @@
 #include "resources.h"
 #include "device.h"
 #include <iostream>
+
+#define coefForIPhone4 136/165.0f
 class BlockView{
     CSprite* block;
 public:

@@ -19,7 +19,7 @@ Resources::Resources(){
     Blocks[1] = Iw2DCreateImage("textures/Object 1.png");
     Blocks[2] = Iw2DCreateImage("textures/Object 2.png");
     Blocks[3] = Iw2DCreateImage("textures/Object 3.png");
-    
+    BGiPhone4 = Iw2DCreateImage("textures/backiPhone4.png");
     imgBlocks[0]= Iw2DCreateImage("textures/anim12.png");
     imgBlocks[1]= Iw2DCreateImage("textures/anim13.png");
     imgBlocks[2]= Iw2DCreateImage("textures/anim21.png");
@@ -63,7 +63,7 @@ Resources::~Resources(){
     delete Blocks[1];
     delete Blocks[2];
     delete Blocks[3];
-    
+    delete BGiPhone4;
     for (int i = 0; i < 6; ++i){
         delete imgBlocks[i];
         delete animBetweenBlocks[i];

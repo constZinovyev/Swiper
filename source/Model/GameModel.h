@@ -2,7 +2,7 @@
 #include "s3eSecureStorage.h"
 
 #define FRAME_RATE 30
-#define MAX_SPEED 60
+#define MAX_SPEED 48
 #define MIN_SPEED 24
 class GameModel{
 protected:
