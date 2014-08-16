@@ -36,5 +36,7 @@ void BlockView::setupViewIphone5(){
     
 };
 void BlockView::setupViewIphone4(){
+    block->m_ScaleX = 0.87f;
+    block->m_ScaleY = 0.87f;
     
 };

@@ -8,15 +8,15 @@ MainScene::MainScene(){
     background->m_Y = 0;
     AddChild(background);
     
-    test = new CSprite();
+    /*test = new CSprite();
     test->m_X = Iw2DGetSurfaceWidth()/2;
     test->m_Y = Iw2DGetSurfaceHeight()/2;
     test->m_AnchorX = test->m_AnchorY = 0.5;
     test->SetAtlas(g_pResources->getFromFirstToSecond(1,2));
     test->SetAnimRepeat(3);
-    test->SetAnimDuration(2);
+    test->SetAnimDuration(2);*/
+    //AddChild(test);
     
-    AddChild(test);
     blockStart = new CSprite();
     blockStart->SetImage(g_pResources->getBlocks(3));
     AddChild(blockStart);
@@ -185,6 +185,7 @@ void MainScene::setupViewIphone4(){
     PlayScene* play =((PlayScene*)g_pSceneManager->Find("play"));
     CIw2DImage* img = g_pResources->getBlocks(1);
     float xOriginField = play->field.xOrigin;
+    
     float x = xOriginField;
     float y = Iw2DGetSurfaceHeight()*8.5/10.0;
     
@@ -194,19 +195,24 @@ void MainScene::setupViewIphone4(){
     RightPos = x + img->GetWidth() + play->field.xBetweenBLock;
     blockStart->m_X = xOriginField;
     blockStart->m_Y = Iw2DGetSurfaceHeight()/10.0;
+    blockStart->m_ScaleX = 0.5;
+    blockStart->m_ScaleY = 0.5;
     
     buttonStart->setImage(img);
     buttonStart->setPosition(x, y);
+    buttonStart->setScale(0.87,0.87);
     
     img = g_pResources->getBlocks(3);
-    x += play->field.xBetweenBLock + img->GetWidth();
+    x += play->field.xBetweenBLock + img->GetWidth()*0.87;
     y = Iw2DGetSurfaceHeight()*8.5/10.0;
     buttonInfo->setImage(img);
     buttonInfo->setPosition(x, y);
+    buttonInfo->setScale(0.87,0.87);
     
     img = g_pResources->getBlocks(2);
     x = x*2 - xOriginField;
     y = Iw2DGetSurfaceHeight()*8.5/10.0;
     buttonApp->setImage(img);
     buttonApp->setPosition(x, y);
+    buttonApp->setScale(0.87,0.87);
 };

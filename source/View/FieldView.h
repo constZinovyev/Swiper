@@ -4,10 +4,10 @@
 #include <vector>
 #include "scene.h"
 #include "device.h"
-#include <set>
 using std::vector;
 #define MAX_LEN_ROW 3
 #define MAX_SIZE_LIST 5
+#define ANIM_SWAP_DUR 0.2
 //extern const short int MAX_LEN_ROW;
 //extern const short int MAX_SIZE_LIST;
 

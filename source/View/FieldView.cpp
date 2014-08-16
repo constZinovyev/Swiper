@@ -46,14 +46,14 @@ void FieldView::addToScene(Scene* scn){
 void PlayerBlocks::updateBlocks(vector<int> clr){
     //bool clrBlc[MAX_LEN_ROW+1] = {false,false,false,false};
     int emptyBlc = 0;
-    if (isChanged){
+    if(plrBlc[0].getSprite()->AnimProcess || plrBlc[1].getSprite()->AnimProcess)
+        return;
+    if (isChanged ){
         startAnim();
         std::cout<<isChanged<<std::endl;
         resetChanged();
         return;
     }
-    if(plrBlc[0].getSprite()->AnimProcess || plrBlc[1].getSprite()->AnimProcess)
-        return;
     for(int i = 0; i < MAX_LEN_ROW; ++i){
         if (clr[i] == 0){
             emptyBlc = i;
@@ -64,13 +64,12 @@ void PlayerBlocks::updateBlocks(vector<int> clr){
         if (clr[i] == 0)
             plrBlc[i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond());
         else {
-            std::set<int> a;
-            a.insert(0);
-            a.insert(1);
-            a.insert(2);
-            a.erase(i);
-            a.erase(emptyBlc);
-            int sndClr = clr[*a.begin()];
+            int sndBlc = 0;
+            for (int j = 0; j < MAX_LEN_ROW; ++j){
+                if (j != i && j != emptyBlc)
+                    sndBlc = j;
+            }
+            int sndClr = clr[sndBlc];
             plrBlc[i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond(clr[i],sndClr),
                                             g_pResources->getFromFirstToSecond(sndClr,clr[i]));
             
@@ -111,14 +110,14 @@ PlayerBlocks::PlayerBlocks(){
 void PlayerBlocks::startAnim(){
     for (int i = 0; i < MAX_LEN_ROW; ++i){
         plrBlc[i].getSprite()->SetAnimRepeat(1);
-        plrBlc[i].getSprite()->SetAnimDuration(0.5);
+        plrBlc[i].getSprite()->SetAnimDuration(ANIM_SWAP_DUR);
     }
 }
 
 void PlayerBlocks::setupViewIphone4(){
-    xOrigin = Iw2DGetSurfaceWidth()/4.0f;
-    yOrigin = Iw2DGetSurfaceHeight()*0.2f/10.0f;
-    xBetweenBLock = Iw2DGetSurfaceWidth()/20.0f;
+    xOrigin = Iw2DGetSurfaceWidth()*0.2875f;
+    yOrigin = Iw2DGetSurfaceHeight()*0.0625f;
+    xBetweenBLock = Iw2DGetSurfaceWidth()*0.01f;
     
 }
 
@@ -137,10 +136,10 @@ void PlayerBlocks::setupViewSimulator(){
 }
 
 void FieldView::setupViewIphone4(){
-    xOrigin = Iw2DGetSurfaceWidth()/4.0f;
-    yOrigin = Iw2DGetSurfaceHeight()*8.6f/10.0f;
-    xBetweenBLock = Iw2DGetSurfaceWidth()/20.0f;
-    yBetweenBLock = Iw2DGetSurfaceWidth()/25.0f;
+    xOrigin = Iw2DGetSurfaceWidth()*0.2875f;
+    yOrigin = Iw2DGetSurfaceHeight()*0.84375f;
+    xBetweenBLock = Iw2DGetSurfaceWidth()*0.01;
+    yBetweenBLock = xBetweenBLock;
     
 }
 
