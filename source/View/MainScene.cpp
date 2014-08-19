@@ -51,12 +51,18 @@ void MainScene::RenderText(){
         return;
     //buttonStart->renderText();
 }
-
+//ПРОБЛЕМА - БЫСТРЫЙ СВАЙП - ВРЕМЯ ЗАНОВО - СДЕЛАТЬ ЗАВИСИМОСТЬ ВРЕМЕНИ ОТ СВАЙПА
 void MainScene::actionSwipeLeft(){
-    posBlockStart = Left;
+    if (posBlockStart != Left){
+        posBlockStart = Left;
+        g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,LeftPos,END);
+    }
 }
 void MainScene::actionSwipeRight(){
-    posBlockStart = Right;
+    if (posBlockStart != Right){
+        posBlockStart = Right;
+        g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,RightPos,END);
+    }
 }
 
 void MainScene::updateBlockStart(){
@@ -73,48 +79,8 @@ void MainScene::Update(float deltaTime,float alphaMul){
         return;
     Scene::Update(deltaTime, alphaMul);
     updateBlockStart();
-    
     if (m_IsInputActive && m_Manager->GetCurrent() == this){
-        if (g_pInput->isSwipeLeft()){
-            actionSwipeLeft();
-            //g_pTweener->Tween(0.5f,FLOAT,&buttonApp->getSprite()->m_Y,buttonApp->getSprite()->m_Y-100,EASING, Ease::sineIn,END);
-            //g_pTweener->Tween(0.5f,FLOAT,&buttonInfo->getSprite()->m_Y,buttonInfo->getSprite()->m_Y-100,EASING, Ease::sineIn,END);
-            g_pInput->afterSwipeLeft();
-        }else if (g_pInput->isSwipeRight()){
-            actionSwipeRight();
-            g_pInput->afterSwipeRight();
-        }else
-        if (g_pInput->isSwipeDown() && posBlockStart == Right)
-        {
-            g_pInput->afterSwipeDown();
-            PlayScene* game = (PlayScene*)g_pSceneManager->Find("play");
-            g_pSceneManager->SwitchTo(game);
-        }
-        else{
-            if(g_pInput->isStart()){
-                if (buttonApp->isPressed() || buttonStart->isPressed() || buttonInfo->isPressed())
-                    g_pInput->setIgnoreSwipe();
-            }else
-            if(g_pInput->isFinish()){
-                g_pInput->Reset();
-                if (buttonApp->isPressed()){
-                    //ACTION
-                    std::cout << "APP MENU" << std::endl;
-    
-                }else
-                if (buttonInfo->isPressed()){
-                    //ACTION
-                    std::cout << "INFO MENU" << std::endl;
-                
-                }else
-                if (buttonStart->isPressed()){
-                        //ACTION
-                    std::cout << "START MENU" << std::endl;
-                            
-                }
-            }
-                        
-        }
+        g_pController -> Update();
     }
 }
 
