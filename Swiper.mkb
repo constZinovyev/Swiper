@@ -18,6 +18,8 @@ files
     input.cpp
     audio.h
     audio.cpp
+    controller.h
+    controller.cpp
 
     [Source/Model]
     (source/Model)

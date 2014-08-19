@@ -7,7 +7,7 @@
 using std::vector;
 #define MAX_LEN_ROW 3
 #define MAX_SIZE_LIST 5
-#define ANIM_SWAP_DUR 0.2
+#define ANIM_SWAP_DUR  0.2
 //extern const short int MAX_LEN_ROW;
 //extern const short int MAX_SIZE_LIST;
 
@@ -19,8 +19,7 @@ class FieldView{
     int yBetweenBLock;
     friend class PlayScene;
     friend class MainScene;
-    friend class PlayerBlocks;
-    void clearField();
+    void            clearField();
     void            setupViewSimulator();
     void            setupViewIphone5();
     void            setupViewIphone4();

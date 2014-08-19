@@ -2,8 +2,9 @@
 #include "s3eSecureStorage.h"
 
 #define FRAME_RATE 30
-#define MAX_SPEED 48
+#define MAX_SPEED 60
 #define MIN_SPEED 24
+#define STEP_SCORE_UP_SPEED 10
 class GameModel{
 protected:
     StackRow stack;
@@ -28,12 +29,16 @@ public:
     void resetBlockChanged()          {blockChanged = false;}
     bool getBlockChanged()            {return blockChanged;}
     int  getSpeed()                   { return speedBlocks;}
-    void  setSpeed(int x)             { speedBlocks = x;}
+    int  getScore()                    { return score;}
+    int  getHighScore()                    { return highScore;}
+    void setSpeed(int x)             { speedBlocks = x;}
     void newGame();
+    void loadHighScore();
     const GameModel& getModel()       { return *this;}
     bool isGameOver()                 { return gameOver;}
     vector<int> getPlayerRow();
     vector<vector<int> > getStack();
-    friend class PlayScene;
+    void updateTimer();
     void saveScoreToFile();
+    void upSpeed();
 };

@@ -19,6 +19,5 @@ public:
     vector<int> getRowToInt();
     void destroy();
     ~Row(){}
-    friend class PlayScene;
 };
 

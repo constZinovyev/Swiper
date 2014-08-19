@@ -3,6 +3,9 @@
 #include "resources.h"
 #include "Button.h"
 #include "PlayScene.h"
+#include "IwTween.h"
+using namespace IwTween;
+
 class MainScene:public Scene{
     enum PositionBlock {Anim = 0, Left, Right};
     CSprite* background;
@@ -21,9 +24,13 @@ public:
     void            Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
     void            Render();
     void            RenderText();
+    void            actionSwipeLeft();
+    void            actionSwipeRight();
+    void            updateBlockStart();
     void            setupViewSimulator();
     void            setupViewIphone5();
     void            setupViewIphone4();
 };
 
 extern Device currentDevice;
+extern CTweenManager* g_pTweener;

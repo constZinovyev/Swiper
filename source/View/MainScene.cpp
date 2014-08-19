@@ -34,11 +34,6 @@ MainScene::MainScene(){
             if(currentDevice.isIphone4){
                 setupViewIphone4();
             }
-    //blockStart->startAnimAtlas(g_pResources->getLM(), 0.5, 5);
-    //blockStart->SetAtlas(g_pResources->getLM());
-    //blockStart->SetAnimDuration(0.5);
-
-    
 }
 
 MainScene::~MainScene(){
@@ -57,27 +52,36 @@ void MainScene::RenderText(){
     //buttonStart->renderText();
 }
 
-void MainScene::Update(float deltaTime,float alphaMul){
-    if (!m_IsActive)
-        return;
-    Scene::Update(deltaTime, alphaMul);
-    //POSITION LEFT / RIGHT
+void MainScene::actionSwipeLeft(){
+    posBlockStart = Left;
+}
+void MainScene::actionSwipeRight(){
+    posBlockStart = Right;
+}
+
+void MainScene::updateBlockStart(){
     if (posBlockStart == Left){
-        //!!!!!!!
         blockStart->m_X = LeftPos;
     }
     else if (posBlockStart == Right) {
         blockStart->m_X = RightPos;
     }
+}
+
+void MainScene::Update(float deltaTime,float alphaMul){
+    if (!m_IsActive)
+        return;
+    Scene::Update(deltaTime, alphaMul);
+    updateBlockStart();
     
     if (m_IsInputActive && m_Manager->GetCurrent() == this){
         if (g_pInput->isSwipeLeft()){
-            posBlockStart = Left;
-//            blockStart->startAnimAtlas(g_pResources->getML(),g_pResources->getBlocks(1), 1, 1);
+            actionSwipeLeft();
+            //g_pTweener->Tween(0.5f,FLOAT,&buttonApp->getSprite()->m_Y,buttonApp->getSprite()->m_Y-100,EASING, Ease::sineIn,END);
+            //g_pTweener->Tween(0.5f,FLOAT,&buttonInfo->getSprite()->m_Y,buttonInfo->getSprite()->m_Y-100,EASING, Ease::sineIn,END);
             g_pInput->afterSwipeLeft();
         }else if (g_pInput->isSwipeRight()){
-            posBlockStart = Right;
-//            blockStart->startAnimAtlas(g_pResources->getML(),g_pResources->getBlocks(1), 1, 1);
+            actionSwipeRight();
             g_pInput->afterSwipeRight();
         }else
         if (g_pInput->isSwipeDown() && posBlockStart == Right)

@@ -47,11 +47,11 @@ protected:
     CIw2DImage*     listScore;
     CIw2DImage*     lightToMiddle;
     CIw2DImage*     middleToLight;
-    CIwGxFont*      Font;
-    CAtlas*     animBetweenBlocks[6];
-    CIw2DImage*         imgBlocks[6];
-    CIw2DImage* emtBlock;
+    CIw2DImage*     imgBlocks[6];
+    CIw2DImage*     emtBlock;
     CAtlas*         emptyBlock;
+    CAtlas*         animBetweenBlocks[6];
+    CIwGxFont*      Font;
 public:
     CIw2DImage*     getMenuBG()                 { return MenuBG; }
     CIw2DImage*     getBGiPhone4()                 { return BGiPhone4; }
@@ -63,8 +63,6 @@ public:
     CIwGxFont*      getFont()                   { return Font;}
     CIw2DImage*     getAnimBlocks(int i = 0,int = 0);
     CAtlas*         getFromFirstToSecond(int i = 0,int j = 0);
-//    CAtlas*         getGemAtlas(int index)      { return GemAtlases[index]; }
-    
 
 public:
     Resources();

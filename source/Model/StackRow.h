@@ -18,17 +18,10 @@ public:
     Row takeRow(int i)     {return modelRowStack[i];}
     void destroyRow()       {modelRowStack.pop_back();}
     void addRowDown(Row r); 
-    void addRowUp(Row r)  {
-        if(modelRowStack.size()<MAX_SIZE_LIST)
-            modelRowStack.push_back(r);
-        else
-            destroyStack();
-    }
+    void addRowUp(Row r);
     int  size()             {return modelRowStack.size();}
     Row generateRow();
     Row generateTwoBlocks();
     Row generateRowByTwo(Row);
-    //void destroyLastRow();
     void destroyStack();
-    friend class FieldView;
 };

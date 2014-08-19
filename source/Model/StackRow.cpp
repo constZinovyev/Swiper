@@ -100,6 +100,12 @@ StackRow::StackRow(){
     //playerRow = generateTwoBlocks(modelRowStack.front());
 }
 
+void StackRow::addRowUp(Row r)  {
+    if(modelRowStack.size()<MAX_SIZE_LIST)
+        modelRowStack.push_back(r);
+    else
+        destroyStack();
+}
 void StackRow::destroyStack(){
     modelRowStack.clear();
     //modelRowStack.push_back(generateRow());

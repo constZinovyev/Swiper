@@ -17,13 +17,12 @@
 #include "Controller/input.h"
 #include "View/PlayScene.h"
 #include "View/MainScene.h"
-
-/*Tweener
- #include "IwTween.h"
+#include "IwTween.h"
+//Tweener
  using namespace IwTween;
- extern CTweenManager*       g_pTweener;
+ extern CTweenManager* g_pTweener;
  CTweenManager*  g_pTweener = 0;
-*/
+
 // FRAME_TIME is the amount of time that a single frame should last in seconds
 #define FRAME_TIME  (30.0f / 1000.0f)
 int main()
@@ -39,8 +38,10 @@ int main()
     IwResManagerInit();
     IwGxFontInit();
     IwGetResManager()->LoadGroup("./fonts/IwGxFontTTF.group");
+    
     currentDevice.init();
     g_pSceneManager = new SceneManager();
+    g_pTweener = new CTweenManager();
     g_pResources = new Resources();
     g_pInput = new Input();
     
@@ -78,6 +79,7 @@ int main()
         
         Iw2DSurfaceClear(0xff0000ff);
         g_pSceneManager->Update(FRAME_TIME);
+        g_pTweener->Update(FRAME_TIME);
         //render image
         g_pSceneManager->Render();
         Iw2DFinishDrawing();
@@ -96,6 +98,7 @@ int main()
     }
     delete g_pResources;
     delete g_pInput;
+    delete g_pTweener;
     delete g_pSceneManager;
     IwGxFontTerminate();
     IwResManagerTerminate();

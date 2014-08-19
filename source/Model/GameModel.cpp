@@ -1,9 +1,6 @@
 #include "GameModel.h"
-
-GameModel::GameModel(){
-    score = 0;
+void GameModel::loadHighScore(){
     highScore = 0;
-    blockChanged = false;
     s3eSecureStorageGet(&highScore,sizeof(highScore));
     s3eSecureStorageError errorSecureStorage = s3eSecureStorageError();
     if (errorSecureStorage == S3E_SECURESTORAGE_ERR_NONE)
@@ -15,11 +12,10 @@ GameModel::GameModel(){
         std::cout << "ERROR OPEN FILE TO HIGHSCORE" << std::endl;
         s3eSecureStoragePut(&highScore, sizeof(highScore));
     }
-    timer = 1;
-    speedBlocks = MAX_SPEED;
-    stack.addRowDown(stack.generateRow());
-    playerRow = stack.generateTwoBlocks();
-    gameOver = false;
+}
+GameModel::GameModel(){
+    loadHighScore();
+    newGame();
 }
 
 GameModel::~GameModel(){
@@ -30,6 +26,7 @@ void GameModel::newGame(){
     stack.destroyStack();
     playerRow.destroy();
     score = 0;
+    blockChanged = false;
     speedBlocks = MAX_SPEED;
     timer = 1;
     stack.addRowDown(stack.generateRow());
@@ -84,6 +81,13 @@ void GameModel::effectClearButton(){
     
 }
 
+void GameModel::updateTimer(){
+    ++timer;
+    if(timer % speedBlocks == 0){
+        effectIntTimer();
+    }
+}
+
 void GameModel::effectIntTimer(){
     if (stack.size() < MAX_SIZE_LIST){
         stack.addRowDown(stack.generateRow());
@@ -125,10 +129,12 @@ void GameModel::effectAfterMistakeTurn(){
 
 void GameModel::addScore(int i){
     score += i;
-    if (score % 10 == 0 && speedBlocks > MIN_SPEED)
-            setSpeed(speedBlocks - MAX_SPEED/10);
 }
 
+void GameModel::upSpeed(){
+    if (score % STEP_SCORE_UP_SPEED == 0 && speedBlocks > MIN_SPEED)
+        setSpeed(speedBlocks - MAX_SPEED/10);
+};
 void GameModel::saveScoreToFile(){
     s3eSecureStoragePut(&highScore, sizeof(highScore));
 };

@@ -20,5 +20,4 @@ public:
     Block():clr(Empty){};
     Block(const Block& snd){clr = snd.clr;}
     Block(ColorBlock tmpClr):clr(tmpClr){};
-    friend class PlayScene;
 };

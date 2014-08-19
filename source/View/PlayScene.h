@@ -27,8 +27,11 @@ public:
     void            UpdateView();
     void            Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
     void            Render();
-    void            scoreToString(int,int);
+    void            scoreToString();
+    void            updateFromModel();
     void            RenderText();
+    void            showAfterDieMenu();
+    void            hideAfterDieMenu();
     void            setupViewSimulator();
     void            setupViewIphone5();
     void            setupViewIphone4();

@@ -19,9 +19,5 @@ public:
     
 };
 
-class ScoreView{
-    
-    
-};
 
 extern Device currentDevice;

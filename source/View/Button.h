@@ -5,7 +5,7 @@
 #include "resources.h"
 #include "IwGx.h"
 #include "../Controller/input.h"
-
+#include "IwTween.h"
 using namespace Iw2DSceneGraph;
 using namespace Iw2DSceneGraphCore;
 using std::string;
@@ -18,8 +18,11 @@ public:
     void setPosition(const float, const float);
     void setScale(float, float);
     void setAnchor(float, float);
+    CSprite* getSprite()    {return buttonSprite;}
     void renderText();
     bool isPressed(int x = -1, int y = -1);
+    friend class CTween;
+    friend class CTweenManager;
     Button(Scene*,float,float,CIw2DImage*,string);
     ~Button();
 };
