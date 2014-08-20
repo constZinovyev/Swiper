@@ -34,6 +34,9 @@ public:
     void            RenderText();
     void            showAfterDieMenu();
     void            hideAfterDieMenu();
+    
+    void            animNewDownRow();
+    
     void            setupViewSimulator();
     void            setupViewIphone5();
     void            setupViewIphone4();

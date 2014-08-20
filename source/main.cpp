@@ -23,12 +23,17 @@
  extern CTweenManager* g_pTweener;
  CTweenManager*  g_pTweener = 0;
 
+class a{
+public:
+    static int b;
+};
+int a::b;
+
 // FRAME_TIME is the amount of time that a single frame should last in seconds
 #define FRAME_TIME  (30.0f / 1000.0f)
 int main()
 {
     srand(time(NULL));
-    
     // Initialise the 2D graphics syste
     Iw2DInit();
       // FONTS
@@ -38,6 +43,8 @@ int main()
     IwResManagerInit();
     IwGxFontInit();
     IwGetResManager()->LoadGroup("./fonts/IwGxFontTTF.group");
+
+    GameModel::stopTimer = false;
     
     currentDevice.init();
     g_pSceneManager = new SceneManager();
