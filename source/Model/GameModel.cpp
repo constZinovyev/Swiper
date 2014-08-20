@@ -1,7 +1,4 @@
 #include "GameModel.h"
-
-bool GameModel::stopTimer;
-
 void GameModel::loadHighScore(){
     highScore = 0;
     s3eSecureStorageGet(&highScore,sizeof(highScore));
@@ -35,7 +32,6 @@ void GameModel::newGame(){
     stack.addRowDown(stack.generateRow());
     playerRow = stack.generateTwoBlocks();
     gameOver = false;
-    GameModel::stopTimer = false;
 }
 vector<vector<int> > GameModel::getStack(){
     vector<vector<int> > temp;
@@ -86,8 +82,6 @@ void GameModel::effectClearButton(){
 }
 
 void GameModel::updateTimer(){
-    if (GameModel::stopTimer)
-        return;
     ++timer;
     if(timer % speedBlocks == 0){
         effectIntTimer();

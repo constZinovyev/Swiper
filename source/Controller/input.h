@@ -15,8 +15,6 @@
 
 #include "s3ePointer.h"
 #include "IwGeom.h"
-#include "IwTween.h"
-using namespace IwTween;
 
 #define MAX_TOUCHES     10
 class Input;
@@ -59,8 +57,8 @@ public:
     bool            ignoreSwipe;
     bool            ignoreInput;
     Input();
-    static void     onIgnoreInput(CTween* pTween) {g_pInput->ignoreInput = true;}
-    static void     offIgnoreInput(CTween* pTween) {g_pInput->ignoreInput = false;}
+    static void     onIgnoreInput() {g_pInput->ignoreInput = true;}
+    static void     offIgnoreInput(){g_pInput->ignoreInput = false;}
 
     /**
      * @fn    void Input::Update()

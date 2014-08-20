@@ -55,7 +55,7 @@ void MainScene::RenderText(){
 void MainScene::actionSwipeLeft(){
     if (posBlockStart != Left){
         posBlockStart = Left;
-        g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,LeftPos,ONSTART,g_pInput->onIgnoreInput,ONCOMPLETE,g_pInput->offIgnoreInput,END);
+        g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,LeftPos,END);
     }
 }
 void MainScene::actionSwipeRight(){
