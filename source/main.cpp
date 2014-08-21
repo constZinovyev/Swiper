@@ -45,6 +45,7 @@ int main()
     IwGetResManager()->LoadGroup("./fonts/IwGxFontTTF.group");
 
     GameModel::stopTimer = false;
+    
     currentDevice.init();
     g_pSceneManager = new SceneManager();
     g_pTweener = new CTweenManager();

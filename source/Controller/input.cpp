@@ -210,17 +210,6 @@ void Input::Update()
 {
     s3ePointerUpdate();
 }
-void Input::Restart(){
-    ignoreSwipe = false;
-    swipeLeft = false;
-    swipeDown = false;
-    swipeRight = false;
-    FinishMotion = false;
-    Motion = false;
-    StartMotion = false;
-    xStartSwipe = 0;
-    yStartSwipe = 0;
-}
 
 void Input::Reset()
 {

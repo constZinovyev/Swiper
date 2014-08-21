@@ -55,29 +55,13 @@ void MainScene::RenderText(){
 void MainScene::actionSwipeLeft(){
     if (posBlockStart != Left){
         posBlockStart = Left;
-        g_pTweener->Tween(1, FLOAT, &blockStart->m_X,LeftPos,
-                          ONSTART, g_pInput->onIgnoreInput,
-                          ONCOMPLETE, g_pInput->offIgnoreInput,
-                          END);
-        /*g_pTweener->Tween(1, FLOAT, &blockStart->m_X,LeftPos,
-                          ONSTART, g_pController->onIgnoreAction,
-                          ONCOMPLETE, g_pController->offIgnoreAction,
-                          END);
-    */
-         }
+        g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,LeftPos,ONSTART,g_pInput->onIgnoreInput,ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    }
 }
 void MainScene::actionSwipeRight(){
     if (posBlockStart != Right){
         posBlockStart = Right;
-        g_pTweener->Tween(1, FLOAT, &blockStart->m_X,RightPos,
-                          ONSTART, g_pInput->onIgnoreInput,
-                          ONCOMPLETE, g_pInput->offIgnoreInput,
-                          END);
-        /*g_pTweener->Tween(1, FLOAT, &blockStart->m_X,RightPos,
-                          ONSTART, g_pController->onIgnoreAction,
-                          ONCOMPLETE, g_pController->offIgnoreAction,
-                          END);
-         */
+        g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,RightPos,END);
     }
 }
 
