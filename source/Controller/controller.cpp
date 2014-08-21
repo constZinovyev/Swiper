@@ -1,6 +1,11 @@
 #include "Controller.h"
 Controller* g_pController;
+bool Controller::ignoreAction;
+
 void Controller::Update(){
+    if (ignoreAction)
+        return;
+    //std::cout << g_pInput->ignoreInput << std::endl;
     MainScene* menu = (MainScene*)g_pSceneManager->Find("main");
     PlayScene* play = (PlayScene*)g_pSceneManager->Find("play");
     Scene* currentScene = g_pSceneManager->GetCurrent();
