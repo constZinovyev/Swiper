@@ -4,12 +4,16 @@
 #include <vector>
 #include "scene.h"
 #include "device.h"
+#include "IwTween.h"
+#include "Input.h"
+
 using std::vector;
 #define MAX_LEN_ROW 3
 #define MAX_SIZE_LIST 5
 #define ANIM_SWAP_DUR  0.2
 //extern const short int MAX_LEN_ROW;
 //extern const short int MAX_SIZE_LIST;
+ extern CTweenManager* g_pTweener;
 
 class FieldView{
     vector<vector<BlockView> > field;
@@ -28,6 +32,8 @@ public:
     FieldView();
     void updateField(vector<vector<int> >);
     void addToScene(Scene*);
+    void animFieldUp();
+    void animNewRowDown();
 };
 
 class PlayerBlocks{
@@ -43,7 +49,12 @@ public:
     PlayerBlocks();
     void updateBlocks(vector<int> clr);
     void addToScene(Scene*);
-    void startAnim();
+    void animMoveOneLeft();
+    void animMoveOneRight();
+    void animMoveTwoLeft();
+    void animMoveTwoRight();
+    void animSwapBlocks();
+    void animNewBlocks(vector<int> clr);
     void setChanged(bool b) {isChanged = b;}
     void resetChanged()     {isChanged = false;}
     friend class PlayScene;

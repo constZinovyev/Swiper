@@ -8,8 +8,12 @@ using namespace IwTween;
 #define MAX_SPEED 60
 #define MIN_SPEED 24
 #define STEP_SCORE_UP_SPEED 10
-
 class GameModel{
+    struct  DataForView{
+        
+    };
+    
+
 protected:
     StackRow stack;
     Row playerRow;
@@ -19,6 +23,7 @@ protected:
     int timer;
     bool gameOver;
     int speedBlocks;
+    DataForView data;
 public:
     static bool stopTimer;
     GameModel();

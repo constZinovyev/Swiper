@@ -25,6 +25,7 @@ FieldView::FieldView(){
         
         }
 }
+
 void FieldView::updateField(vector<vector<int> > temp){
     clearField();
     for(int i =0; i < temp.size();++i)
@@ -49,7 +50,7 @@ void PlayerBlocks::updateBlocks(vector<int> clr){
     if(plrBlc[0].getSprite()->AnimProcess || plrBlc[1].getSprite()->AnimProcess)
         return;
     if (isChanged ){
-        startAnim();
+        animSwapBlocks();
         std::cout<<isChanged<<std::endl;
         resetChanged();
         return;
@@ -107,13 +108,59 @@ PlayerBlocks::PlayerBlocks(){
     }
 }
 
-void PlayerBlocks::startAnim(){
+void PlayerBlocks::animSwapBlocks(){
     for (int i = 0; i < MAX_LEN_ROW; ++i){
         plrBlc[i].getSprite()->SetAnimRepeat(1);
         plrBlc[i].getSprite()->SetAnimDuration(ANIM_SWAP_DUR);
     }
 }
 
+void PlayerBlocks::animMoveOneLeft(){
+    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth();
+    g_pTweener->Tween(0.2f,FLOAT,plrBlc[2].getSprite()->m_X,xOrigin+sizeSprite+xBetweenBLock,
+                      ONSTART,g_pInput->onIgnoreInput,
+                      ONCOMPLETE,g_pInput->offIgnoreInput,END);
+}
+
+void PlayerBlocks::animMoveOneRight(){
+    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth();
+    g_pTweener->Tween(0.2f,FLOAT,plrBlc[0].getSprite()->m_X,xOrigin+sizeSprite+xBetweenBLock,
+                      ONSTART,g_pInput->onIgnoreInput,
+                      ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    
+}
+
+void PlayerBlocks::animMoveTwoLeft(){
+    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth();
+    g_pTweener->Tween(0.2f,FLOAT,plrBlc[2].getSprite()->m_X,xOrigin+sizeSprite+xBetweenBLock,
+                      ONSTART,g_pInput->onIgnoreInput,
+                      ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    g_pTweener->Tween(0.2f,FLOAT,plrBlc[1].getSprite()->m_X,xOrigin,
+                      ONSTART,g_pInput->onIgnoreInput,
+                      ONCOMPLETE,g_pInput->offIgnoreInput,END);
+
+    
+}
+
+void PlayerBlocks::animMoveTwoRight(){
+    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth();
+    g_pTweener->Tween(0.2f,FLOAT,plrBlc[0].getSprite()->m_X,xOrigin+sizeSprite+xBetweenBLock,
+                      ONSTART,g_pInput->onIgnoreInput,
+                      ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    g_pTweener->Tween(0.2f,FLOAT,plrBlc[1].getSprite()->m_X,xOrigin+2*sizeSprite+2*xBetweenBLock,
+                      ONSTART,g_pInput->onIgnoreInput,
+                      ONCOMPLETE,g_pInput->offIgnoreInput,END);
+}
+
+void PlayerBlocks::animNewBlocks(vector<int> clr){
+    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth();
+    for (int i = 0; i < MAX_LEN_ROW; ++i){
+        plrBlc[i].getSprite()->m_Y = - sizeSprite - 10;
+        g_pTweener->Tween(0.2f,FLOAT,plrBlc[i].getSprite()->m_Y,yOrigin,
+                          ONSTART,g_pInput->onIgnoreInput,
+                          ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    }
+};
 void PlayerBlocks::setupViewIphone4(){
     xOrigin = 214;
     yOrigin = 108;

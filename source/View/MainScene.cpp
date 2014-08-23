@@ -58,10 +58,20 @@ void MainScene::actionSwipeLeft(){
         g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,LeftPos,ONSTART,g_pInput->onIgnoreInput,ONCOMPLETE,g_pInput->offIgnoreInput,END);
     }
 }
+void MainScene::actionSwipeDown(){
+    g_pTweener->Tween(0.5,FLOAT,&blockStart->m_Y,820.0f,ONSTART,g_pInput->onIgnoreInput,ONCOMPLETE,afterSwipeDown,END);
+}
+void MainScene::afterSwipeDown(CTween* Tween){
+    g_pInput->offIgnoreInput;
+    PlayScene* game = (PlayScene*)g_pSceneManager->Find("play");
+    g_pSceneManager->SwitchTo(game);
+    g_pInput->Restart();
+}
+
 void MainScene::actionSwipeRight(){
     if (posBlockStart != Right){
         posBlockStart = Right;
-        g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,RightPos,END);
+        g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,RightPos,ONSTART,g_pInput->onIgnoreInput,ONCOMPLETE,g_pInput->offIgnoreInput,END);
     }
 }
 

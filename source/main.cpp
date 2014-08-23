@@ -43,9 +43,9 @@ int main()
     IwResManagerInit();
     IwGxFontInit();
     IwGetResManager()->LoadGroup("./fonts/IwGxFontTTF.group");
-
+    GameModel* gameModel = new GameModel();
     GameModel::stopTimer = false;
-    
+
     currentDevice.init();
     g_pSceneManager = new SceneManager();
     g_pTweener = new CTweenManager();
@@ -104,6 +104,7 @@ int main()
         // Yield to OS
         s3eDeviceYield(yield);
     }
+    delete gameModel;
     delete g_pResources;
     delete g_pInput;
     delete g_pTweener;

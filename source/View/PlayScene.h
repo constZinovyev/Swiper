@@ -12,7 +12,7 @@
 using std::string;
 
 class PlayScene: public Scene{
-    GameModel modelForView;
+    GameModel* modelForView;
     CSprite* background;
     CSprite* backAfterDie;
     Button* buttonInfo;
@@ -23,6 +23,7 @@ class PlayScene: public Scene{
     string bestScore;
     friend class MainScene;
     friend class Controller;
+    friend class GameModel;
 public:
     PlayScene();
     ~PlayScene();
@@ -34,8 +35,6 @@ public:
     void            RenderText();
     void            showAfterDieMenu();
     void            hideAfterDieMenu();
-    
-    void            animNewDownRow();
     
     void            setupViewSimulator();
     void            setupViewIphone5();

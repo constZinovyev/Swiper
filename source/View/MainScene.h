@@ -27,6 +27,8 @@ public:
     void            RenderText();
     void            actionSwipeLeft();
     void            actionSwipeRight();
+    void            actionSwipeDown();
+    static void     afterSwipeDown(CTween* Tween);
     void            updateBlockStart();
     void            setupViewSimulator();
     void            setupViewIphone5();

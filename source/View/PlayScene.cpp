@@ -1,8 +1,8 @@
 #include "PlayScene.h"
 
 void PlayScene::scoreToString(){
-    int scoreInt = modelForView.getScore();
-    int best = modelForView.getHighScore();
+    int scoreInt = modelForView->getScore();
+    int best = modelForView->getHighScore();
     std::stringstream s1;
     s1 << scoreInt;
     score = s1.str();
@@ -33,7 +33,7 @@ void PlayScene::RenderText(){
     IwGxFontSetFont(g_pResources->getFont());
     IwGxFontDrawText(score.c_str(),score.size());
     
-    if (modelForView.isGameOver()){
+    if (modelForView->isGameOver()){
         IwGxFontSetCol(0xff000000);
         float width = backAfterDie->m_W*backAfterDie->m_ScaleX;
         float height = backAfterDie->m_H*backAfterDie->m_ScaleY;
@@ -55,11 +55,11 @@ void PlayScene::RenderText(){
 
 void PlayScene::updateFromModel(){
     scoreToString();
-    playerBlc.setChanged(modelForView.getBlockChanged());
-    modelForView.resetBlockChanged();
-    field.updateField(modelForView.getStack());
-    playerBlc.updateBlocks(modelForView.getPlayerRow());
-    playerBlc.setChanged(modelForView.getBlockChanged());
+    playerBlc.setChanged(modelForView->getBlockChanged());
+    modelForView->resetBlockChanged();
+    field.updateField(modelForView->getStack());
+    playerBlc.updateBlocks(modelForView->getPlayerRow());
+    //playerBlc.setChanged(modelForView.getBlockChanged());
 }
 
 void PlayScene::Update(float deltaTime, float alphaMul){
@@ -97,12 +97,12 @@ void PlayScene::hideAfterDieMenu(){
     buttonInfo->setPosition(out, out);
     backAfterDie->m_X = out;
     backAfterDie->m_Y = out;
-    modelForView.newGame();
+    modelForView->newGame();
 }
 PlayScene::PlayScene(){
     Scene::Init();
     //INIT BACKGROUND
-    
+    modelForView = new GameModel();
     background = new CSprite();
     background->m_X = 0;
     background->m_Y = 0;
@@ -140,8 +140,8 @@ PlayScene::PlayScene(){
             }
     
     //FIRST RENDER
-    field.updateField(modelForView.getStack());
-    playerBlc.updateBlocks(modelForView.getPlayerRow());
+    field.updateField(modelForView->getStack());
+    playerBlc.updateBlocks(modelForView->getPlayerRow());
     
     
 }
@@ -149,6 +149,7 @@ PlayScene::PlayScene(){
 PlayScene::~PlayScene(){
     delete buttonRetry;
     delete buttonInfo;
+    delete modelForView;
 }
 
 void PlayScene::setupViewSimulator(){

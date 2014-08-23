@@ -190,6 +190,7 @@ Input::Input() : m_X(0), m_Y(0), m_Touched(false), m_PrevTouched(false)
     FinishMotion = false;
     Motion = false;
     StartMotion = false;
+    didSwipe = false;
     xStartSwipe = 0;
     yStartSwipe = 0;
     
@@ -209,6 +210,21 @@ Input::Input() : m_X(0), m_Y(0), m_Touched(false), m_PrevTouched(false)
 void Input::Update()
 {
     s3ePointerUpdate();
+}
+void Input::Restart(){
+    g_pInput->ignoreSwipe = false;
+    g_pInput->ignoreInput = false;
+    g_pInput->swipeLeft = false;
+    g_pInput->swipeDown = false;
+    g_pInput->swipeRight = false;
+    g_pInput->didSwipe = false;
+    g_pInput->FinishMotion = false;
+    g_pInput->Motion = false;
+    g_pInput->StartMotion = false;
+    g_pInput->xStartSwipe = 0;
+    g_pInput->yStartSwipe = 0;
+    g_pInput->m_PrevTouched = false;
+    g_pInput->m_Touched = false;
 }
 
 void Input::Reset()
