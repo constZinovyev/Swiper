@@ -5,7 +5,7 @@
 #include "scene.h"
 #include "device.h"
 #include "IwTween.h"
-#include "Input.h"
+#include "../Controller/input.h"
 
 using std::vector;
 #define MAX_LEN_ROW 3
@@ -17,6 +17,7 @@ using std::vector;
 
 class FieldView{
     vector<vector<BlockView> > field;
+    //vector<BlockView> newDownRow;
     int xOrigin;
     int yOrigin;
     int xBetweenBLock;
@@ -27,18 +28,19 @@ class FieldView{
     void            setupViewSimulator();
     void            setupViewIphone5();
     void            setupViewIphone4();
+    void f(CTween* Tween);
     
 public:
     FieldView();
     void updateField(vector<vector<int> >);
     void addToScene(Scene*);
+    void fieldOneRowUp();
     void animFieldUp();
-    void animNewRowDown();
+    void animNewRowDown(vector<vector<int> >);
 };
 
 class PlayerBlocks{
-    BlockView plrBlc[MAX_LEN_ROW];
-    bool isChanged;
+    vector<BlockView> plrBlc;
     int xOrigin;
     int yOrigin;
     int xBetweenBLock;
@@ -47,18 +49,18 @@ class PlayerBlocks{
     void            setupViewIphone4();
 public:
     PlayerBlocks();
-    void updateBlocks(vector<int> clr);
+    void updateNewBlocks(vector<int> clr);
     void addToScene(Scene*);
     void animMoveOneLeft();
     void animMoveOneRight();
     void animMoveTwoLeft();
     void animMoveTwoRight();
     void animSwapBlocks();
-    void animNewBlocks(vector<int> clr);
-    void setChanged(bool b) {isChanged = b;}
-    void resetChanged()     {isChanged = false;}
+    void animNewBlocks();
+    //void setChanged(bool b) {isChanged = b;}
+    //void resetChanged()     {isChanged = false;}
     friend class PlayScene;
     friend class MainScene;
 };
-
+extern int t;
 extern Device currentDevice;

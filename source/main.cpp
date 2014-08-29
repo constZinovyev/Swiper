@@ -51,9 +51,9 @@ int main()
     g_pTweener = new CTweenManager();
     g_pResources = new Resources();
     g_pInput = new Input();
-    g_pController = new Controller();
+    g_pController = new Controller(*gameModel);
     
-    PlayScene* play = new PlayScene();
+    PlayScene* play = new PlayScene(gameModel->getDataForView());
     play->SetName("play");
     play->Init();
     g_pSceneManager->Add(play);
@@ -77,6 +77,9 @@ int main()
     {
         //++i;
         //std::cout << i << std :: endl;
+        
+        //render image
+
         uint64 new_time = s3eTimerGetMs();
         s3eKeyboardUpdate();
         s3ePointerUpdate();
@@ -84,19 +87,23 @@ int main()
         IwGxClear(IW_GX_COLOUR_BUFFER_F | IW_GX_DEPTH_BUFFER_F);
         IwGxLightingOn();
         
-        
-        Iw2DSurfaceClear(0xff0000ff);
+        g_pController->Update();
         g_pSceneManager->Update(FRAME_TIME);
         g_pTweener->Update(FRAME_TIME);
-        //render image
+        
+        Iw2DSurfaceClear(0xff0000ff);
         g_pSceneManager->Render();
+        //analise move, update model & update dataforviev
         Iw2DFinishDrawing();
         
         //Render Text
         g_pSceneManager->RenderText();
         IwGxFlush();
         Iw2DSurfaceShow();
-
+        if (t == 2){
+            int *a;
+            delete a;
+        }
         // Lock frame rate
         int yield = (int)(FRAME_TIME * 1000 - (s3eTimerGetMs() - new_time));
         if (yield < 0)

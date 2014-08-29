@@ -55,23 +55,24 @@ void MainScene::RenderText(){
 void MainScene::actionSwipeLeft(){
     if (posBlockStart != Left){
         posBlockStart = Left;
-        g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,LeftPos,ONSTART,g_pInput->onIgnoreInput,ONCOMPLETE,g_pInput->offIgnoreInput,END);
+        g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,LeftPos,END);//ONSTART,g_pInput->onIgnoreInput,ONCOMPLETE,g_pInput->offIgnoreInput,END);
     }
 }
 void MainScene::actionSwipeDown(){
-    g_pTweener->Tween(0.5,FLOAT,&blockStart->m_Y,820.0f,ONSTART,g_pInput->onIgnoreInput,ONCOMPLETE,afterSwipeDown,END);
+    g_pTweener->Tween(0.5,FLOAT,&blockStart->m_Y,820.0f,ONCOMPLETE,afterSwipeDown,END);//ONSTART,g_pInput->onIgnoreInput,ONCOMPLETE,afterSwipeDown,END);
+    
 }
 void MainScene::afterSwipeDown(CTween* Tween){
-    g_pInput->offIgnoreInput;
+    //g_pInput->offIgnoreInput;
     PlayScene* game = (PlayScene*)g_pSceneManager->Find("play");
     g_pSceneManager->SwitchTo(game);
-    g_pInput->Restart();
+    //g_pInput->Restart();
 }
 
 void MainScene::actionSwipeRight(){
     if (posBlockStart != Right){
         posBlockStart = Right;
-        g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,RightPos,ONSTART,g_pInput->onIgnoreInput,ONCOMPLETE,g_pInput->offIgnoreInput,END);
+        g_pTweener->Tween(0.2,FLOAT,&blockStart->m_X,RightPos,END);//ONSTART,g_pInput->onIgnoreInput,ONCOMPLETE,g_pInput->offIgnoreInput,END);
     }
 }
 
@@ -88,9 +89,9 @@ void MainScene::Update(float deltaTime,float alphaMul){
     if (!m_IsActive)
         return;
     Scene::Update(deltaTime, alphaMul);
-    updateBlockStart();
+    //updateBlockStart();
     if (m_IsInputActive && m_Manager->GetCurrent() == this){
-        g_pController -> Update();
+        //g_pController -> Update();
     }
 }
 

@@ -10,50 +10,118 @@ FieldView::FieldView(){
     }
     float w = g_pResources->getFromFirstToSecond(1, 1)->GetFrameWidth();
     float h = g_pResources->getFromFirstToSecond(1, 1)->GetFrameHeight();
+    /*for (int i = 0; i < MAX_LEN_ROW; ++i){
+        newDownRow.push_back(BlockView());
+        newDownRow[i].getSprite()->m_X = xOrigin + i * w * newDownRow[i].getSprite()->m_ScaleX + i * xBetweenBLock;
+        newDownRow[i].getSprite()->m_Y = yOrigin;
+        newDownRow[i].setColor(1,1);
+    }*/
     //CAtlas*      img = g_pResources->getFromFirstToSecond(1,1);
-    for (int i = 0;i < MAX_SIZE_LIST;++i){
+    for (int i = 0; i < MAX_SIZE_LIST; ++i){
         field.push_back(vector<BlockView>());
-        for(int j = 0; j < MAX_LEN_ROW;++j)
+        for(int j = 0; j < MAX_LEN_ROW; ++j)
         {
             field[i].push_back(BlockView());
             float x = xOrigin + j*w*field[i][j].getSprite()->m_ScaleX + j*xBetweenBLock;
-            float y = yOrigin - i*h*field[i][j].getSprite()->m_ScaleY - i*yBetweenBLock;;
+            float y = yOrigin - (i-1)*h*field[i][j].getSprite()->m_ScaleY - (i-1)*yBetweenBLock;;
             //std::cout << x << " " <<y << std::endl;
             field[i][j].setCoord(x,y);
             field[i][j].setColor(0,0);
         }
         
-        }
+    }
 }
 
 void FieldView::updateField(vector<vector<int> > temp){
     clearField();
-    for(int i =0; i < temp.size();++i)
+    for(int i =0; i < temp.size(); ++i)
         for(int j =0; j < temp[i].size();++j){
             field[i][j].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond(temp[i][j],temp[i][j]));
         }
 }
+//WITHOUS FIRST ROW
 void FieldView::clearField(){
-    for(int i =0; i < field.size();++i)
+    for(int i =1; i < field.size();++i)
         for(int j =0; j < field[i].size();++j)
-            field[i][j].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond());
+            field[i][j].setColor(0,0);
 }
 void FieldView::addToScene(Scene* scn){
     for(int i =0; i < field.size();++i)
         for(int j =0; j < field[i].size();++j)
             scn->AddChild(field[i][j].getSprite());
+  /*  for(int i = 0; i < newDownRow.size();++i)
+        scn->AddChild(newDownRow[i].getSprite());
+*/
 }
+void FieldView::fieldOneRowUp(){
+    for(int i = field.size()-1; i >0; --i)
+        for (int j = 0; j < field[i].size(); ++j) {
 
-void PlayerBlocks::updateBlocks(vector<int> clr){
+            field[i][j].setCoord(field[i-1][j].getSprite()->m_X, field[i-1][j].getSprite()->m_Y);
+            field[i][j].getSprite()->SetImage(field[i-1][j].getSprite()->GetImage());
+        }
+}
+void FieldView::animFieldUp(){
+    
+    /*for(int i = field.size()-1; i >0; ++i){
+     field[i] = field[i-1];
+     }*/
+    /*field[4] = field[3];
+    field[3] = field[2];
+    field[2] = field[1];
+    field[1] = field[0];*/
+    fieldOneRowUp();
+    float sizeCell = g_pResources->getFromFirstToSecond(1,1)->GetFrameHeight()*field[0][0].getSprite()->m_ScaleY;
+    for(int i = 1; i < field.size(); ++i)
+        for (int j = 0; j < field[i].size(); ++j) {
+            float nextPos = field[i][j].getSprite()->m_Y - yBetweenBLock - sizeCell;
+            g_pTweener->Tween(0.3f,FLOAT,&field[i][j].getSprite()->m_Y,nextPos,END);
+        }
+}
+int t = 0;
+void FieldView::animNewRowDown(vector<vector<int> > temp){
+    //clearField();
+    animFieldUp();
+    int first = IwRand()%3;
+    int second;
+    int third;
+    do{
+        second = IwRand()%3;
+    }while(first==second);
+    
+    do{
+        third = IwRand()%3;
+    }while(first==third || second ==third);
+    
+    float sizeCell = g_pResources->getFromFirstToSecond(1,1)->GetFrameHeight()*field[0][0].getSprite()->m_ScaleY;
+    field[0][first].getSprite()->m_Y = IwGxGetScreenHeight()  + sizeCell;
+    field[0][second].getSprite()->m_Y =IwGxGetScreenHeight()  + 2 * sizeCell;
+    field[0][third].getSprite()->m_Y = IwGxGetScreenHeight()  + 3 * sizeCell;
+        for(int i =0; i < temp[0].size();++i){
+            field[0][i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond(temp[0][i],temp[0][i]));
+        }
+    g_pTweener->Tween(0.2f,FLOAT,&field[0][first].getSprite()->m_Y,(float)yOrigin,END);
+    g_pTweener->Tween(0.4f,FLOAT,&field[0][second].getSprite()->m_Y,(float)yOrigin,END);
+    g_pTweener->Tween(0.6f,FLOAT,&field[0][third].getSprite()->m_Y,(float)yOrigin,END);
+    
+}
+void PlayerBlocks::updateNewBlocks(vector<int> clr){
     //bool clrBlc[MAX_LEN_ROW+1] = {false,false,false,false};
     int emptyBlc = 0;
-    if(plrBlc[0].getSprite()->AnimProcess || plrBlc[1].getSprite()->AnimProcess)
-        return;
-    if (isChanged ){
-        animSwapBlocks();
-        std::cout<<isChanged<<std::endl;
-        resetChanged();
-        return;
+    //if(plrBlc[0].getSprite()->AnimProcess || plrBlc[1].getSprite()->AnimProcess)
+    //    return;
+    /*if (isChanged ){
+     animSwapBlocks();
+     std::cout<<isChanged<<std::endl;
+     resetChanged();
+     return;
+     }*/
+    for(int i = 0; i < MAX_LEN_ROW; ++i){
+        float sizeCell =g_pResources->getFromFirstToSecond(1,1)->GetFrameHeight() *plrBlc[i].getSprite()->m_ScaleY;
+        float y = - sizeCell - 10;
+        float x = xOrigin + i*sizeCell + i*xBetweenBLock;
+        plrBlc[i].setCoord(x, y);
+        
     }
     for(int i = 0; i < MAX_LEN_ROW; ++i){
         if (clr[i] == 0){
@@ -82,7 +150,7 @@ void PlayerBlocks::addToScene(Scene* scn){
         scn->AddChild(plrBlc[i].getSprite());
 }
 PlayerBlocks::PlayerBlocks(){
-    isChanged = false;
+    //isChanged = false;
     if (currentDevice.isIphone5){
         setupViewIphone5();
     }else if(currentDevice.isIphone4){
@@ -90,10 +158,13 @@ PlayerBlocks::PlayerBlocks(){
     }else if (currentDevice.isSimulator){
         setupViewSimulator();
     }
+    
     float w = g_pResources->getFromFirstToSecond(1, 1)->GetFrameWidth();
     float h = g_pResources->getFromFirstToSecond(1, 1)->GetFrameHeight();
     //std::cout << w << " " << h << std::endl;
-    
+    for (int i = 0; i < MAX_LEN_ROW; ++i){
+        plrBlc.push_back(BlockView());
+    }
     for(int i = 0; i < MAX_LEN_ROW; ++i){
         plrBlc[i].setColor(1);
         if (Iw2DGetSurfaceHeight() == 568)
@@ -102,7 +173,7 @@ PlayerBlocks::PlayerBlocks(){
             plrBlc[i].getSprite()->m_ScaleY = 0.5f;
         }
         float x = xOrigin + i*w*plrBlc[i].getSprite()->m_ScaleX + i*xBetweenBLock;
-        float y = yOrigin;
+        float y = - h*plrBlc[i].getSprite()->m_ScaleY - 10;
         plrBlc[i].setCoord(x, y);
         
     }
@@ -116,49 +187,64 @@ void PlayerBlocks::animSwapBlocks(){
 }
 
 void PlayerBlocks::animMoveOneLeft(){
-    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth();
-    g_pTweener->Tween(0.2f,FLOAT,plrBlc[2].getSprite()->m_X,xOrigin+sizeSprite+xBetweenBLock,
-                      ONSTART,g_pInput->onIgnoreInput,
-                      ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth()*plrBlc[0].getSprite()->m_ScaleX;
+    g_pTweener->Tween(0.1f,FLOAT,&plrBlc[2].getSprite()->m_X,xOrigin+sizeSprite+xBetweenBLock,END);
+    //ONSTART,g_pInput->onIgnoreInput,
+    //ONCOMPLETE,g_pInput->offIgnoreInput,END);
+     BlockView t = plrBlc[1];
+    plrBlc[1] = plrBlc[2];
+    plrBlc[2] = t;
+    
 }
 
 void PlayerBlocks::animMoveOneRight(){
-    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth();
-    g_pTweener->Tween(0.2f,FLOAT,plrBlc[0].getSprite()->m_X,xOrigin+sizeSprite+xBetweenBLock,
-                      ONSTART,g_pInput->onIgnoreInput,
-                      ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth()*plrBlc[0].getSprite()->m_ScaleX;
+    g_pTweener->Tween(0.1f,FLOAT,&plrBlc[0].getSprite()->m_X,xOrigin+sizeSprite+xBetweenBLock,END);
+    //ONSTART,g_pInput->onIgnoreInput,
+    //ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    BlockView t = plrBlc[1];
+    plrBlc[1] = plrBlc[0];
+    plrBlc[0] = t;
     
 }
 
 void PlayerBlocks::animMoveTwoLeft(){
-    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth();
-    g_pTweener->Tween(0.2f,FLOAT,plrBlc[2].getSprite()->m_X,xOrigin+sizeSprite+xBetweenBLock,
-                      ONSTART,g_pInput->onIgnoreInput,
-                      ONCOMPLETE,g_pInput->offIgnoreInput,END);
-    g_pTweener->Tween(0.2f,FLOAT,plrBlc[1].getSprite()->m_X,xOrigin,
-                      ONSTART,g_pInput->onIgnoreInput,
-                      ONCOMPLETE,g_pInput->offIgnoreInput,END);
-
-    
+    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth()*plrBlc[0].getSprite()->m_ScaleX;
+    g_pTweener->Tween(0.1f,FLOAT,&plrBlc[1].getSprite()->m_X,(float)xOrigin,END);
+    //ONSTART,g_pInput->onIgnoreInput,
+    //ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    g_pTweener->Tween(0.1f,FLOAT,&plrBlc[2].getSprite()->m_X,xOrigin+sizeSprite+xBetweenBLock,END);
+    //ONSTART,g_pInput->onIgnoreInput,
+    //ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    BlockView t = plrBlc[0];
+    plrBlc[0] = plrBlc[1];
+    plrBlc[1] = plrBlc[2];
+    plrBlc[2] = t;
 }
 
 void PlayerBlocks::animMoveTwoRight(){
-    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth();
-    g_pTweener->Tween(0.2f,FLOAT,plrBlc[0].getSprite()->m_X,xOrigin+sizeSprite+xBetweenBLock,
-                      ONSTART,g_pInput->onIgnoreInput,
-                      ONCOMPLETE,g_pInput->offIgnoreInput,END);
-    g_pTweener->Tween(0.2f,FLOAT,plrBlc[1].getSprite()->m_X,xOrigin+2*sizeSprite+2*xBetweenBLock,
-                      ONSTART,g_pInput->onIgnoreInput,
-                      ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth()*plrBlc[0].getSprite()->m_ScaleX;
+    g_pTweener->Tween(0.1f,FLOAT,&plrBlc[0].getSprite()->m_X,xOrigin+sizeSprite+xBetweenBLock,END);
+    //ONSTART,g_pInput->onIgnoreInput,
+    //ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    g_pTweener->Tween(0.1f,FLOAT,&plrBlc[1].getSprite()->m_X,xOrigin+2*sizeSprite+2*xBetweenBLock,END);
+    //ONSTART,g_pInput->onIgnoreInput,
+    //END);ONCOMPLETE,g_pInput->offIgnoreInput,END);
+    BlockView t = plrBlc[2];
+    plrBlc[2] = plrBlc[1];
+    plrBlc[1] = plrBlc[0];
+    plrBlc[0] = t;
+    
 }
 
-void PlayerBlocks::animNewBlocks(vector<int> clr){
-    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameWidth();
+void PlayerBlocks::animNewBlocks(){
+    float sizeSprite = g_pResources->getFromFirstToSecond()->GetFrameHeight()*plrBlc[0].getSprite()->m_ScaleY;
     for (int i = 0; i < MAX_LEN_ROW; ++i){
-        plrBlc[i].getSprite()->m_Y = - sizeSprite - 10;
-        g_pTweener->Tween(0.2f,FLOAT,plrBlc[i].getSprite()->m_Y,yOrigin,
-                          ONSTART,g_pInput->onIgnoreInput,
-                          ONCOMPLETE,g_pInput->offIgnoreInput,END);
+        //plrBlc[i].getSprite()->m_Y = - sizeSprite - 10;
+        g_pTweener->Tween(0.2f,FLOAT,&plrBlc[i].getSprite()->m_Y,(float)yOrigin,END);
+        //plrBlc[i].getSprite()->m_Y = yOrigin;
+        //ONSTART,g_pInput->onIgnoreInput,
+        //ONCOMPLETE,g_pInput->offIgnoreInput,END);
     }
 };
 void PlayerBlocks::setupViewIphone4(){

@@ -5,23 +5,43 @@
 using namespace IwTween;
 
 #define FRAME_RATE 30
-#define MAX_SPEED 60
+#define MAX_SPEED 100
 #define MIN_SPEED 24
 #define STEP_SCORE_UP_SPEED 10
+//STATE?
+
+
+class  DataForView{
+    bool blockSwap;
+    bool oneLeft;
+    bool oneRight;
+    bool twoLeft;
+    bool twoRight;
+    bool gameOver;
+    bool newPlrRow;
+    bool newRowDown;
+    bool newRowUp;
+    bool fieldUp;
+    bool newGame;
+    int score;
+    int highScore;
+    vector<int> plrBlocks;
+    vector<vector<int> > field;
+    friend class GameModel;
+    friend class PlayScene;
+public:
+    DataForView();
+    void Reset();
+};
+
 class GameModel{
-    struct  DataForView{
-        
-    };
-    
 
 protected:
     StackRow stack;
     Row playerRow;
-    bool blockChanged;
     int score;
     int highScore;
     int timer;
-    bool gameOver;
     int speedBlocks;
     DataForView data;
 public:
@@ -30,7 +50,7 @@ public:
     ~GameModel();
     void newGame();
     bool isConform();
-    bool isGameOver()                 { return gameOver;}
+    bool isGameOver()                 {return data.gameOver;}
     void effectAfterCorrectTurn();
     void effectAfterMistakeTurn();
     void effectIntTimer();
@@ -52,9 +72,8 @@ public:
     void setSpeed(int x)             { speedBlocks = x;}
     void upSpeed();
     
-    
-    void resetBlockChanged()          {blockChanged = false;}
-    bool getBlockChanged()            {return blockChanged;}
+    DataForView& getDataForView()             {return data;}
+    void updateDataForView();
     
     const GameModel& getModel()       { return *this;}
 

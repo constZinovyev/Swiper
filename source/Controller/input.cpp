@@ -24,6 +24,7 @@ Input* g_pInput = 0;
  */
 void Input::TouchButtonCB(s3ePointerEvent* event)
 {
+    std::cout<<"TOUCH" << std::endl;
     if (g_pInput->ignoreInput)
         return;
     
@@ -69,6 +70,7 @@ void Input::TouchMotionCB(s3ePointerMotionEvent* event)
         g_pInput->Motion = true;
     }
     if (g_pInput->Motion) {
+        std::cout<<"MOTION "<<g_pInput->m_X<<std::endl;
         g_pInput->m_X = event->m_x;
         g_pInput->m_Y = event->m_y;
     }
