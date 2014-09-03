@@ -4,7 +4,7 @@
 #include "Button.h"
 #include "PlayScene.h"
 #include "IwTween.h"
-#include "../Controller/Controller.h"
+
 using namespace IwTween;
 
 class MainScene:public Scene{
@@ -27,6 +27,8 @@ public:
     void            RenderText();
     void            actionSwipeLeft();
     void            actionSwipeRight();
+    void            actionSwipeDown();
+    static void     afterSwipeDown(CTween* Tween);
     void            updateBlockStart();
     void            setupViewSimulator();
     void            setupViewIphone5();

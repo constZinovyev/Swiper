@@ -1,6 +1,7 @@
 #include "Controller.h"
 Controller* g_pController;
 void Controller::Update(){
+    //std::cout << g_pInput->ignoreInput << std::endl;
     MainScene* menu = (MainScene*)g_pSceneManager->Find("main");
     PlayScene* play = (PlayScene*)g_pSceneManager->Find("play");
     Scene* currentScene = g_pSceneManager->GetCurrent();
@@ -16,8 +17,6 @@ void Controller::controlMenuScene(){
     MainScene* menu = (MainScene*)g_pSceneManager->Find("main");
     if (g_pInput->isSwipeLeft()){
         menu->actionSwipeLeft();
-        //g_pTweener->Tween(0.5f,FLOAT,&buttonApp->getSprite()->m_Y,buttonApp->getSprite()->m_Y-100,EASING, Ease::sineIn,END);
-        //g_pTweener->Tween(0.5f,FLOAT,&buttonInfo->getSprite()->m_Y,buttonInfo->getSprite()->m_Y-100,EASING, Ease::sineIn,END);
         g_pInput->afterSwipeLeft();
     }else if (g_pInput->isSwipeRight()){
         menu->actionSwipeRight();
@@ -26,8 +25,8 @@ void Controller::controlMenuScene(){
         if (g_pInput->isSwipeDown() && menu->posBlockStart == menu->Right)
         {
             g_pInput->afterSwipeDown();
-            PlayScene* game = (PlayScene*)g_pSceneManager->Find("play");
-            g_pSceneManager->SwitchTo(game);
+            menu->actionSwipeDown();
+
         }
         else{
             if(g_pInput->isStart()){
@@ -59,29 +58,30 @@ void Controller::controlMenuScene(){
 
 void Controller::controlPlayScene(){
     PlayScene* play = (PlayScene*)g_pSceneManager->Find("play");
-    if (!play->modelForView.isGameOver()){
-        play->modelForView.updateTimer();
+    if (!gameModel.isGameOver()){
+        gameModel.updateTimer();
         if (g_pInput->isSwipeLeft()){
-            play->modelForView.motionLeft();
+            gameModel.motionLeft();
             g_pInput->afterSwipeLeft();
         }
         else if (g_pInput->isSwipeRight()){
-            play->modelForView.motionRight();
+            gameModel.motionRight();
             g_pInput->afterSwipeRight();
         }
         else if (g_pInput->isSwipeDown()){
-            if (play->modelForView.isConform()){
-                play->modelForView.effectAfterCorrectTurn();
+            if (gameModel.isConform()){
+                gameModel.effectAfterCorrectTurn();
+                //gameModel.onTimer();
             }
             else{
-                play->modelForView.effectAfterMistakeTurn();
+                gameModel.effectAfterMistakeTurn();
             }
             g_pInput->afterSwipeDown();
         }
         g_pInput->Reset();
     }else
         //MENU AFTER DIE
-        if (play->modelForView.isGameOver()){
+        if (gameModel.isGameOver()){
             play->showAfterDieMenu();
                 if (g_pInput->isFinish()){
                     g_pInput->Reset();
@@ -90,8 +90,10 @@ void Controller::controlPlayScene(){
                     }
                     if (play->buttonRetry->isPressed()){
                         play->hideAfterDieMenu();
-                        play->modelForView.newGame();
+                        gameModel.newGame();
                 }
             }
         }
+    
+    gameModel.updateDataForView();
 }
