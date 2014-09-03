@@ -1,12 +1,11 @@
 #pragma once
 #include "BlockView.h"
-//#include "../Model/StackRow.h"
 #include <vector>
 #include "scene.h"
 #include "device.h"
 #include "IwTween.h"
 #include "../Controller/input.h"
-
+#include "../Model/GameModel.h"
 using std::vector;
 #define MAX_LEN_ROW 3
 #define MAX_SIZE_LIST 5
@@ -14,10 +13,9 @@ using std::vector;
 //extern const short int MAX_LEN_ROW;
 //extern const short int MAX_SIZE_LIST;
  extern CTweenManager* g_pTweener;
-
+class PlayerBlocks;
 class FieldView{
     vector<vector<BlockView> > field;
-    //vector<BlockView> newDownRow;
     int xOrigin;
     int yOrigin;
     int xBetweenBLock;
@@ -28,7 +26,6 @@ class FieldView{
     void            setupViewSimulator();
     void            setupViewIphone5();
     void            setupViewIphone4();
-    void f(CTween* Tween);
     
 public:
     FieldView();
@@ -37,6 +34,9 @@ public:
     void fieldOneRowUp();
     void animFieldUp();
     void animNewRowDown(vector<vector<int> >);
+    void animCorrectTurn(vector<int>,PlayerBlocks&);
+    void animInCorrectTurn(vector<int>,PlayerBlocks&);
+    friend class PlayerBlocks;
 };
 
 class PlayerBlocks{
@@ -61,6 +61,7 @@ public:
     //void resetChanged()     {isChanged = false;}
     friend class PlayScene;
     friend class MainScene;
+    friend class FieldView;
 };
 extern int t;
 extern Device currentDevice;

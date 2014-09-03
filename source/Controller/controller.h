@@ -4,12 +4,15 @@
 #include "../View/PlayScene.h"
 
 class Controller{
-    GameModel& gameModel;
+    
 public:
+    GameModel& gameModel;
     void controlPlayScene();
     void controlMenuScene();
     void Update();
     Controller(GameModel& model):gameModel(model){};
+    static void stopGameTimer(){GameModel::disactivateTimer();}
+    static void activateGameTimer(){GameModel::activateTimer();}
     
 };
 

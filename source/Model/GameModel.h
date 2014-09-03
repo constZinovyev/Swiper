@@ -23,6 +23,8 @@ class  DataForView{
     bool newRowUp;
     bool fieldUp;
     bool newGame;
+    bool correctTurn;
+    bool inCorrectTurn;
     int score;
     int highScore;
     vector<int> plrBlocks;
@@ -56,8 +58,8 @@ public:
     void effectIntTimer();
     void effectClearButton();
     void updateTimer();
-    static void onTimer(CTween* pTween) {stopTimer = true;}
-    static void offTimer(CTween* pTween){stopTimer = false;}
+    static void disactivateTimer() {stopTimer = true;}
+    static void activateTimer(){stopTimer = false;}
     
     void saveScoreToFile();
     void addScore(int i = 1);

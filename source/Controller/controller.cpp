@@ -71,6 +71,7 @@ void Controller::controlPlayScene(){
         else if (g_pInput->isSwipeDown()){
             if (gameModel.isConform()){
                 gameModel.effectAfterCorrectTurn();
+                //gameModel.onTimer();
             }
             else{
                 gameModel.effectAfterMistakeTurn();

@@ -75,8 +75,10 @@ int main()
     // Loop forever, until the user or the OS performs some action to quit the app
     while (!s3eDeviceCheckQuitRequest())
     {
+        //if(g_pController->gameModel.stopTimer)
+        //std::cout << g_pController->gameModel.stopTimer << std :: endl;
         //++i;
-        //std::cout << i << std :: endl;
+        
         
         //render image
 
@@ -100,10 +102,6 @@ int main()
         g_pSceneManager->RenderText();
         IwGxFlush();
         Iw2DSurfaceShow();
-        if (t == 2){
-            int *a;
-            delete a;
-        }
         // Lock frame rate
         int yield = (int)(FRAME_TIME * 1000 - (s3eTimerGetMs() - new_time));
         if (yield < 0)

@@ -4,7 +4,7 @@
 #include "Button.h"
 #include "PlayScene.h"
 #include "IwTween.h"
-#include "../Controller/Controller.h"
+
 using namespace IwTween;
 
 class MainScene:public Scene{

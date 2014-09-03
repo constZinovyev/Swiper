@@ -53,6 +53,7 @@ void PlayScene::RenderText(){
         IwGxFontDrawText(inBack.c_str(),inBack.size());
     }
 }
+
 /*
 void PlayScene::updateFromModel(){
     scoreToString();
@@ -63,22 +64,33 @@ void PlayScene::updateFromModel(){
     playerBlc.setChanged(modelForView.getBlockChanged());
 }
 */
+
 void PlayScene::Update(float deltaTime, float alphaMul){
     if (!m_IsActive)
         return;
     //UPDATE SCORE, PLR BLOCK, FIELD
     //updateFromModel();
+    
+    if(dataFromModel.fieldUp){
+        
+        dataFromModel.fieldUp = false;
+    }
+    if (dataFromModel.correctTurn){
+        dataFromModel.correctTurn = false;
+        field.animCorrectTurn(dataFromModel.plrBlocks, playerBlc);
+        
+    }
     if (dataFromModel.newPlrRow){
         std::cout<<"NEW BLOCKS"<<std::endl;
         dataFromModel.newPlrRow = false;
         playerBlc.updateNewBlocks(dataFromModel.plrBlocks);
         playerBlc.animNewBlocks();
         
-
-    }
-    if(dataFromModel.fieldUp){
         
-        dataFromModel.fieldUp = false;
+    }
+    if (dataFromModel.inCorrectTurn){
+        dataFromModel.inCorrectTurn = false;
+        
     }
     if(dataFromModel.newRowDown){
         dataFromModel.newRowDown = false;
@@ -243,7 +255,8 @@ void PlayScene::setupTextSimulator(){
     float height = width;
     float x = Iw2DGetSurfaceWidth()/20.0;
     float y = Iw2DGetSurfaceHeight()*9/10.0;
-    IwGxFontSetRect(CIwRect(x,y,width,height));}
+    IwGxFontSetRect(CIwRect(x,y,width,height));
+}
 
 void PlayScene::setupTextIphone4(){
     float width = Iw2DGetSurfaceWidth()/10.0;

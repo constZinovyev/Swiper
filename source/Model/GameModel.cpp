@@ -12,6 +12,8 @@ DataForView::DataForView(){
     newPlrRow = false;
     newRowDown = false;
     fieldUp = false;
+    correctTurn = false;
+    inCorrectTurn = false;
     score = 0;
     highScore = 0;
     plrBlocks.clear();
@@ -76,7 +78,14 @@ vector<int> GameModel::getPlayerRow(){
     return playerRow.getRowToInt();
 }
 bool GameModel::isConform(){
-    return stack.firstRow() == playerRow;
+    bool isCorrect = stack.firstRow() == playerRow;
+    if (isCorrect){
+        data.correctTurn = true;
+    }else
+    {
+        data.inCorrectTurn = true;
+    }
+    return isCorrect;
 }
 void GameModel::motionLeft(){
     if (playerRow[0].isEmpty()){
@@ -154,6 +163,8 @@ void GameModel::effectAfterCorrectTurn(){
     }
     playerRow = stack.generateTwoBlocks();
     data.newPlrRow = true;
+    
+    
 }
 void GameModel::effectAfterMistakeTurn(){
     if (stack.size() < MAX_SIZE_LIST){

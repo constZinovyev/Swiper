@@ -58,7 +58,7 @@ void FieldView::fieldOneRowUp(){
         for (int j = 0; j < field[i].size(); ++j) {
 
             field[i][j].setCoord(field[i-1][j].getSprite()->m_X, field[i-1][j].getSprite()->m_Y);
-            field[i][j].getSprite()->SetImage(field[i-1][j].getSprite()->GetImage());
+            field[i][j].getSprite()->SetAtlas(field[i-1][j].getSprite()->GetAtlas());
         }
 }
 void FieldView::animFieldUp(){
@@ -103,26 +103,61 @@ void FieldView::animNewRowDown(vector<vector<int> > temp){
     g_pTweener->Tween(0.2f,FLOAT,&field[0][first].getSprite()->m_Y,(float)yOrigin,END);
     g_pTweener->Tween(0.4f,FLOAT,&field[0][second].getSprite()->m_Y,(float)yOrigin,END);
     g_pTweener->Tween(0.6f,FLOAT,&field[0][third].getSprite()->m_Y,(float)yOrigin,END);
-    
 }
+
+void FieldView::animCorrectTurn(vector<int> vecPLr,PlayerBlocks& plr){
+    int firstNotEmptyRow = -1;
+    float newPosY = 0;
+    for (int i = field.size()-1; i >= 0; --i){
+        if (field[i][0].getSprite()->GetAtlas() != g_pResources->getFromFirstToSecond(0,0))
+        {
+            firstNotEmptyRow = i;
+            break;
+        }
+    }
+    if (firstNotEmptyRow == -1){
+        std::cout << "ERROR 100" << std::endl;
+        return;
+    }
+                std::cout<<firstNotEmptyRow<<std::endl;
+    for (int i = 0;i < MAX_LEN_ROW; ++i){
+        
+        field[firstNotEmptyRow][i].getSprite()->SetAtlas(plr.plrBlc[i].getSprite()->GetAtlas());
+        newPosY = field[firstNotEmptyRow][i].getSprite()->m_Y;
+        //field[firstNotEmptyRow][i].getSprite()->m_X = plr.plrBlc[i].getSprite()->m_X;
+        field[firstNotEmptyRow][i].getSprite()->m_Y = plr.plrBlc[i].getSprite()->m_Y;
+        plr.plrBlc[i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond());
+        g_pTweener->Tween(0.3f,FLOAT,&field[firstNotEmptyRow][i].getSprite()->m_Y,newPosY,END);
+    }
+}
+
+
+void FieldView::animInCorrectTurn(vector<int>vecPLr,PlayerBlocks& plr){
+    int firstEmptyRow = -1;
+    for (int i =  0; i < field.size(); ++i){
+        if (field[i][0].getSprite()->GetAtlas() == g_pResources->getFromFirstToSecond(0,0))
+        {
+            firstEmptyRow = i;
+            break;
+        }
+    }
+    if (firstEmptyRow == -1){
+        std::cout << "EXIT FROM ANIMINCORRECTTURN" << std::endl;
+        return;
+
+    }
+}
+
 void PlayerBlocks::updateNewBlocks(vector<int> clr){
-    //bool clrBlc[MAX_LEN_ROW+1] = {false,false,false,false};
     int emptyBlc = 0;
-    //if(plrBlc[0].getSprite()->AnimProcess || plrBlc[1].getSprite()->AnimProcess)
-    //    return;
-    /*if (isChanged ){
-     animSwapBlocks();
-     std::cout<<isChanged<<std::endl;
-     resetChanged();
-     return;
-     }*/
+    
     for(int i = 0; i < MAX_LEN_ROW; ++i){
         float sizeCell =g_pResources->getFromFirstToSecond(1,1)->GetFrameHeight() *plrBlc[i].getSprite()->m_ScaleY;
         float y = - sizeCell - 10;
         float x = xOrigin + i*sizeCell + i*xBetweenBLock;
         plrBlc[i].setCoord(x, y);
-        
     }
+    
     for(int i = 0; i < MAX_LEN_ROW; ++i){
         if (clr[i] == 0){
             emptyBlc = i;
