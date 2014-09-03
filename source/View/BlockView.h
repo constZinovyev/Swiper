@@ -9,8 +9,6 @@ class BlockView{
 public:
     void setColor(int curBlc,int nxtBlc = -1);
     void setCoord(float,float);
-    BlockView* operator=(CSprite* arg);
-    BlockView(const BlockView&);
     CSprite* getSprite(){return block;}
     BlockView();
     ~BlockView() {}
