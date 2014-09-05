@@ -1,36 +1,4 @@
 #include "GameModel.h"
-
-bool GameModel::stopTimer;
-
-DataForView::DataForView(){
-    blockSwap = false;
-    oneLeft = false;
-    oneRight = false;
-    twoLeft = false;
-    twoRight = false;
-    gameOver = false;
-    newPlrRow = false;
-    newRowDown = false;
-    fieldUp = false;
-    correctTurn = false;
-    inCorrectTurn = false;
-    score = 0;
-    highScore = 0;
-    plrBlocks.clear();
-    field.clear();
-}
-
-void DataForView::Reset(){
-    *this = DataForView();
-}
-
-void GameModel::updateDataForView(){
-    data.score = score;
-    data.highScore = highScore;
-    data.plrBlocks = getPlayerRow();
-    data.field = getStack();
-};
-
 void GameModel::loadHighScore(){
     highScore = 0;
     s3eSecureStorageGet(&highScore,sizeof(highScore));
@@ -38,7 +6,7 @@ void GameModel::loadHighScore(){
     if (errorSecureStorage == S3E_SECURESTORAGE_ERR_NONE)
     {
         //std::cout << "NO PROBLEM" << std::endl;
-        //std::cout << highScore << std::endl;
+        std::cout << highScore << std::endl;
     }else {
         highScore = 0;
         std::cout << "ERROR OPEN FILE TO HIGHSCORE" << std::endl;
@@ -55,18 +23,15 @@ GameModel::~GameModel(){
 }
 
 void GameModel::newGame(){
-    data.Reset();
     stack.destroyStack();
     playerRow.destroy();
     score = 0;
+    blockChanged = false;
     speedBlocks = MAX_SPEED;
     timer = 1;
     stack.addRowDown(stack.generateRow());
     playerRow = stack.generateTwoBlocks();
-    data.newPlrRow = true;
-    data.newRowDown = true;
-    data.newGame = true;
-    GameModel::stopTimer = false;
+    gameOver = false;
 }
 vector<vector<int> > GameModel::getStack(){
     vector<vector<int> > temp;
@@ -78,28 +43,19 @@ vector<int> GameModel::getPlayerRow(){
     return playerRow.getRowToInt();
 }
 bool GameModel::isConform(){
-    bool isCorrect = stack.firstRow() == playerRow;
-    if (isCorrect){
-        data.correctTurn = true;
-    }else
-    {
-        data.inCorrectTurn = true;
-    }
-    return isCorrect;
+    return stack.firstRow() == playerRow;
 }
 void GameModel::motionLeft(){
     if (playerRow[0].isEmpty()){
         playerRow.swapBlocks(0, 1);
         playerRow.swapBlocks(1, 2);
-        data.twoLeft =  true;
     }
     else if (playerRow[1].isEmpty()){
         playerRow.swapBlocks(1, 2);
-        data.oneLeft = true;
         }
     else{
         playerRow.swapBlocks(0, 1);
-        data.blockSwap = true;
+        blockChanged = true;
     }
 }
 
@@ -107,15 +63,13 @@ void GameModel::motionRight(){
     if (playerRow[2].isEmpty()){
         playerRow.swapBlocks(1, 2);
         playerRow.swapBlocks(0, 1);
-        data.twoRight = true;
     }
     else if (playerRow[1].isEmpty()){
         playerRow.swapBlocks(0, 1);
-        data.oneRight = true;
     }
     else{
         playerRow.swapBlocks(1, 2);
-        data.blockSwap = true;
+        blockChanged = true;
     }
 }
 
@@ -124,15 +78,10 @@ void GameModel::effectClearButton(){
     stack.destroyStack();
     stack.addRowDown(stack.generateRow());
     playerRow = stack.generateTwoBlocks();
-    data.newPlrRow = true;
-    data.newRowDown = true;
+    
 }
 
 void GameModel::updateTimer(){
-    if (GameModel::stopTimer){
-        std::cout<<"STOPTIMER"<<std::endl;
-        return;
-    }
     ++timer;
     if(timer % speedBlocks == 0){
         effectIntTimer();
@@ -142,8 +91,6 @@ void GameModel::updateTimer(){
 void GameModel::effectIntTimer(){
     if (stack.size() < MAX_SIZE_LIST){
         stack.addRowDown(stack.generateRow());
-        data.fieldUp = true;
-        data.newRowDown = true;
     }else{
         //stack.destroyStack();
         //playerRow.destroy();
@@ -151,7 +98,7 @@ void GameModel::effectIntTimer(){
             highScore = score;
             saveScoreToFile();
         }
-        data.gameOver = true;
+        gameOver = true;
     }
     timer = 1;
 }
@@ -159,21 +106,15 @@ void GameModel::effectAfterCorrectTurn(){
     addScore();
     //std::cout << stack.size()<<std::endl;
     stack.destroyRow();
-    if(stack.size() == 0){
+    if(stack.size() == 0)
         stack.addRowDown(stack.generateRow());
-        data.newRowDown = true;
-    }
     playerRow = stack.generateTwoBlocks();
-    data.newPlrRow = true;
-    
-    
 }
 void GameModel::effectAfterMistakeTurn(){
     if (stack.size() < MAX_SIZE_LIST){
         //stack.addRowDown(stack.generateRow());
         stack.addRowUp(stack.generateRowByTwo(playerRow));
         playerRow = stack.generateTwoBlocks();
-        data.newPlrRow = true;
     }
     else{
         //playerRow.destroy();
@@ -182,7 +123,7 @@ void GameModel::effectAfterMistakeTurn(){
             highScore = score;
             saveScoreToFile();
         }
-        data.gameOver = true;
+        gameOver = true;
     }
 }
 
