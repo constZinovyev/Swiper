@@ -21,8 +21,9 @@ public:
     CSprite* getSprite()    {return buttonSprite;}
     void renderText();
     bool isPressed(int x = -1, int y = -1);
-    friend class CTween;
-    friend class CTweenManager;
     Button(Scene*,float,float,CIw2DImage*,string);
     ~Button();
+    
+    friend class CTween;
+    friend class CTweenManager;
 };

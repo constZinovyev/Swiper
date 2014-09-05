@@ -1,8 +1,8 @@
 #include "PlayScene.h"
 
 void PlayScene::scoreToString(){
-    int scoreInt = modelForView.getScore();
-    int best = modelForView.getHighScore();
+    int scoreInt = dataFromModel.score;
+    int best = dataFromModel.highScore;
     std::stringstream s1;
     s1 << scoreInt;
     score = s1.str();
@@ -13,6 +13,7 @@ void PlayScene::scoreToString(){
 }
 
 void PlayScene::RenderText(){
+    
     if (!m_IsInputActive)
         return;
     if (currentDevice.isSimulator){
@@ -33,7 +34,7 @@ void PlayScene::RenderText(){
     IwGxFontSetFont(g_pResources->getFont());
     IwGxFontDrawText(score.c_str(),score.size());
     
-    if (modelForView.isGameOver()){
+    if (dataFromModel.gameOver){
         IwGxFontSetCol(0xff000000);
         float width = backAfterDie->m_W*backAfterDie->m_ScaleX;
         float height = backAfterDie->m_H*backAfterDie->m_ScaleY;
@@ -53,26 +54,91 @@ void PlayScene::RenderText(){
     }
 }
 
+/*
 void PlayScene::updateFromModel(){
     scoreToString();
-    playerBlc.setChanged(modelForView.getBlockChanged());
-    modelForView.resetBlockChanged();
-    field.updateField(modelForView.getStack());
-    playerBlc.updateBlocks(modelForView.getPlayerRow());
+    playerBlc.setChanged(modelForView->getBlockChanged());
+    modelForView->resetBlockChanged();
+    field.updateField(modelForView->getStack());
+    playerBlc.updateBlocks(modelForView->getPlayerRow());
     playerBlc.setChanged(modelForView.getBlockChanged());
 }
+*/
 
 void PlayScene::Update(float deltaTime, float alphaMul){
     if (!m_IsActive)
         return;
-    Scene::Update(deltaTime, alphaMul);
     //UPDATE SCORE, PLR BLOCK, FIELD
-    updateFromModel();
-    
+    //updateFromModel();
+    if(field.clearUpRow){
+        field.clearUpRow = false;
+        field.delUpRow();
+    }
+    if(dataFromModel.fieldUp){
+        
+        dataFromModel.fieldUp = false;
+    }
+    if (dataFromModel.correctTurn){
+        dataFromModel.correctTurn = false;
+        field.animCorrectTurn(dataFromModel.plrBlocks, playerBlc);
+        
+    }
+    if (dataFromModel.inCorrectTurn){
+        dataFromModel.inCorrectTurn = false;
+        field.animInCorrectTurn(dataFromModel.plrBlocks,playerBlc);
+        
+    }
+    if (dataFromModel.newPlrRow){
+        std::cout<<"NEW BLOCKS"<<std::endl;
+        dataFromModel.newPlrRow = false;
+        playerBlc.updateNewBlocks(dataFromModel.plrBlocks);
+        playerBlc.animNewBlocks();
+        
+        
+    }
+    if(dataFromModel.newRowDown){
+        dataFromModel.newRowDown = false;
+        field.animNewRowDown(dataFromModel.field);
+        //Scene::Update(deltaTime, alphaMul);
+    }
+    if(dataFromModel.blockSwap){
+        dataFromModel.blockSwap = false;
+        std::cout<<"SWAP"<<std::endl;
+        playerBlc.animSwapBlocks();
+
+    }
+    if(dataFromModel.twoLeft){
+        dataFromModel.twoLeft = false;
+        std::cout<<"2 LEFT"<<std::endl;
+        playerBlc.animMoveTwoLeft();
+
+    }
+    if(dataFromModel.twoRight){
+        dataFromModel.twoRight = false;
+        std::cout<<"2 RIGHT"<<std::endl;
+        playerBlc.animMoveTwoRight();
+
+    }
+    if(dataFromModel.oneLeft){
+        dataFromModel.oneLeft = false;
+        std::cout<<"1 LEFT"<<std::endl;
+        playerBlc.animMoveOneLeft();
+
+    }
+    if(dataFromModel.oneRight){
+        dataFromModel.oneRight = false;
+        std::cout<<"1 RIGHT"<<std::endl;
+        playerBlc.animMoveOneRight();
+    }
+    if(dataFromModel.newGame){
+        dataFromModel.newGame = false;
+        field.clearField();
+    }
     //IN GAME
     if (m_IsInputActive && m_Manager->GetCurrent() == this){
-        g_pController->Update();
+        
     }
+                Scene::Update(deltaTime, alphaMul);
 }
 
 void PlayScene::Render(){
@@ -97,12 +163,10 @@ void PlayScene::hideAfterDieMenu(){
     buttonInfo->setPosition(out, out);
     backAfterDie->m_X = out;
     backAfterDie->m_Y = out;
-    modelForView.newGame();
 }
-PlayScene::PlayScene(){
+PlayScene::PlayScene(DataForView& data):dataFromModel(data){
     Scene::Init();
     //INIT BACKGROUND
-    
     background = new CSprite();
     background->m_X = 0;
     background->m_Y = 0;
@@ -140,10 +204,8 @@ PlayScene::PlayScene(){
             }
     
     //FIRST RENDER
-    field.updateField(modelForView.getStack());
-    playerBlc.updateBlocks(modelForView.getPlayerRow());
-    
-    
+    //field.updateField(modelForView->getStack());
+    //playerBlc.updateBlocks(modelForView->getPlayerRow());
 }
 
 PlayScene::~PlayScene(){
@@ -197,7 +259,8 @@ void PlayScene::setupTextSimulator(){
     float height = width;
     float x = Iw2DGetSurfaceWidth()/20.0;
     float y = Iw2DGetSurfaceHeight()*9/10.0;
-    IwGxFontSetRect(CIwRect(x,y,width,height));}
+    IwGxFontSetRect(CIwRect(x,y,width,height));
+}
 
 void PlayScene::setupTextIphone4(){
     float width = Iw2DGetSurfaceWidth()/10.0;
