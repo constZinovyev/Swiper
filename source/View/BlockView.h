@@ -12,6 +12,7 @@ public:
     BlockView* operator=(CSprite* arg);
     BlockView(const BlockView&);
     CSprite* getSprite(){return block;}
+    bool isEmpty();
     BlockView();
     ~BlockView() {}
     void            setupViewSimulator();

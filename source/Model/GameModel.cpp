@@ -38,7 +38,7 @@ void GameModel::loadHighScore(){
     if (errorSecureStorage == S3E_SECURESTORAGE_ERR_NONE)
     {
         //std::cout << "NO PROBLEM" << std::endl;
-        std::cout << highScore << std::endl;
+        //std::cout << highScore << std::endl;
     }else {
         highScore = 0;
         std::cout << "ERROR OPEN FILE TO HIGHSCORE" << std::endl;
@@ -129,8 +129,10 @@ void GameModel::effectClearButton(){
 }
 
 void GameModel::updateTimer(){
-    if (GameModel::stopTimer)
+    if (GameModel::stopTimer){
+        std::cout<<"STOPTIMER"<<std::endl;
         return;
+    }
     ++timer;
     if(timer % speedBlocks == 0){
         effectIntTimer();

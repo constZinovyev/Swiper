@@ -4,9 +4,9 @@
 #include "IwTween.h"
 using namespace IwTween;
 
-#define FRAME_RATE 30
-#define MAX_SPEED 100
-#define MIN_SPEED 24
+#define FRAME_RATE 60
+#define MAX_SPEED 200
+#define MIN_SPEED 48
 #define STEP_SCORE_UP_SPEED 10
 //STATE?
 
@@ -25,6 +25,7 @@ class  DataForView{
     bool newGame;
     bool correctTurn;
     bool inCorrectTurn;
+    
     int score;
     int highScore;
     vector<int> plrBlocks;
@@ -58,8 +59,8 @@ public:
     void effectIntTimer();
     void effectClearButton();
     void updateTimer();
-    static void disactivateTimer() {stopTimer = true;}
-    static void activateTimer(){stopTimer = false;}
+    static void disactivateTimer(CTween* Tween) {stopTimer = true;}//std::cout << stopTimer<<std::endl;}
+    static void activateTimer(CTween*  Tween){stopTimer = false;}//std::cout << stopTimer<<std::endl;}
     
     void saveScoreToFile();
     void addScore(int i = 1);

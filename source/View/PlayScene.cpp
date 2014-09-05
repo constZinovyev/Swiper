@@ -70,7 +70,10 @@ void PlayScene::Update(float deltaTime, float alphaMul){
         return;
     //UPDATE SCORE, PLR BLOCK, FIELD
     //updateFromModel();
-    
+    if(field.clearUpRow){
+        field.clearUpRow = false;
+        field.delUpRow();
+    }
     if(dataFromModel.fieldUp){
         
         dataFromModel.fieldUp = false;
@@ -80,16 +83,17 @@ void PlayScene::Update(float deltaTime, float alphaMul){
         field.animCorrectTurn(dataFromModel.plrBlocks, playerBlc);
         
     }
+    if (dataFromModel.inCorrectTurn){
+        dataFromModel.inCorrectTurn = false;
+        field.animInCorrectTurn(dataFromModel.plrBlocks,playerBlc);
+        
+    }
     if (dataFromModel.newPlrRow){
         std::cout<<"NEW BLOCKS"<<std::endl;
         dataFromModel.newPlrRow = false;
         playerBlc.updateNewBlocks(dataFromModel.plrBlocks);
         playerBlc.animNewBlocks();
         
-        
-    }
-    if (dataFromModel.inCorrectTurn){
-        dataFromModel.inCorrectTurn = false;
         
     }
     if(dataFromModel.newRowDown){

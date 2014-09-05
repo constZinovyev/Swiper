@@ -58,6 +58,7 @@ void Controller::controlMenuScene(){
 
 void Controller::controlPlayScene(){
     PlayScene* play = (PlayScene*)g_pSceneManager->Find("play");
+    
     if (!gameModel.isGameOver()){
         gameModel.updateTimer();
         if (g_pInput->isSwipeLeft()){

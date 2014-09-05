@@ -30,7 +30,7 @@ public:
 int a::b;
 
 // FRAME_TIME is the amount of time that a single frame should last in seconds
-#define FRAME_TIME  (30.0f / 1000.0f)
+#define FRAME_TIME  (15.0f / 1000.0f)
 int main()
 {
     srand(time(NULL));

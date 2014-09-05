@@ -26,13 +26,16 @@ class FieldView{
     void            setupViewSimulator();
     void            setupViewIphone5();
     void            setupViewIphone4();
+    static bool clearUpRow;
     
 public:
     FieldView();
+    static void onCompleteAfterCorrect(CTween* Tween) {clearUpRow = true;GameModel::activateTimer(Tween);}
     void updateField(vector<vector<int> >);
     void addToScene(Scene*);
     void fieldOneRowUp();
     void animFieldUp();
+    void delUpRow();
     void animNewRowDown(vector<vector<int> >);
     void animCorrectTurn(vector<int>,PlayerBlocks&);
     void animInCorrectTurn(vector<int>,PlayerBlocks&);

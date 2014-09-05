@@ -1,6 +1,8 @@
 #include "FieldView.h"
 //#include <iostream>
+bool FieldView::clearUpRow;
 FieldView::FieldView(){
+    clearUpRow = false;
     if (currentDevice.isIphone5){
         setupViewIphone5();
     }else if(currentDevice.isIphone4){
@@ -17,7 +19,7 @@ FieldView::FieldView(){
         newDownRow[i].setColor(1,1);
     }*/
     //CAtlas*      img = g_pResources->getFromFirstToSecond(1,1);
-    for (int i = 0; i < MAX_SIZE_LIST; ++i){
+    for (int i = 0; i < MAX_SIZE_LIST+1; ++i){
         field.push_back(vector<BlockView>());
         for(int j = 0; j < MAX_LEN_ROW; ++j)
         {
@@ -119,21 +121,39 @@ void FieldView::animCorrectTurn(vector<int> vecPLr,PlayerBlocks& plr){
         std::cout << "ERROR 100" << std::endl;
         return;
     }
-                std::cout<<firstNotEmptyRow<<std::endl;
+    std::cout<<firstNotEmptyRow<<std::endl;
+    //PROBLEM
+    firstNotEmptyRow++;
     for (int i = 0;i < MAX_LEN_ROW; ++i){
         
         field[firstNotEmptyRow][i].getSprite()->SetAtlas(plr.plrBlc[i].getSprite()->GetAtlas());
-        newPosY = field[firstNotEmptyRow][i].getSprite()->m_Y;
-        //field[firstNotEmptyRow][i].getSprite()->m_X = plr.plrBlc[i].getSprite()->m_X;
-        field[firstNotEmptyRow][i].getSprite()->m_Y = plr.plrBlc[i].getSprite()->m_Y;
+        newPosY = (float)field[firstNotEmptyRow-1][i].getSprite()->m_Y;
+        field[firstNotEmptyRow][i].getSprite()->m_Y = (float)plr.plrBlc[i].getSprite()->m_Y;
         plr.plrBlc[i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond());
-        g_pTweener->Tween(0.3f,FLOAT,&field[firstNotEmptyRow][i].getSprite()->m_Y,newPosY,END);
+        g_pTweener->Tween(1.0f,FLOAT,&field[firstNotEmptyRow][i].getSprite()->m_Y,newPosY*1.0f,ONSTART,GameModel::disactivateTimer,ONCOMPLETE,onCompleteAfterCorrect,END);
     }
 }
 
+void FieldView::delUpRow(){
+    int firstNotEmptyRow = -1;
+    float newPosY = 0;
+    for (int i = field.size()-1; i >= 0; --i){
+        if (field[i][0].getSprite()->GetAtlas() != g_pResources->getFromFirstToSecond(0,0) || field[i][2].getSprite()->GetAtlas() != g_pResources->getFromFirstToSecond(0,0))
+        {
+            firstNotEmptyRow = i;
+            break;
+        }
+    }
+    for (int j = field.size()-1; j >=firstNotEmptyRow-1;--j)
+    for (int i = 0;i < MAX_LEN_ROW; ++i){
+        field[j][i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond());
+    }
+
+}
 
 void FieldView::animInCorrectTurn(vector<int>vecPLr,PlayerBlocks& plr){
     int firstEmptyRow = -1;
+    float newPosY = 0;
     for (int i =  0; i < field.size(); ++i){
         if (field[i][0].getSprite()->GetAtlas() == g_pResources->getFromFirstToSecond(0,0))
         {
@@ -144,8 +164,51 @@ void FieldView::animInCorrectTurn(vector<int>vecPLr,PlayerBlocks& plr){
     if (firstEmptyRow == -1){
         std::cout << "EXIT FROM ANIMINCORRECTTURN" << std::endl;
         return;
-
     }
+    int emptyCell = -1;
+    for (int i = 0; i < MAX_LEN_ROW; ++i){
+        if (plr.plrBlc[i].getSprite()->GetAtlas() == g_pResources->getFromFirstToSecond(0,0)){
+            emptyCell = i;
+            break;
+        }
+    }
+    for (int i = 0;i < MAX_LEN_ROW; ++i){
+        field[firstEmptyRow][i].getSprite()->SetAtlas(plr.plrBlc[i].getSprite()->GetAtlas());
+        newPosY = field[firstEmptyRow][i].getSprite()->m_Y;
+        field[firstEmptyRow][i].getSprite()->m_Y = plr.plrBlc[i].getSprite()->m_Y;
+        plr.plrBlc[i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond());
+        if (emptyCell != i)
+            g_pTweener->Tween(0.3f,FLOAT,&field[firstEmptyRow][i].getSprite()->m_Y,newPosY,ONSTART,GameModel::disactivateTimer,ONCOMPLETE,GameModel::activateTimer,END);
+        else {
+            field[firstEmptyRow][emptyCell].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond(1,1));
+        }
+        
+    }
+    float scale = field[0][0].getSprite()->m_ScaleX;
+    if (emptyCell == 0){
+        
+        field[firstEmptyRow][emptyCell].getSprite()->m_X =  -g_pResources->getFromFirstToSecond()->GetFrameWidth();
+        field[firstEmptyRow][emptyCell].getSprite()->m_Y = newPosY;
+        std::cout << "!!!" <<xOrigin << std::endl;
+        g_pTweener->Tween(0.1f,FLOAT,&field[firstEmptyRow][emptyCell].getSprite()->m_X,(float)xOrigin,END);
+        
+    }else if (emptyCell == 1){
+        
+        field[firstEmptyRow][emptyCell].getSprite()->m_X = xOrigin + emptyCell*xBetweenBLock + g_pResources->getFromFirstToSecond()->GetFrameWidth()*scale;
+        field[firstEmptyRow][emptyCell].getSprite()->m_Y = - 2*g_pResources->getFromFirstToSecond()->GetFrameHeight();
+        g_pTweener->Tween(0.1f,FLOAT,&field[firstEmptyRow][emptyCell].getSprite()->m_Y,newPosY,END);
+        
+    }else if (emptyCell == 2){
+        
+        field[firstEmptyRow][emptyCell].getSprite()->m_X = IwGxGetScreenWidth() + 2 * g_pResources->getFromFirstToSecond()->GetFrameWidth();
+        field[firstEmptyRow][emptyCell].getSprite()->m_Y = newPosY;
+        g_pTweener->Tween(0.1f,FLOAT,&field[firstEmptyRow][emptyCell].getSprite()->m_X,
+                          xOrigin + emptyCell * g_pResources->getFromFirstToSecond()->GetFrameWidth()*scale + emptyCell * xBetweenBLock,END);
+        
+    }
+    
+    
+    
 }
 
 void PlayerBlocks::updateNewBlocks(vector<int> clr){
