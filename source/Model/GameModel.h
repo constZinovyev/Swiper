@@ -35,6 +35,7 @@ class  DataForView{
 public:
     DataForView();
     void Reset();
+    void print();
 };
 
 class GameModel{

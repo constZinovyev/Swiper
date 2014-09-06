@@ -13,7 +13,7 @@ void BlockView::setColor(int clrBlock,int nextClrBlock){
 }
 
 BlockView* BlockView::operator=(CSprite* snd){
-    std::cout<<"OPER="<<std::endl;
+   // std::cout<<"OPER="<<std::endl;
     return this;
 }
 bool BlockView::isEmpty(){
@@ -21,7 +21,7 @@ bool BlockView::isEmpty(){
 }
 BlockView::BlockView(const BlockView& copy){
     block = copy.block;
-    std::cout<< "COPY"<<std::endl;
+    //std::cout<< "COPY"<<std::endl;
 }
 
 BlockView::BlockView(){

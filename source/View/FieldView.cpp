@@ -1,8 +1,16 @@
 #include "FieldView.h"
 //#include <iostream>
 bool FieldView::clearUpRow;
+bool FieldView::animProcessFallDown;
+bool FieldView::animProcessNewDownRow;
+void FieldView::print(){
+    std::cout << "{{{{{{{{{{{{{{{" << std :: endl;
+    for (int i = field.size()-1; i >= 0; --i){
+        std :: cout << i << " " << field[i][0].getSprite()->m_Y << std::endl;
+    }
+    std::cout << "}}}}}}}}}}}}}}}" << std :: endl;
+}
 FieldView::FieldView(){
-    clearUpRow = false;
     if (currentDevice.isIphone5){
         setupViewIphone5();
     }else if(currentDevice.isIphone4){
@@ -25,13 +33,12 @@ FieldView::FieldView(){
         {
             field[i].push_back(BlockView());
             float x = xOrigin + j*w*field[i][j].getSprite()->m_ScaleX + j*xBetweenBLock;
-            float y = yOrigin - (i-1)*h*field[i][j].getSprite()->m_ScaleY - (i-1)*yBetweenBLock;;
+            float y = yOrigin - (i)*h*field[i][j].getSprite()->m_ScaleY - (i)*yBetweenBLock;;
             //std::cout << x << " " <<y << std::endl;
             field[i][j].setCoord(x,y);
-            field[i][j].setColor(0,0);
         }
-        
     }
+    clearField();
 }
 
 void FieldView::updateField(vector<vector<int> > temp){
@@ -41,12 +48,18 @@ void FieldView::updateField(vector<vector<int> > temp){
             field[i][j].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond(temp[i][j],temp[i][j]));
         }
 }
+
 //WITHOUS FIRST ROW
 void FieldView::clearField(){
+    
     for(int i =1; i < field.size();++i)
         for(int j =0; j < field[i].size();++j)
             field[i][j].setColor(0,0);
+    clearUpRow = false;
+    animProcessFallDown = false;
+    animProcessNewDownRow = false;
 }
+
 void FieldView::addToScene(Scene* scn){
     for(int i =0; i < field.size();++i)
         for(int j =0; j < field[i].size();++j)
@@ -55,32 +68,25 @@ void FieldView::addToScene(Scene* scn){
         scn->AddChild(newDownRow[i].getSprite());
 */
 }
+
 void FieldView::fieldOneRowUp(){
     for(int i = field.size()-1; i >0; --i)
         for (int j = 0; j < field[i].size(); ++j) {
 
-            field[i][j].setCoord(field[i-1][j].getSprite()->m_X, field[i-1][j].getSprite()->m_Y);
+            field[i][j].getSprite()->m_X = field[i-1][j].getSprite()->m_X;
+            field[i][j].getSprite()->m_Y = field[i-1][j].getSprite()->m_Y;
             field[i][j].getSprite()->SetAtlas(field[i-1][j].getSprite()->GetAtlas());
         }
 }
 void FieldView::animFieldUp(){
-    
-    /*for(int i = field.size()-1; i >0; ++i){
-     field[i] = field[i-1];
-     }*/
-    /*field[4] = field[3];
-    field[3] = field[2];
-    field[2] = field[1];
-    field[1] = field[0];*/
     fieldOneRowUp();
     float sizeCell = g_pResources->getFromFirstToSecond(1,1)->GetFrameHeight()*field[0][0].getSprite()->m_ScaleY;
     for(int i = 1; i < field.size(); ++i)
         for (int j = 0; j < field[i].size(); ++j) {
             float nextPos = field[i][j].getSprite()->m_Y - yBetweenBLock - sizeCell;
-            g_pTweener->Tween(0.3f,FLOAT,&field[i][j].getSprite()->m_Y,nextPos,END);
+            g_pTweener->Tween(0.2f,FLOAT,&field[i][j].getSprite()->m_Y,nextPos,END);
         }
 }
-int t = 0;
 void FieldView::animNewRowDown(vector<vector<int> > temp){
     //clearField();
     animFieldUp();
@@ -102,11 +108,15 @@ void FieldView::animNewRowDown(vector<vector<int> > temp){
         for(int i =0; i < temp[0].size();++i){
             field[0][i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond(temp[0][i],temp[0][i]));
         }
+    animProcessNewDownRow = true;
     g_pTweener->Tween(0.2f,FLOAT,&field[0][first].getSprite()->m_Y,(float)yOrigin,END);
-    g_pTweener->Tween(0.4f,FLOAT,&field[0][second].getSprite()->m_Y,(float)yOrigin,END);
-    g_pTweener->Tween(0.6f,FLOAT,&field[0][third].getSprite()->m_Y,(float)yOrigin,END);
+    g_pTweener->Tween(0.3f,FLOAT,&field[0][second].getSprite()->m_Y,(float)yOrigin,END);
+    g_pTweener->Tween(0.4f,FLOAT,&field[0][third].getSprite()->m_Y,(float)yOrigin,ONCOMPLETE,FieldView::afterAnimNewRowDown,END);
 }
 
+void FieldView::afterAnimNewRowDown(CTween* Tween){
+    animProcessNewDownRow = false;
+}
 void FieldView::animCorrectTurn(vector<int> vecPLr,PlayerBlocks& plr){
     int firstNotEmptyRow = -1;
     float newPosY = 0;
@@ -121,7 +131,7 @@ void FieldView::animCorrectTurn(vector<int> vecPLr,PlayerBlocks& plr){
         std::cout << "ERROR 100" << std::endl;
         return;
     }
-    std::cout<<firstNotEmptyRow<<std::endl;
+    //std::cout<<firstNotEmptyRow<<std::endl;
     //PROBLEM
     firstNotEmptyRow++;
     for (int i = 0;i < MAX_LEN_ROW; ++i){
@@ -130,11 +140,13 @@ void FieldView::animCorrectTurn(vector<int> vecPLr,PlayerBlocks& plr){
         newPosY = (float)field[firstNotEmptyRow-1][i].getSprite()->m_Y;
         field[firstNotEmptyRow][i].getSprite()->m_Y = (float)plr.plrBlc[i].getSprite()->m_Y;
         plr.plrBlc[i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond());
-        g_pTweener->Tween(1.0f,FLOAT,&field[firstNotEmptyRow][i].getSprite()->m_Y,newPosY*1.0f,ONSTART,GameModel::disactivateTimer,ONCOMPLETE,onCompleteAfterCorrect,END);
+        g_pTweener->Tween(0.3f,FLOAT,&field[firstNotEmptyRow][i].getSprite()->m_Y,newPosY*1.0f,ONSTART,GameModel::disactivateTimer,ONCOMPLETE,onCompleteAfterCorrect,END);
     }
+    animProcessFallDown = true;
 }
 
 void FieldView::delUpRow(){
+        std::cout << "CORRECT" << std::endl;
     int firstNotEmptyRow = -1;
     float newPosY = 0;
     for (int i = field.size()-1; i >= 0; --i){
@@ -148,23 +160,31 @@ void FieldView::delUpRow(){
     for (int i = 0;i < MAX_LEN_ROW; ++i){
         field[j][i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond());
     }
-
+    float h = g_pResources->getFromFirstToSecond(1, 1)->GetFrameHeight();
+    for (int i = 0;i < MAX_LEN_ROW; ++i){
+        field[firstNotEmptyRow][i].getSprite()->m_Y = yOrigin - firstNotEmptyRow*h*field[firstNotEmptyRow][i].getSprite()->m_ScaleY - firstNotEmptyRow*yBetweenBLock;
+    }
+    
+    
 }
 
-void FieldView::animInCorrectTurn(vector<int>vecPLr,PlayerBlocks& plr){
+void FieldView::animInCorrectTurn(vector<int>vecPLr,PlayerBlocks& plr,vector<vector<int> >& fieldFromModel){
+    std::cout << "INCORRECT" << std::endl;
     int firstEmptyRow = -1;
     float newPosY = 0;
     for (int i =  0; i < field.size(); ++i){
-        if (field[i][0].getSprite()->GetAtlas() == g_pResources->getFromFirstToSecond(0,0))
+        if (field[i][0].getSprite()->GetAtlas() == g_pResources->getFromFirstToSecond(0,0) && field[i][2].getSprite()->GetAtlas() == g_pResources->getFromFirstToSecond(0,0))
         {
             firstEmptyRow = i;
             break;
         }
     }
+    //std::cout << firstEmptyRow+1 << std ::endl;
     if (firstEmptyRow == -1){
         std::cout << "EXIT FROM ANIMINCORRECTTURN" << std::endl;
         return;
     }
+    
     int emptyCell = -1;
     for (int i = 0; i < MAX_LEN_ROW; ++i){
         if (plr.plrBlc[i].getSprite()->GetAtlas() == g_pResources->getFromFirstToSecond(0,0)){
@@ -172,45 +192,49 @@ void FieldView::animInCorrectTurn(vector<int>vecPLr,PlayerBlocks& plr){
             break;
         }
     }
+    std::cout << "firstEmptyRow " << firstEmptyRow << std :: endl;
     for (int i = 0;i < MAX_LEN_ROW; ++i){
         field[firstEmptyRow][i].getSprite()->SetAtlas(plr.plrBlc[i].getSprite()->GetAtlas());
         newPosY = field[firstEmptyRow][i].getSprite()->m_Y;
         field[firstEmptyRow][i].getSprite()->m_Y = plr.plrBlc[i].getSprite()->m_Y;
         plr.plrBlc[i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond());
         if (emptyCell != i)
-            g_pTweener->Tween(0.3f,FLOAT,&field[firstEmptyRow][i].getSprite()->m_Y,newPosY,ONSTART,GameModel::disactivateTimer,ONCOMPLETE,GameModel::activateTimer,END);
+            g_pTweener->Tween(0.3f,FLOAT,&field[firstEmptyRow][i].getSprite()->m_Y,newPosY,ONSTART,GameModel::disactivateTimer,ONCOMPLETE,onCompleteAfterInCorrect,END);
         else {
-            field[firstEmptyRow][emptyCell].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond(1,1));
+            int clr = -1;
+            if (firstEmptyRow> 4 || firstEmptyRow < 0)
+                clr = 0;
+            else  clr = fieldFromModel[firstEmptyRow][emptyCell];
+            field[firstEmptyRow][emptyCell].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond(clr,clr));
         }
         
     }
+    //std::cout <<firstEmptyRow+1<<" " << newPosY << std :: endl;
     float scale = field[0][0].getSprite()->m_ScaleX;
     if (emptyCell == 0){
         
         field[firstEmptyRow][emptyCell].getSprite()->m_X =  -g_pResources->getFromFirstToSecond()->GetFrameWidth();
         field[firstEmptyRow][emptyCell].getSprite()->m_Y = newPosY;
-        std::cout << "!!!" <<xOrigin << std::endl;
-        g_pTweener->Tween(0.1f,FLOAT,&field[firstEmptyRow][emptyCell].getSprite()->m_X,(float)xOrigin,END);
+        g_pTweener->Tween(0.3f,FLOAT,&field[firstEmptyRow][emptyCell].getSprite()->m_X,(float)xOrigin,END);
         
     }else if (emptyCell == 1){
         
         field[firstEmptyRow][emptyCell].getSprite()->m_X = xOrigin + emptyCell*xBetweenBLock + g_pResources->getFromFirstToSecond()->GetFrameWidth()*scale;
         field[firstEmptyRow][emptyCell].getSprite()->m_Y = - 2*g_pResources->getFromFirstToSecond()->GetFrameHeight();
-        g_pTweener->Tween(0.1f,FLOAT,&field[firstEmptyRow][emptyCell].getSprite()->m_Y,newPosY,END);
+        g_pTweener->Tween(0.3f,FLOAT,&field[firstEmptyRow][emptyCell].getSprite()->m_Y,newPosY,END);
         
     }else if (emptyCell == 2){
         
         field[firstEmptyRow][emptyCell].getSprite()->m_X = IwGxGetScreenWidth() + 2 * g_pResources->getFromFirstToSecond()->GetFrameWidth();
         field[firstEmptyRow][emptyCell].getSprite()->m_Y = newPosY;
-        g_pTweener->Tween(0.1f,FLOAT,&field[firstEmptyRow][emptyCell].getSprite()->m_X,
+        g_pTweener->Tween(0.3f,FLOAT,&field[firstEmptyRow][emptyCell].getSprite()->m_X,
                           xOrigin + emptyCell * g_pResources->getFromFirstToSecond()->GetFrameWidth()*scale + emptyCell * xBetweenBLock,END);
         
     }
     
     
-    
+    animProcessFallDown = true;
 }
-
 void PlayerBlocks::updateNewBlocks(vector<int> clr){
     int emptyBlc = 0;
     

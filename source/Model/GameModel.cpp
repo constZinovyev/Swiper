@@ -19,6 +19,22 @@ DataForView::DataForView(){
     plrBlocks.clear();
     field.clear();
 }
+void DataForView::print(){
+    if ((/*blockSwap || oneLeft || oneRight || twoLeft || twoRight ||*/ gameOver||newPlrRow||newRowDown||correctTurn||inCorrectTurn) == false)
+        return;
+    std :: cout << "{{{{{{{{{{{{{{{{{{{{{{{{"  << std::endl;
+    //std :: cout << "blockSwap "<<blockSwap<< std::endl;
+        //std :: cout << "oneLeft "<< oneLeft<< std::endl;
+        //std :: cout << "oneRight "<<oneRight<< std::endl;
+        //std :: cout << "twoLeft "<<twoLeft<< std::endl;
+        //std :: cout << "twoRight "<<twoRight<< std::endl;
+        std :: cout << "gameOver "<<gameOver<< std::endl;
+        std :: cout << "newPlrRow "<<newPlrRow<< std::endl;
+        std :: cout << "newRowDown "<<newRowDown<< std::endl;
+        std :: cout << "correctTurn "<<correctTurn<< std::endl;
+        std :: cout << "inCorrectTurn "<<inCorrectTurn<< std::endl;
+        std :: cout << "}}}}}}}}}}}}}}}}}}}}}}}}}}"<< std::endl;
+}
 
 void DataForView::Reset(){
     *this = DataForView();
@@ -130,7 +146,7 @@ void GameModel::effectClearButton(){
 
 void GameModel::updateTimer(){
     if (GameModel::stopTimer){
-        std::cout<<"STOPTIMER"<<std::endl;
+        //std::cout<<"STOPTIMER"<<std::endl;
         return;
     }
     ++timer;
@@ -162,6 +178,7 @@ void GameModel::effectAfterCorrectTurn(){
     if(stack.size() == 0){
         stack.addRowDown(stack.generateRow());
         data.newRowDown = true;
+        timer = 1;
     }
     playerRow = stack.generateTwoBlocks();
     data.newPlrRow = true;

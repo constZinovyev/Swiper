@@ -22,15 +22,26 @@ class FieldView{
     int yBetweenBLock;
     friend class PlayScene;
     friend class MainScene;
-    void            clearField();
-    void            setupViewSimulator();
-    void            setupViewIphone5();
-    void            setupViewIphone4();
+    void         clearField();
+    void         setupViewSimulator();
+    void         setupViewIphone5();
+    void         setupViewIphone4();
     static bool clearUpRow;
+    static bool animProcessFallDown;
+    static bool animProcessNewDownRow;
     
 public:
     FieldView();
-    static void onCompleteAfterCorrect(CTween* Tween) {clearUpRow = true;GameModel::activateTimer(Tween);}
+    static void onCompleteAfterCorrect(CTween* Tween) {
+        clearUpRow = true;
+        animProcessFallDown = false;
+        GameModel::activateTimer(Tween);
+    }
+        static void onCompleteAfterInCorrect(CTween* Tween) {
+            animProcessFallDown = false;
+            GameModel::activateTimer(Tween);
+        }
+    static void afterAnimNewRowDown(CTween* Tween);
     void updateField(vector<vector<int> >);
     void addToScene(Scene*);
     void fieldOneRowUp();
@@ -38,8 +49,9 @@ public:
     void delUpRow();
     void animNewRowDown(vector<vector<int> >);
     void animCorrectTurn(vector<int>,PlayerBlocks&);
-    void animInCorrectTurn(vector<int>,PlayerBlocks&);
+    void animInCorrectTurn(vector<int>,PlayerBlocks&,vector<vector<int> >&);
     friend class PlayerBlocks;
+    void print();
 };
 
 class PlayerBlocks{

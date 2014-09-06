@@ -66,6 +66,10 @@ void MainScene::afterSwipeDown(CTween* Tween){
     //g_pInput->offIgnoreInput;
     PlayScene* game = (PlayScene*)g_pSceneManager->Find("play");
     g_pSceneManager->SwitchTo(game);
+//    g_pController->Update();
+//    g_pSceneManager->Update((15.0f / 1000.0f));
+//    g_pTweener->Update((15.0f / 1000.0f));
+    
     //g_pInput->Restart();
 }
 

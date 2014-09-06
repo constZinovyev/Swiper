@@ -33,7 +33,7 @@ int a::b;
 #define FRAME_TIME  (15.0f / 1000.0f)
 int main()
 {
-    srand(time(NULL));
+    //srand(time(NULL));
     // Initialise the 2D graphics syste
     Iw2DInit();
       // FONTS
@@ -93,7 +93,7 @@ int main()
         g_pSceneManager->Update(FRAME_TIME);
         g_pTweener->Update(FRAME_TIME);
         
-        Iw2DSurfaceClear(0xff0000ff);
+        //Iw2DSurfaceClear(0xff0000ff);
         g_pSceneManager->Render();
         //analise move, update model & update dataforviev
         Iw2DFinishDrawing();

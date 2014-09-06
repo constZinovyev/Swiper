@@ -54,80 +54,83 @@ void PlayScene::RenderText(){
     }
 }
 
-/*
+
 void PlayScene::updateFromModel(){
     scoreToString();
-    playerBlc.setChanged(modelForView->getBlockChanged());
-    modelForView->resetBlockChanged();
-    field.updateField(modelForView->getStack());
-    playerBlc.updateBlocks(modelForView->getPlayerRow());
-    playerBlc.setChanged(modelForView.getBlockChanged());
 }
-*/
+
 
 void PlayScene::Update(float deltaTime, float alphaMul){
     if (!m_IsActive)
         return;
     //UPDATE SCORE, PLR BLOCK, FIELD
     //updateFromModel();
+    //std::cout << dataFromModel.newPlrRow << " " << dataFromModel.correctTurn << " " << std::endl;
+    //std::cout << FieldView::animProcessNewDownRow << std::endl;
+    //dataFromModel.print();
+    
     if(field.clearUpRow){
         field.clearUpRow = false;
         field.delUpRow();
     }
-    if(dataFromModel.fieldUp){
-        
-        dataFromModel.fieldUp = false;
+    
+    
+    if (!dataFromModel.newRowDown && !FieldView::animProcessNewDownRow)
+    {
+        if (dataFromModel.correctTurn){
+            dataFromModel.correctTurn = false;
+            field.animCorrectTurn(dataFromModel.plrBlocks, playerBlc);
+        }
+        if (dataFromModel.inCorrectTurn ){
+            dataFromModel.inCorrectTurn = false;
+            field.print();
+            dataFromModel.print();
+            field.animInCorrectTurn(dataFromModel.plrBlocks,playerBlc,dataFromModel.field);
+            field.print();
+            dataFromModel.print();
+        }
+        if (dataFromModel.newPlrRow ){
+            //std::cout<<"NEW BLOCKS"<<std::endl;
+            dataFromModel.newPlrRow = false;
+            playerBlc.updateNewBlocks(dataFromModel.plrBlocks);
+            playerBlc.animNewBlocks();
+        }
     }
-    if (dataFromModel.correctTurn){
-        dataFromModel.correctTurn = false;
-        field.animCorrectTurn(dataFromModel.plrBlocks, playerBlc);
-        
-    }
-    if (dataFromModel.inCorrectTurn){
-        dataFromModel.inCorrectTurn = false;
-        field.animInCorrectTurn(dataFromModel.plrBlocks,playerBlc);
-        
-    }
-    if (dataFromModel.newPlrRow){
-        std::cout<<"NEW BLOCKS"<<std::endl;
-        dataFromModel.newPlrRow = false;
-        playerBlc.updateNewBlocks(dataFromModel.plrBlocks);
-        playerBlc.animNewBlocks();
-        
-        
-    }
-    if(dataFromModel.newRowDown){
+    //if (FieldView::downRowBusy)
+    //    std :: cout << "1" << std::endl;
+    
+    if(dataFromModel.newRowDown && !FieldView::animProcessFallDown){
         dataFromModel.newRowDown = false;
         field.animNewRowDown(dataFromModel.field);
         //Scene::Update(deltaTime, alphaMul);
     }
     if(dataFromModel.blockSwap){
         dataFromModel.blockSwap = false;
-        std::cout<<"SWAP"<<std::endl;
+        //std::cout<<"SWAP"<<std::endl;
         playerBlc.animSwapBlocks();
 
     }
     if(dataFromModel.twoLeft){
         dataFromModel.twoLeft = false;
-        std::cout<<"2 LEFT"<<std::endl;
+        ///std::cout<<"2 LEFT"<<std::endl;
         playerBlc.animMoveTwoLeft();
 
     }
     if(dataFromModel.twoRight){
         dataFromModel.twoRight = false;
-        std::cout<<"2 RIGHT"<<std::endl;
+        //std::cout<<"2 RIGHT"<<std::endl;
         playerBlc.animMoveTwoRight();
 
     }
     if(dataFromModel.oneLeft){
         dataFromModel.oneLeft = false;
-        std::cout<<"1 LEFT"<<std::endl;
+        //std::cout<<"1 LEFT"<<std::endl;
         playerBlc.animMoveOneLeft();
 
     }
     if(dataFromModel.oneRight){
         dataFromModel.oneRight = false;
-        std::cout<<"1 RIGHT"<<std::endl;
+        //std::cout<<"1 RIGHT"<<std::endl;
         playerBlc.animMoveOneRight();
     }
     if(dataFromModel.newGame){
@@ -138,11 +141,17 @@ void PlayScene::Update(float deltaTime, float alphaMul){
     if (m_IsInputActive && m_Manager->GetCurrent() == this){
         
     }
-                Scene::Update(deltaTime, alphaMul);
+    updateFromModel();
+    Scene::Update(deltaTime, alphaMul);
 }
 
 void PlayScene::Render(){
     Scene::Render();
+    if (this->m_IsVisible)
+    {
+        Scene* scn = g_pSceneManager->Find("main");
+        scn -> m_IsVisible = false;
+    }
 }
 
 void PlayScene::showAfterDieMenu(){
