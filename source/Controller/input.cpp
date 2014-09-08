@@ -24,9 +24,6 @@ Input* g_pInput = 0;
  */
 void Input::TouchButtonCB(s3ePointerEvent* event)
 {
-    if (g_pInput->ignoreInput)
-        return;
-    
     //std::cout<<"TOUCH"<<std::endl;
     g_pInput->m_PrevTouched = g_pInput->m_Touched;
     g_pInput->m_Touched = event->m_Pressed != 0;
@@ -62,8 +59,6 @@ void Input::TouchButtonCB(s3ePointerEvent* event)
 void Input::TouchMotionCB(s3ePointerMotionEvent* event)
 {
     //std::cout<<"MOTION"<<std::endl;
-    if (g_pInput->ignoreInput)
-        return;
     if (g_pInput->StartMotion){
         g_pInput->StartMotion = false;
         g_pInput->Motion = true;
@@ -111,8 +106,6 @@ void Input::TouchMotionCB(s3ePointerMotionEvent* event)
  */
 void Input::MultiTouchButtonCB(s3ePointerTouchEvent* event)
 {
-    if (g_pInput->ignoreInput)
-        return;
     g_pInput->m_PrevTouched = g_pInput->m_Touched;
     g_pInput->m_Touched = event->m_Pressed != 0;
     g_pInput->m_X = event->m_x;
@@ -146,8 +139,6 @@ void Input::MultiTouchMotionCB(s3ePointerTouchMotionEvent* event)
 
 {
     
-    if (g_pInput->ignoreInput)
-        return;
     if (g_pInput->StartMotion){
         g_pInput->StartMotion = false;
         g_pInput->Motion = true;
@@ -185,7 +176,6 @@ Input::Input() : m_X(0), m_Y(0), m_Touched(false), m_PrevTouched(false)
     ignoreSwipe = false;
     swipeLeft = false;
     swipeDown = false;
-    ignoreInput = false;
     swipeRight = false;
     FinishMotion = false;
     Motion = false;

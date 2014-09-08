@@ -17,8 +17,7 @@
 #include "IwGeom.h"
 
 #define MAX_TOUCHES     10
-class Input;
-extern Input* g_pInput;
+
 /**
  * @class Input
  *
@@ -55,10 +54,7 @@ public:
 
 public:
     bool            ignoreSwipe;
-    bool            ignoreInput;
     Input();
-    static void     onIgnoreInput() {g_pInput->ignoreInput = true;}
-    static void     offIgnoreInput(){g_pInput->ignoreInput = false;}
 
     /**
      * @fn    void Input::Update()
@@ -93,6 +89,7 @@ public:
     static void     MultiTouchMotionCB(s3ePointerTouchMotionEvent* event);
 };
 
+extern Input* g_pInput;
 
 
 #endif  // _INPUT_H

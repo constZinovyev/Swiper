@@ -44,7 +44,6 @@ int main()
     g_pTweener = new CTweenManager();
     g_pResources = new Resources();
     g_pInput = new Input();
-    g_pController = new Controller();
     
     PlayScene* play = new PlayScene();
     play->SetName("play");
@@ -63,7 +62,7 @@ int main()
     
 
     g_pSceneManager->SwitchTo(menu);
-    Iw2DSurfaceClear(0xff0000ff);
+                Iw2DSurfaceClear(0xff0000ff);
     //int i = 0;
     // Loop forever, until the user or the OS performs some action to quit the app
     while (!s3eDeviceCheckQuitRequest())
@@ -101,7 +100,6 @@ int main()
     delete g_pInput;
     delete g_pTweener;
     delete g_pSceneManager;
-    delete g_pController;
     IwGxFontTerminate();
     IwResManagerTerminate();
     IwGxTerminate();

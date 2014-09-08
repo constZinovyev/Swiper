@@ -4,7 +4,6 @@
 #include "Button.h"
 #include "PlayScene.h"
 #include "IwTween.h"
-#include "../Controller/Controller.h"
 using namespace IwTween;
 
 class MainScene:public Scene{
@@ -31,7 +30,6 @@ public:
     void            setupViewSimulator();
     void            setupViewIphone5();
     void            setupViewIphone4();
-    friend class Controller;
 };
 
 extern Device currentDevice;
