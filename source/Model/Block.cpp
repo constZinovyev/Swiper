@@ -1,5 +1,5 @@
 #include "Block.h"
-
+#include <iostream>
 bool Block::operator==(const Block& snd){
     return clr == snd.clr;
 }

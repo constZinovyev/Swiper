@@ -67,46 +67,11 @@ void PlayScene::Update(float deltaTime, float alphaMul){
         return;
     Scene::Update(deltaTime, alphaMul);
     //UPDATE SCORE, PLR BLOCK, FIELD
-    
     updateFromModel();
     
     //IN GAME
-    if (m_IsInputActive && !modelForView.isGameOver()){
-        modelForView.updateTimer();
-        if (g_pInput->isSwipeLeft()){
-            modelForView.motionLeft();
-            g_pInput->afterSwipeLeft();
-        }
-        else if (g_pInput->isSwipeRight()){
-            modelForView.motionRight();
-            g_pInput->afterSwipeRight();
-        }
-        else if (g_pInput->isSwipeDown()){
-            if (modelForView.isConform()){
-                modelForView.effectAfterCorrectTurn();
-            }
-            else{
-                modelForView.effectAfterMistakeTurn();
-            }
-            g_pInput->afterSwipeDown();
-        }
-        g_pInput->Reset();
-    }
-    //MENU AFTER DIE
-    if (modelForView.isGameOver()){
-        showAfterDieMenu();
-        if (m_IsInputActive && m_Manager->GetCurrent() == this){
-            if (g_pInput->isFinish()){
-                g_pInput->Reset();
-                if (buttonInfo->isPressed()){
-                    //ACTION
-                }
-                if (buttonRetry->isPressed()){
-                    hideAfterDieMenu();
-                    modelForView.newGame();
-                }
-            }
-        }
+    if (m_IsInputActive && m_Manager->GetCurrent() == this){
+        g_pController->Update();
     }
 }
 

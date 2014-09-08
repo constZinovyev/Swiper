@@ -14,7 +14,10 @@ class StackRow{
     //Row genRow;
 public:
     StackRow();
-    Row firstRow()         {return modelRowStack[modelRowStack.size()-1];}
+    Row firstRow()         {
+        //std :: cout << &modelRowStack[modelRowStack.size()-1][0]<<std :: endl;
+        //std :: cout << modelRowStack.size() << std :: endl;
+        return modelRowStack[modelRowStack.size()-1];}
     Row takeRow(int i)     {return modelRowStack[i];}
     void destroyRow()       {modelRowStack.pop_back();}
     void addRowDown(Row r); 
@@ -23,5 +26,8 @@ public:
     Row generateRow();
     Row generateTwoBlocks();
     Row generateRowByTwo(Row);
+    Row operator[](int i){
+        return modelRowStack[i];
+    }
     void destroyStack();
 };

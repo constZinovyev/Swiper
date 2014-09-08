@@ -18,6 +18,7 @@ public:
     void changeCol(int,Block);
     vector<int> getRowToInt();
     void destroy();
+    int size(){ return rowBlocks.size(); }
     ~Row(){}
 };
 

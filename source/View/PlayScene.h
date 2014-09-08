@@ -5,6 +5,7 @@
 #include "../Model/GameModel.h"
 #include "../Controller/input.h"
 #include "Button.h"
+#include "../Controller/Controller.h"
 #include <string>
 #include <sstream>
 
@@ -21,6 +22,7 @@ class PlayScene: public Scene{
     string score;
     string bestScore;
     friend class MainScene;
+    friend class Controller;
 public:
     PlayScene();
     ~PlayScene();

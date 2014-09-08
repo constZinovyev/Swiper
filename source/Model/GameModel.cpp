@@ -113,7 +113,9 @@ void GameModel::effectAfterCorrectTurn(){
 void GameModel::effectAfterMistakeTurn(){
     if (stack.size() < MAX_SIZE_LIST){
         //stack.addRowDown(stack.generateRow());
-        stack.addRowUp(stack.generateRowByTwo(playerRow));
+        Row temp = stack.generateRowByTwo(playerRow);
+        stack.addRowUp(temp);
+        std :: cout <<" "<<&stack[stack.size()-1][0] << " " <<&stack[stack.size()-1][1] << " " <<&stack[stack.size()-1][2] << " " <<std :: endl;
         playerRow = stack.generateTwoBlocks();
     }
     else{
