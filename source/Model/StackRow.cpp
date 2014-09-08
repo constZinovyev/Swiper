@@ -1,6 +1,6 @@
 #include "StackRow.h"
 #include "Iw2D.h"
-#include <iostream>
+
 Row StackRow::generateRow(){
     
     Row tempRow;
@@ -41,10 +41,7 @@ void StackRow::addRowDown(Row r){
 //ПРИВЯЗКА К СРЕДНЕМУ ЭЛЕМЕНТУ
 Row StackRow::generateTwoBlocks(){
     bool flag = false;
-    
     Row genRow = firstRow();
-//    std :: cout << &genRow<<" "<<&genRow[0] << " " <<&genRow[1] << " " <<&genRow[2] << " " <<std :: endl;
-//    std :: cout << genRow.size() << std :: endl;
     Row tempRow;
     do{
         tempRow = generateRow();
@@ -67,7 +64,6 @@ Row StackRow::generateTwoBlocks(){
         }else
         if (tempRow[2].isEmpty()){
             //std::cout<<"THIRD EMPTY"<<std::endl;
-//            std::cout << genRow[0] == tempRow[0] << std::endl;
             if ((genRow[0] == tempRow[0] || genRow[0] == tempRow[1])&&(genRow[2] == tempRow[0] || genRow[2] == tempRow[1]))
             {
                 flag = true;
@@ -80,7 +76,6 @@ Row StackRow::generateTwoBlocks(){
 }
 
 Row StackRow::generateRowByTwo(Row withEmpty){
-    Row temp = withEmpty;
     bool maskWithEmpty[COUNT_COLORS];
     int lastClr = 0;
     int posEmpty = 0;
@@ -88,18 +83,16 @@ Row StackRow::generateRowByTwo(Row withEmpty){
         maskWithEmpty[i] = false;
     }
     for (int i = 0; i < MAX_LEN_ROW; ++i){
-        maskWithEmpty[temp[i].getColor()] = true;
-        if (temp[i].isEmpty()){
+        maskWithEmpty[withEmpty[i].getColor()] = true;
+        if (withEmpty[i].isEmpty()){
             posEmpty = i;
         }
     }
     do{
         ++lastClr;
     }while(maskWithEmpty[lastClr]);
-    temp.changeCol(posEmpty, Block(ColorBlock(lastClr)));
-    std :: cout << "/////////////////////" << std :: endl;
-    std :: cout <<" "<<temp[0].getColor() << " " <<temp[1].getColor() << " " <<temp[2].getColor() << " " <<std :: endl;
-    return temp;
+    withEmpty.changeCol(posEmpty, Block(ColorBlock(lastClr)));
+    return withEmpty;
 }
 
 StackRow::StackRow(){
@@ -108,16 +101,10 @@ StackRow::StackRow(){
 }
 
 void StackRow::addRowUp(Row r)  {
-    Row temp = r;
-    std :: cout <<" "<<r[0].getColor() << " " <<r[1].getColor() << " " <<r[2].getColor() << " " <<std :: endl;
-    //std :: cout << r[0].getColor() << std :: endl;
-    if(modelRowStack.size()<MAX_SIZE_LIST){
+    if(modelRowStack.size()<MAX_SIZE_LIST)
         modelRowStack.push_back(r);
-        //std :: cout << &modelRowStack[modelRowStack.size()-1][0] << std :: endl;;
-    }
-    else{
+    else
         destroyStack();
-    }
 }
 void StackRow::destroyStack(){
     modelRowStack.clear();
