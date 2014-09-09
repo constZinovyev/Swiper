@@ -8,11 +8,11 @@
 #include "../Controller/Controller.h"
 #include <string>
 #include <sstream>
-
+#include <iostream>
 using std::string;
 
 class PlayScene: public Scene{
-    GameModel modelForView;
+    DataForView& dataFromModel;
     CSprite* background;
     CSprite* backAfterDie;
     Button* buttonInfo;
@@ -21,10 +21,12 @@ class PlayScene: public Scene{
     PlayerBlocks playerBlc;
     string score;
     string bestScore;
+    
     friend class MainScene;
     friend class Controller;
+    friend class FieldVied;
 public:
-    PlayScene();
+    PlayScene(DataForView&);
     ~PlayScene();
     void            UpdateView();
     void            Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
@@ -34,9 +36,11 @@ public:
     void            RenderText();
     void            showAfterDieMenu();
     void            hideAfterDieMenu();
+    
     void            setupViewSimulator();
     void            setupViewIphone5();
     void            setupViewIphone4();
+    
     void            setupTextSimulator();
     void            setupTextIphone5();
     void            setupTextIphone4();

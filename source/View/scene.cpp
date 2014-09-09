@@ -157,9 +157,10 @@ void SceneManager::SwitchTo(Scene* scene)
         
         m_Current->Update(0);
         m_Current->SetActive(false);
-        m_Current->m_IsVisible = false;
+        //m_Current->m_IsVisible = false;
         m_Current->m_X = - (float)IwGxGetScreenWidth();
         m_Current = m_Next;
+        //m_Current->Update();
         m_Next->m_X = 0;
         m_Next = 0;
     }
