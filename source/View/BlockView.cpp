@@ -35,6 +35,7 @@ BlockView::BlockView(){
             setupViewIphone4();
         }
     setColor(0,0);
+    setCoord(0,0);
     block -> m_W = g_pResources->getFromFirstToSecond(1,1)->GetFrameWidth();
     block -> m_H = 0;
 //    block -> m_H = g_pResources->getFromFirstToSecond(1,1)->GetFrameHeight();

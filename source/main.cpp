@@ -69,16 +69,16 @@ int main()
     
     
 
-    g_pSceneManager->SwitchTo(menu);
+    g_pSceneManager->SwitchTo(play);
     Iw2DSurfaceClear(0xff0000ff);
-    //int i = 0;
+  //  int i = 0;
     // Loop forever, until the user or the OS performs some action to quit the app
     while (!s3eDeviceCheckQuitRequest())
     {
         //if(g_pController->gameModel.stopTimer)
         //std::cout << g_pController->gameModel.stopTimer << std :: endl;
-        //++i;
-        
+//        ++i;
+//        std::cout << i << std :: endl;
         
         //render image
 
@@ -88,7 +88,6 @@ int main()
         
         IwGxClear(IW_GX_COLOUR_BUFFER_F | IW_GX_DEPTH_BUFFER_F);
         IwGxLightingOn();
-        
         g_pController->Update();
         g_pSceneManager->Update(FRAME_TIME);
         g_pTweener->Update(FRAME_TIME);

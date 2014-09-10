@@ -291,11 +291,7 @@ PlayerBlocks::PlayerBlocks(){
     }
     for(int i = 0; i < MAX_LEN_ROW; ++i){
         plrBlc[i].setColor(1);
-        if (Iw2DGetSurfaceHeight() == 568)
-        {
-            plrBlc[i].getSprite()->m_ScaleX = 0.5f;
-            plrBlc[i].getSprite()->m_ScaleY = 0.5f;
-        }
+        
         float x = xOrigin + i*w*plrBlc[i].getSprite()->m_ScaleX + i*xBetweenBLock;
         float y = - h*plrBlc[i].getSprite()->m_ScaleY - 10;
         plrBlc[i].setCoord(x, y);

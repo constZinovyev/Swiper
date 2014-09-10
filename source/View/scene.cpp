@@ -11,6 +11,7 @@
  */
 
 #include "scene.h"
+#include <iostream>
 //#include "input.h"
 //extern class PlayScene;
 SceneManager* g_pSceneManager = 0;
@@ -48,8 +49,9 @@ void Scene::Update(float deltaTime, float alphaMul)
 
     //m_Tweener.Update(deltaTime);
    // m_Timers.Update(deltaTime);
-
+            std::cout << " scene update "<<std::endl;
     CNode::Update(deltaTime, alphaMul);
+            std::cout << "after scene update "<<std::endl;
 }
 
 void Scene::Render()

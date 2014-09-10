@@ -68,12 +68,13 @@ void PlayScene::Update(float deltaTime, float alphaMul){
     //std::cout << dataFromModel.newPlrRow << " " << dataFromModel.correctTurn << " " << std::endl;
     //std::cout << FieldView::animProcessNewDownRow << std::endl;
     //dataFromModel.print();
-    
+    std::cout << "update 0 "<<std::endl;
+        Scene::Update(deltaTime, alphaMul);
     if(field.clearUpRow){
         field.clearUpRow = false;
         field.delUpRow();
     }
-    
+    std::cout << "update 1 "<<std::endl;
     
     if (!FieldView::animProcessNewDownRow && !FieldView::animProcessFallDown)
     {
@@ -96,6 +97,7 @@ void PlayScene::Update(float deltaTime, float alphaMul){
             playerBlc.animNewBlocks();
         }
     }
+        std::cout << "update 2 "<<std::endl;
     //if (FieldView::downRowBusy)
     //    std :: cout << "1" << std::endl;
     
@@ -141,8 +143,11 @@ void PlayScene::Update(float deltaTime, float alphaMul){
     if (m_IsInputActive && m_Manager->GetCurrent() == this){
         
     }
+            std::cout << "update 3 "<<std::endl;
     updateFromModel();
-    Scene::Update(deltaTime, alphaMul);
+            std::cout << "update 4 "<<std::endl;
+
+            std::cout << "update 5 "<<std::endl;
 }
 
 void PlayScene::Render(){
@@ -180,9 +185,9 @@ PlayScene::PlayScene(DataForView& data):dataFromModel(data){
     background->m_X = 0;
     background->m_Y = 0;
     AddChild(background);
-    
-    playerBlc.addToScene(this);
-    field.addToScene(this);
+    AddChild(playerBlc[0]->getSprite());
+    //playerBlc.addToScene(this);
+    //field.addToScene(this);
     
     //INIT BACKGROUND AFTER DIE
     float x = -Iw2DGetSurfaceWidth();
@@ -195,11 +200,11 @@ PlayScene::PlayScene(DataForView& data):dataFromModel(data){
     AddChild(backAfterDie);
     
     //INIT BUTTON CONTINUE
-    buttonRetry = new Button(this,x,y,NULL,"");
+    buttonRetry = new Button(this,x,y,g_pResources->getBlocks(0),"");
     buttonRetry->setAnchor(0.5, 0.5);
     
     //INIT BUTTON INFO
-    buttonInfo = new Button(this,x,y,NULL,"");
+    buttonInfo = new Button(this,x,y,g_pResources->getBlocks(0),"");
     buttonInfo->setAnchor(0.5, 0.5);
     
     if (currentDevice.isSimulator){

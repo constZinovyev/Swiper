@@ -72,6 +72,7 @@ public:
     void animMoveTwoRight();
     void animSwapBlocks();
     void animNewBlocks();
+    BlockView* operator[](int i) { return &plrBlc[i];}
     //void setChanged(bool b) {isChanged = b;}
     //void resetChanged()     {isChanged = false;}
     friend class PlayScene;
