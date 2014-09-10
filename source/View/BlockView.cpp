@@ -9,7 +9,19 @@ void BlockView::setColor(int clrBlock,int nextClrBlock){
     //std::cout<<clrBlock<<std::endl;
     if (nextClrBlock == -1)
         nextClrBlock = clrBlock;
-    block -> SetAtlas(g_pResources->getFromFirstToSecond(clrBlock,nextClrBlock),g_pResources->getFromFirstToSecond(nextClrBlock,clrBlock));
+    block -> SetAtlas(g_pResources->getFromFirstToSecond(clrBlock,nextClrBlock));
+}
+
+BlockView* BlockView::operator=(CSprite* snd){
+   // std::cout<<"OPER="<<std::endl;
+    return this;
+}
+bool BlockView::isEmpty(){
+    return g_pResources->getFromFirstToSecond() == block->GetAtlas();
+}
+BlockView::BlockView(const BlockView& copy){
+    block = copy.block;
+    //std::cout<< "COPY"<<std::endl;
 }
 
 BlockView::BlockView(){
