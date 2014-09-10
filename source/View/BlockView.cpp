@@ -9,7 +9,7 @@ void BlockView::setColor(int clrBlock,int nextClrBlock){
     //std::cout<<clrBlock<<std::endl;
     if (nextClrBlock == -1)
         nextClrBlock = clrBlock;
-    block -> SetAtlas(g_pResources->getFromFirstToSecond(clrBlock,nextClrBlock));
+    block -> SetAtlas(g_pResources->getFromFirstToSecond(clrBlock,nextClrBlock),g_pResources->getFromFirstToSecond(nextClrBlock,clrBlock));
 }
 
 BlockView::BlockView(){
