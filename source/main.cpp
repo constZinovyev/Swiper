@@ -23,17 +23,12 @@
  extern CTweenManager* g_pTweener;
  CTweenManager*  g_pTweener = 0;
 
-class a{
-public:
-    static int b;
-};
-int a::b;
-
 // FRAME_TIME is the amount of time that a single frame should last in seconds
-#define FRAME_TIME  (15.0f / 1000.0f)
+#define FRAME_TIME  (30.0f / 1000.0f)
 int main()
 {
-    //srand(time(NULL));
+    srand(time(NULL));
+    
     // Initialise the 2D graphics syste
     Iw2DInit();
       // FONTS
@@ -43,17 +38,15 @@ int main()
     IwResManagerInit();
     IwGxFontInit();
     IwGetResManager()->LoadGroup("./fonts/IwGxFontTTF.group");
-    GameModel* gameModel = new GameModel();
-    GameModel::stopTimer = false;
-
+    
     currentDevice.init();
     g_pSceneManager = new SceneManager();
     g_pTweener = new CTweenManager();
     g_pResources = new Resources();
     g_pInput = new Input();
-    g_pController = new Controller(*gameModel);
+    g_pController = new Controller();
     
-    PlayScene* play = new PlayScene(gameModel->getDataForView());
+    PlayScene* play = new PlayScene();
     play->SetName("play");
     play->Init();
     g_pSceneManager->Add(play);
@@ -69,38 +62,34 @@ int main()
     
     
 
-    g_pSceneManager->SwitchTo(play);
+    g_pSceneManager->SwitchTo(menu);
     Iw2DSurfaceClear(0xff0000ff);
-  //  int i = 0;
+    //int i = 0;
     // Loop forever, until the user or the OS performs some action to quit the app
     while (!s3eDeviceCheckQuitRequest())
     {
-        //if(g_pController->gameModel.stopTimer)
-        //std::cout << g_pController->gameModel.stopTimer << std :: endl;
-//        ++i;
-//        std::cout << i << std :: endl;
-        
-        //render image
-
+        //++i;
+        //std::cout << i << std :: endl;
         uint64 new_time = s3eTimerGetMs();
         s3eKeyboardUpdate();
         s3ePointerUpdate();
         
         IwGxClear(IW_GX_COLOUR_BUFFER_F | IW_GX_DEPTH_BUFFER_F);
         IwGxLightingOn();
-        g_pController->Update();
+        
+        
+        Iw2DSurfaceClear(0xff0000ff);
         g_pSceneManager->Update(FRAME_TIME);
         g_pTweener->Update(FRAME_TIME);
-        
-        //Iw2DSurfaceClear(0xff0000ff);
+        //render image
         g_pSceneManager->Render();
-        //analise move, update model & update dataforviev
         Iw2DFinishDrawing();
         
         //Render Text
         g_pSceneManager->RenderText();
         IwGxFlush();
         Iw2DSurfaceShow();
+
         // Lock frame rate
         int yield = (int)(FRAME_TIME * 1000 - (s3eTimerGetMs() - new_time));
         if (yield < 0)
@@ -108,7 +97,6 @@ int main()
         // Yield to OS
         s3eDeviceYield(yield);
     }
-    delete gameModel;
     delete g_pResources;
     delete g_pInput;
     delete g_pTweener;

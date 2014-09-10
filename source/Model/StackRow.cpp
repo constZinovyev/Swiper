@@ -75,8 +75,7 @@ Row StackRow::generateTwoBlocks(){
     return  tempRow;
 }
 
-Row StackRow::generateRowByTwo(Row w){
-    Row temp = w;
+Row StackRow::generateRowByTwo(Row withEmpty){
     bool maskWithEmpty[COUNT_COLORS];
     int lastClr = 0;
     int posEmpty = 0;
@@ -84,17 +83,16 @@ Row StackRow::generateRowByTwo(Row w){
         maskWithEmpty[i] = false;
     }
     for (int i = 0; i < MAX_LEN_ROW; ++i){
-        if (temp[i].isEmpty()){
+        maskWithEmpty[withEmpty[i].getColor()] = true;
+        if (withEmpty[i].isEmpty()){
             posEmpty = i;
-        }else{
-            maskWithEmpty[temp[i].getColor()-1] = true;
         }
     }
-    while(maskWithEmpty[lastClr]){
+    do{
         ++lastClr;
-    }
-    temp.changeCol(posEmpty, Block(ColorBlock(lastClr+1)));
-    return temp;
+    }while(maskWithEmpty[lastClr]);
+    withEmpty.changeCol(posEmpty, Block(ColorBlock(lastClr)));
+    return withEmpty;
 }
 
 StackRow::StackRow(){

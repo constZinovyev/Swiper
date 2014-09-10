@@ -11,7 +11,6 @@
  */
 
 #include "scene.h"
-#include <iostream>
 //#include "input.h"
 //extern class PlayScene;
 SceneManager* g_pSceneManager = 0;
@@ -49,9 +48,8 @@ void Scene::Update(float deltaTime, float alphaMul)
 
     //m_Tweener.Update(deltaTime);
    // m_Timers.Update(deltaTime);
-            std::cout << " scene update "<<std::endl;
+
     CNode::Update(deltaTime, alphaMul);
-            std::cout << "after scene update "<<std::endl;
 }
 
 void Scene::Render()
@@ -159,10 +157,9 @@ void SceneManager::SwitchTo(Scene* scene)
         
         m_Current->Update(0);
         m_Current->SetActive(false);
-        //m_Current->m_IsVisible = false;
+        m_Current->m_IsVisible = false;
         m_Current->m_X = - (float)IwGxGetScreenWidth();
         m_Current = m_Next;
-        //m_Current->Update();
         m_Next->m_X = 0;
         m_Next = 0;
     }

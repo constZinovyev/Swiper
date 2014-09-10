@@ -15,10 +15,6 @@
 
 #include "s3ePointer.h"
 #include "IwGeom.h"
-#include "IwTween.h"
-#include <iostream>
-
-using namespace IwTween;
 
 #define MAX_TOUCHES     10
 class Input;
@@ -61,8 +57,8 @@ public:
     bool            ignoreSwipe;
     bool            ignoreInput;
     Input();
-    static void     onIgnoreInput(CTween* pTween) {g_pInput->Restart();g_pInput->ignoreInput = true;std::cout<< "ON"<<std::endl;}
-    static void     offIgnoreInput(CTween* pTween) {g_pInput->ignoreInput = false;std::cout<< "OFF"<<std::endl;}
+    static void     onIgnoreInput() {g_pInput->ignoreInput = true;}
+    static void     offIgnoreInput(){g_pInput->ignoreInput = false;}
 
     /**
      * @fn    void Input::Update()
@@ -75,7 +71,6 @@ public:
      *
      * @brief Resets touch status, usually called after a touch event has been acknowledged
      */
-    static void     Restart();
     void            Reset();
     bool isFinish() {return FinishMotion;};
     bool isStart()  {return StartMotion;}
