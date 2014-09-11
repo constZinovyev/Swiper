@@ -263,8 +263,8 @@ void PlayerBlocks::updateNewBlocks(vector<int> clr){
                     sndBlc = j;
             }
             int sndClr = clr[sndBlc];
-            plrBlc[i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond(clr[i],sndClr));
-//                                            g_pResources->getFromFirstToSecond(sndClr,clr[i]));
+            plrBlc[i].getSprite()->SetAtlas(g_pResources->getFromFirstToSecond(clr[i],sndClr),
+                                            g_pResources->getFromFirstToSecond(sndClr,clr[i]));
             
         }
     }
