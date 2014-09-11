@@ -75,7 +75,7 @@ void PlayScene::Update(float deltaTime, float alphaMul){
     }
     
     
-    if (!dataFromModel.newRowDown && !FieldView::animProcessNewDownRow)
+    if (!FieldView::animProcessNewDownRow && !FieldView::animProcessFallDown)
     {
         if (dataFromModel.correctTurn){
             dataFromModel.correctTurn = false;
@@ -83,11 +83,11 @@ void PlayScene::Update(float deltaTime, float alphaMul){
         }
         if (dataFromModel.inCorrectTurn ){
             dataFromModel.inCorrectTurn = false;
-            field.print();
-            dataFromModel.print();
+            //field.print();
+            //dataFromModel.print();
             field.animInCorrectTurn(dataFromModel.plrBlocks,playerBlc,dataFromModel.field);
-            field.print();
-            dataFromModel.print();
+            //field.print();
+            //dataFromModel.print();
         }
         if (dataFromModel.newPlrRow ){
             //std::cout<<"NEW BLOCKS"<<std::endl;
@@ -99,7 +99,7 @@ void PlayScene::Update(float deltaTime, float alphaMul){
     //if (FieldView::downRowBusy)
     //    std :: cout << "1" << std::endl;
     
-    if(dataFromModel.newRowDown && !FieldView::animProcessFallDown){
+    if(dataFromModel.newRowDown && !FieldView::animProcessFallDown && !FieldView::animProcessNewDownRow){
         dataFromModel.newRowDown = false;
         field.animNewRowDown(dataFromModel.field);
         //Scene::Update(deltaTime, alphaMul);

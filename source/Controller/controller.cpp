@@ -7,9 +7,11 @@ void Controller::Update(){
     Scene* currentScene = g_pSceneManager->GetCurrent();
     if (currentScene == menu){
         controlMenuScene();
+                std::cout << " MENU "<< std::endl;
     }else
     if (currentScene == play){
         controlPlayScene();
+        std::cout << " PLAY "<< std::endl;
     }
 }
 
